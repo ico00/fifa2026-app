@@ -11,11 +11,21 @@ function AdminLogin({ isOpen, onClose, onLogin }) {
         setLoading(true);
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3001/api'}/auth/login`, {
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+            const response = await fetch(`${apiUrl}/auth/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ password })
             });
+
+            // Provjeri da li je response ok prije nego što pokušaš parsirati JSON
+            if (!response.ok) {
+                // Ako je status 404 ili 500, server možda nije pokrenut
+                if (response.status === 404 || response.status >= 500) {
+                    setError('Server nije dostupan. Provjerite da li je backend server pokrenut.');
+                    return;
+                }
+            }
 
             const data = await response.json();
 
@@ -29,8 +39,18 @@ function AdminLogin({ isOpen, onClose, onLogin }) {
                 setError(data.error || 'Pogrešna lozinka');
             }
         } catch (err) {
-            setError('Greška pri povezivanju sa serverom');
+            // Detaljnija greška ovisno o tipu problema
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+            
+            if (err.name === 'TypeError' && (err.message.includes('fetch') || err.message.includes('Failed'))) {
+                setError(`Nije moguće povezati se sa serverom (${apiUrl}). Provjerite da li je backend server pokrenut. Pokrenite server sa: npm start`);
+            } else if (err.name === 'SyntaxError') {
+                setError('Server je vratio neispravan odgovor. Provjerite da li je backend server ispravno konfiguriran.');
+            } else {
+                setError(`Greška pri povezivanju sa serverom: ${err.message}`);
+            }
             console.error('Login error:', err);
+            console.error('API URL:', apiUrl);
         } finally {
             setLoading(false);
         }
