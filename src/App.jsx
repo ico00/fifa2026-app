@@ -38,6 +38,16 @@ function App() {
     const [adminToken, setAdminToken] = useState(null)
     const [showAdminLogin, setShowAdminLogin] = useState(false)
     const [serverAvailable, setServerAvailable] = useState(true)
+    
+    // Data state - svi state hookovi moraju biti na vrhu
+    const [teams, setTeams] = useState([])
+    const [groups, setGroups] = useState({})
+    const [playoffs, setPlayoffs] = useState({})
+    const [matches, setMatches] = useState({ groupStage: [], knockoutStage: {} })
+    const [standings, setStandings] = useState({})
+    const [bestThirdPlaced, setBestThirdPlaced] = useState([])
+    const [venues, setVenues] = useState([])
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         if (darkMode) {
@@ -144,15 +154,6 @@ function App() {
         return headers
     }
 
-    const [teams, setTeams] = useState([])
-    const [groups, setGroups] = useState({})
-    const [playoffs, setPlayoffs] = useState({})
-    const [matches, setMatches] = useState({ groupStage: [], knockoutStage: {} })
-    const [standings, setStandings] = useState({})
-    const [bestThirdPlaced, setBestThirdPlaced] = useState([])
-    const [venues, setVenues] = useState([])
-    const [loading, setLoading] = useState(true)
-
     const fetchData = async () => {
         try {
             const [teamsRes, groupsRes, playoffsRes, matchesRes, standingsRes, venuesRes] = await Promise.all([
@@ -192,6 +193,17 @@ function App() {
     useEffect(() => {
         fetchData()
     }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+    // Debug logging - provjeri da li se state pravilno ažurira
+    useEffect(() => {
+        console.log('🔐 Admin status promijenjen:', { 
+            isAdmin, 
+            effectiveReadOnly: !isAdmin, 
+            adminToken: adminToken ? 'postoji' : 'nema',
+            canEdit: isAdmin,
+            timestamp: new Date().toISOString()
+        })
+    }, [isAdmin, adminToken])
 
     const updateMatch = async (matchId, data) => {
         try {
@@ -265,17 +277,6 @@ function App() {
     // Aplikacija je read-only samo ako korisnik NIJE admin
     // (u production-u, admin može mijenjati podatke nakon prijave)
     const effectiveReadOnly = !isAdmin
-    
-    // Debug logging - provjeri da li se state pravilno ažurira
-    useEffect(() => {
-        console.log('🔐 Admin status promijenjen:', { 
-            isAdmin, 
-            effectiveReadOnly: !isAdmin, 
-            adminToken: adminToken ? 'postoji' : 'nema',
-            canEdit: isAdmin,
-            timestamp: new Date().toISOString()
-        })
-    }, [isAdmin, adminToken])
 
     return (
         <div className="min-h-screen flex flex-col w-full max-w-[1600px] mx-auto px-4 md:px-8 py-4">
