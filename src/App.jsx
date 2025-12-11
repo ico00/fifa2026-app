@@ -108,8 +108,7 @@ function App() {
     // Provjeri dostupnost servera pri učitavanju
     useEffect(() => {
         checkServerAvailability()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     // Provjeri admin token pri učitavanju
     useEffect(() => {
@@ -117,8 +116,7 @@ function App() {
         if (token) {
             verifyAdminToken(token)
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     // Funkcija za login
     const handleAdminLogin = (token) => {
@@ -193,7 +191,7 @@ function App() {
 
     useEffect(() => {
         fetchData()
-    }, [])
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     const updateMatch = async (matchId, data) => {
         try {
@@ -272,9 +270,9 @@ function App() {
     useEffect(() => {
         console.log('🔐 Admin status promijenjen:', { 
             isAdmin, 
-            effectiveReadOnly, 
+            effectiveReadOnly: !isAdmin, 
             adminToken: adminToken ? 'postoji' : 'nema',
-            canEdit: !effectiveReadOnly,
+            canEdit: isAdmin,
             timestamp: new Date().toISOString()
         })
     }, [isAdmin, adminToken])
