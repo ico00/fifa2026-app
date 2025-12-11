@@ -11,6 +11,10 @@ import Simulation from './components/Simulation'
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api'
 
 function App() {
+    // Detektuj da li je production (Render.com) i omogući read-only mod
+    const isProduction = window.location.hostname.includes('onrender.com')
+    const isReadOnly = isProduction
+
     const [activeTab, setActiveTab] = useState('playoffs')
     const [darkMode, setDarkMode] = useState(() => {
         if (typeof window !== 'undefined') {
@@ -151,6 +155,7 @@ function App() {
                         playoffs={playoffs}
                         teams={teams}
                         setPlayoffWinner={setPlayoffWinner}
+                        isReadOnly={isReadOnly}
                     />
                 )}
 
@@ -162,6 +167,7 @@ function App() {
                         groups={groups}
                         playoffs={playoffs}
                         updateMatch={updateMatch}
+                        isReadOnly={isReadOnly}
                     />
                 )}
 
@@ -182,6 +188,7 @@ function App() {
                         teams={teams}
                         venues={venues}
                         updateKnockoutMatch={updateKnockoutMatch}
+                        isReadOnly={isReadOnly}
                     />
                 )}
 

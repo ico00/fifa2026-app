@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Flag from './Flag'
 
-function Matches({ matches, teams, venues, groups, playoffs, updateMatch }) {
+function Matches({ matches, teams, venues, groups, playoffs, updateMatch, isReadOnly }) {
   const [searchQuery, setSearchQuery] = useState('')
 
   const getTeamById = (id) => teams.find(t => t.id === id)
@@ -115,10 +115,11 @@ function Matches({ matches, teams, venues, groups, playoffs, updateMatch }) {
                 type="number"
                 min="0"
                 max="99"
+                disabled={isReadOnly}
                 className={`
                   w-12 h-10 text-center font-bold text-lg rounded border focus:outline-none focus:ring-2 transition-all no-spinner
-                  ${isPlayed
-                    ? 'bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 border-transparent'
+                  ${isPlayed || isReadOnly
+                    ? 'bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 border-transparent cursor-not-allowed'
                     : 'bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-600 focus:border-blue-500 focus:ring-blue-200'
                   }
                 `}
@@ -131,10 +132,11 @@ function Matches({ matches, teams, venues, groups, playoffs, updateMatch }) {
                 type="number"
                 min="0"
                 max="99"
+                disabled={isReadOnly}
                 className={`
                   w-12 h-10 text-center font-bold text-lg rounded border focus:outline-none focus:ring-2 transition-all no-spinner
-                  ${isPlayed
-                    ? 'bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 border-transparent'
+                  ${isPlayed || isReadOnly
+                    ? 'bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 border-transparent cursor-not-allowed'
                     : 'bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-600 focus:border-blue-500 focus:ring-blue-200'
                   }
                 `}
@@ -143,7 +145,7 @@ function Matches({ matches, teams, venues, groups, playoffs, updateMatch }) {
                 placeholder="-"
               />
 
-              {hasScore(match) && (
+              {!isReadOnly && hasScore(match) && (
                 <button
                   className="ml-2 w-6 h-6 flex items-center justify-center rounded-full bg-slate-200 hover:bg-red-100 text-slate-500 hover:text-red-500 transition-colors text-xs"
                   onClick={() => handleClearScore(match.id)}
@@ -193,6 +195,14 @@ function Matches({ matches, teams, venues, groups, playoffs, updateMatch }) {
       <h2 className="text-3xl md:text-4xl font-black text-fifa-gold tracking-widest flex items-center gap-3 drop-shadow-md">
         <span>⚽</span> RASPORED UTAKMICA
       </h2>
+
+      {isReadOnly && (
+        <div className="bg-amber-50 dark:bg-amber-900/20 border-2 border-amber-400 dark:border-amber-600 rounded-lg p-4 mb-6">
+          <p className="text-amber-800 dark:text-amber-200 font-semibold flex items-center gap-2">
+            <span>🔒</span> Aplikacija je u read-only modu - ne možete mijenjati podatke.
+          </p>
+        </div>
+      )}
 
       {/* Search Filter */}
       <div className="relative">

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import Flag from './Flag'
 
-function Knockout({ matches, groupMatches, teams, venues, updateKnockoutMatch }) {
+function Knockout({ matches, groupMatches, teams, venues, updateKnockoutMatch, isReadOnly }) {
   const [winner, setWinner] = useState(null)
   const [winnerPath, setWinnerPath] = useState([])
   const [croatiaPath, setCroatiaPath] = useState([])
@@ -186,6 +186,14 @@ function Knockout({ matches, groupMatches, teams, venues, updateKnockoutMatch })
         <span>🏆</span> KNOCKOUT FAZA
       </h2>
 
+      {isReadOnly && (
+        <div className="bg-amber-50 dark:bg-amber-900/20 border-2 border-amber-400 dark:border-amber-600 rounded-lg p-4">
+          <p className="text-amber-800 dark:text-amber-200 font-semibold flex items-center gap-2">
+            <span>🔒</span> Aplikacija je u read-only modu - ne možete mijenjati podatke.
+          </p>
+        </div>
+      )}
+
       <div className="bg-white dark:bg-slate-800 rounded-xl p-6 md:p-8 shadow-lg border border-slate-200 dark:border-slate-700 text-center mb-8">
         <h3 className="text-2xl font-bold text-fifa-gold mb-4 tracking-wide font-sans">
           Format natjecanja
@@ -282,7 +290,9 @@ function Knockout({ matches, groupMatches, teams, venues, updateKnockoutMatch })
                                 inputMode="numeric"
                                 pattern="[0-9]*"
                                 maxLength={2}
-                                className="w-10 h-10 md:w-12 md:h-12 text-center text-lg md:text-xl font-bold bg-slate-100 dark:bg-slate-700 rounded-lg border border-transparent focus:border-fifa-blue dark:focus:border-fifa-gold focus:outline-none transition-all"
+                                disabled={isReadOnly}
+                                className={`w-10 h-10 md:w-12 md:h-12 text-center text-lg md:text-xl font-bold rounded-lg border border-transparent focus:border-fifa-blue dark:focus:border-fifa-gold focus:outline-none transition-all ${isReadOnly ? 'bg-slate-200 dark:bg-slate-700 cursor-not-allowed' : 'bg-slate-100 dark:bg-slate-700'
+                                  }`}
                                 value={match.homeScore ?? ''}
                                 onChange={(e) => roundKey && handleScoreChange(roundKey, match.id, 'homeScore', e.target.value)}
                                 placeholder="-"
@@ -293,7 +303,9 @@ function Knockout({ matches, groupMatches, teams, venues, updateKnockoutMatch })
                                 inputMode="numeric"
                                 pattern="[0-9]*"
                                 maxLength={2}
-                                className="w-10 h-10 md:w-12 md:h-12 text-center text-lg md:text-xl font-bold bg-slate-100 dark:bg-slate-700 rounded-lg border border-transparent focus:border-fifa-blue dark:focus:border-fifa-gold focus:outline-none transition-all"
+                                disabled={isReadOnly}
+                                className={`w-10 h-10 md:w-12 md:h-12 text-center text-lg md:text-xl font-bold rounded-lg border border-transparent focus:border-fifa-blue dark:focus:border-fifa-gold focus:outline-none transition-all ${isReadOnly ? 'bg-slate-200 dark:bg-slate-700 cursor-not-allowed' : 'bg-slate-100 dark:bg-slate-700'
+                                  }`}
                                 value={match.awayScore ?? ''}
                                 onChange={(e) => roundKey && handleScoreChange(roundKey, match.id, 'awayScore', e.target.value)}
                                 placeholder="-"
@@ -310,6 +322,7 @@ function Knockout({ matches, groupMatches, teams, venues, updateKnockoutMatch })
                                     inputMode="numeric"
                                     pattern="[0-9]*"
                                     maxLength={2}
+                                    disabled={isReadOnly}
                                     className="w-7 h-7 text-center text-sm font-bold bg-white dark:bg-slate-600 rounded-md border border-slate-200 dark:border-slate-500 focus:border-fifa-blue focus:ring-1 focus:ring-fifa-blue outline-none transition-all shadow-sm"
                                     value={match.homePenalty ?? ''}
                                     onChange={(e) => roundKey && handleScoreChange(roundKey, match.id, 'homePenalty', e.target.value)}
@@ -321,6 +334,7 @@ function Knockout({ matches, groupMatches, teams, venues, updateKnockoutMatch })
                                     inputMode="numeric"
                                     pattern="[0-9]*"
                                     maxLength={2}
+                                    disabled={isReadOnly}
                                     className="w-7 h-7 text-center text-sm font-bold bg-white dark:bg-slate-600 rounded-md border border-slate-200 dark:border-slate-500 focus:border-fifa-blue focus:ring-1 focus:ring-fifa-blue outline-none transition-all shadow-sm"
                                     value={match.awayPenalty ?? ''}
                                     onChange={(e) => roundKey && handleScoreChange(roundKey, match.id, 'awayPenalty', e.target.value)}
@@ -408,7 +422,9 @@ function Knockout({ matches, groupMatches, teams, venues, updateKnockoutMatch })
                           inputMode="numeric"
                           pattern="[0-9]*"
                           maxLength={2}
-                          className="w-14 h-14 text-center text-2xl font-bold bg-slate-100 dark:bg-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-fifa-blue"
+                          disabled={isReadOnly}
+                          className={`w-14 h-14 text-center text-2xl font-bold rounded-lg focus:outline-none focus:ring-2 focus:ring-fifa-blue ${isReadOnly ? 'bg-slate-200 dark:bg-slate-700 cursor-not-allowed' : 'bg-slate-100 dark:bg-slate-700'
+                            }`}
                           value={match.homeScore ?? ''}
                           onChange={(e) => handleScoreChange('thirdPlace', match.id, 'homeScore', e.target.value)}
                         />
@@ -418,7 +434,9 @@ function Knockout({ matches, groupMatches, teams, venues, updateKnockoutMatch })
                           inputMode="numeric"
                           pattern="[0-9]*"
                           maxLength={2}
-                          className="w-14 h-14 text-center text-2xl font-bold bg-slate-100 dark:bg-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-fifa-blue"
+                          disabled={isReadOnly}
+                          className={`w-14 h-14 text-center text-2xl font-bold rounded-lg focus:outline-none focus:ring-2 focus:ring-fifa-blue ${isReadOnly ? 'bg-slate-200 dark:bg-slate-700 cursor-not-allowed' : 'bg-slate-100 dark:bg-slate-700'
+                            }`}
                           value={match.awayScore ?? ''}
                           onChange={(e) => handleScoreChange('thirdPlace', match.id, 'awayScore', e.target.value)}
                         />
@@ -434,6 +452,7 @@ function Knockout({ matches, groupMatches, teams, venues, updateKnockoutMatch })
                               inputMode="numeric"
                               pattern="[0-9]*"
                               maxLength={2}
+                              disabled={isReadOnly}
                               className="w-10 h-8 text-center text-sm font-bold bg-white dark:bg-slate-600 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-fifa-blue"
                               value={match.homePenalty ?? ''}
                               onChange={(e) => handleScoreChange('thirdPlace', match.id, 'homePenalty', e.target.value)}
@@ -444,6 +463,7 @@ function Knockout({ matches, groupMatches, teams, venues, updateKnockoutMatch })
                               inputMode="numeric"
                               pattern="[0-9]*"
                               maxLength={2}
+                              disabled={isReadOnly}
                               className="w-10 h-8 text-center text-sm font-bold bg-white dark:bg-slate-600 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-fifa-blue"
                               value={match.awayPenalty ?? ''}
                               onChange={(e) => handleScoreChange('thirdPlace', match.id, 'awayPenalty', e.target.value)}
@@ -524,7 +544,9 @@ function Knockout({ matches, groupMatches, teams, venues, updateKnockoutMatch })
                           inputMode="numeric"
                           pattern="[0-9]*"
                           maxLength={2}
-                          className="w-16 h-16 md:w-20 md:h-20 text-center text-3xl md:text-4xl font-black bg-white dark:bg-slate-800 rounded-xl shadow-sm focus:outline-none focus:ring-4 focus:ring-fifa-gold text-slate-800 dark:text-white"
+                          disabled={isReadOnly}
+                          className={`w-16 h-16 md:w-20 md:h-20 text-center text-3xl md:text-4xl font-black rounded-xl shadow-sm focus:outline-none focus:ring-4 focus:ring-fifa-gold text-slate-800 dark:text-white ${isReadOnly ? 'bg-slate-200 dark:bg-slate-700 cursor-not-allowed' : 'bg-white dark:bg-slate-800'
+                            }`}
                           value={match.homeScore ?? ''}
                           onChange={(e) => handleScoreChange('final', match.id, 'homeScore', e.target.value)}
                           placeholder="-"
@@ -535,7 +557,9 @@ function Knockout({ matches, groupMatches, teams, venues, updateKnockoutMatch })
                           inputMode="numeric"
                           pattern="[0-9]*"
                           maxLength={2}
-                          className="w-16 h-16 md:w-20 md:h-20 text-center text-3xl md:text-4xl font-black bg-white dark:bg-slate-800 rounded-xl shadow-sm focus:outline-none focus:ring-4 focus:ring-fifa-gold text-slate-800 dark:text-white"
+                          disabled={isReadOnly}
+                          className={`w-16 h-16 md:w-20 md:h-20 text-center text-3xl md:text-4xl font-black rounded-xl shadow-sm focus:outline-none focus:ring-4 focus:ring-fifa-gold text-slate-800 dark:text-white ${isReadOnly ? 'bg-slate-200 dark:bg-slate-700 cursor-not-allowed' : 'bg-white dark:bg-slate-800'
+                            }`}
                           value={match.awayScore ?? ''}
                           onChange={(e) => handleScoreChange('final', match.id, 'awayScore', e.target.value)}
                           placeholder="-"

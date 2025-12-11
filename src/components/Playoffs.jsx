@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Flag from './Flag'
 
-function Playoffs({ playoffs, teams, setPlayoffWinner }) {
+function Playoffs({ playoffs, teams, setPlayoffWinner, isReadOnly }) {
   const [selectedWinners, setSelectedWinners] = useState({})
 
   const getTeamById = (teamId) => {
@@ -54,9 +54,17 @@ function Playoffs({ playoffs, teams, setPlayoffWinner }) {
       <h2 className="text-3xl md:text-4xl font-black text-fifa-gold tracking-widest flex items-center gap-3 drop-shadow-md">
         <span>🎯</span> PLAY-OFF KVALIFIKACIJE
       </h2>
-      <p className="text-slate-500 dark:text-slate-400 mb-6 text-lg">
-        Klikni na reprezentaciju za odabir pobjednika. Pobjednik svake grupe prolazi na Svjetsko prvenstvo.
-      </p>
+      {isReadOnly ? (
+        <div className="bg-amber-50 dark:bg-amber-900/20 border-2 border-amber-400 dark:border-amber-600 rounded-lg p-4 mb-6">
+          <p className="text-amber-800 dark:text-amber-200 font-semibold flex items-center gap-2">
+            <span>🔒</span> Aplikacija je u read-only modu - ne možete mijenjati podatke.
+          </p>
+        </div>
+      ) : (
+        <p className="text-slate-500 dark:text-slate-400 mb-6 text-lg">
+          Klikni na reprezentaciju za odabir pobjednika. Pobjednik svake grupe prolazi na Svjetsko prvenstvo.
+        </p>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
         {Object.entries(playoffs).map(([playoffId, playoff]) => {
@@ -84,13 +92,14 @@ function Playoffs({ playoffs, teams, setPlayoffWinner }) {
                     <div
                       key={teamId}
                       className={`
-                        flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all duration-200 border-2
+                        flex items-center gap-3 p-3 rounded-lg transition-all duration-200 border-2
                         ${isWinner
                           ? 'bg-green-50 dark:bg-green-900/20 border-green-500 shadow-md transform scale-[1.02]'
                           : 'border-transparent hover:bg-slate-50 dark:hover:bg-slate-700/50 hover:border-slate-200 dark:hover:border-slate-600'
                         }
+                        ${!isReadOnly ? 'cursor-pointer' : 'cursor-not-allowed opacity-60'}
                       `}
-                      onClick={() => handleTeamClick(playoffId, teamId)}
+                      onClick={() => !isReadOnly && handleTeamClick(playoffId, teamId)}
                     >
                       <Flag code={team.code} />
                       <span className="font-semibold flex-grow">{team.name}</span>
@@ -104,7 +113,7 @@ function Playoffs({ playoffs, teams, setPlayoffWinner }) {
                 })}
               </div>
 
-              {(selectedWinners[playoffId] || playoff.winner) && (
+              {!isReadOnly && (selectedWinners[playoffId] || playoff.winner) && (
                 <div className="p-4 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/30 flex flex-col gap-2">
                   {selectedWinners[playoffId] && selectedWinners[playoffId] !== playoff.winner && (
                     <button
