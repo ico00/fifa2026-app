@@ -1,0 +1,74 @@
+{
+  "playoffs": {
+    "1": {
+      "name": "Play-Off 1",
+      "type": "Intercontinental",
+      "teams": [
+        "bol",
+        "irq",
+        "sur"
+      ],
+      "matches": [],
+      "winner": null
+    },
+    "2": {
+      "name": "Play-Off 2",
+      "type": "Intercontinental",
+      "teams": [
+        "cgo",
+        "jam",
+        "ncl"
+      ],
+      "matches": [],
+      "winner": null
+    },
+    "A": {
+      "name": "Play-Off A",
+      "type": "UEFA",
+      "teams": [
+        "bih",
+        "ita",
+        "nir",
+        "wal"
+      ],
+      "matches": [],
+      "winner": null
+    },
+    "B": {
+      "name": "Play-Off B",
+      "type": "UEFA",
+      "teams": [
+        "alb",
+        "pol",
+        "swe",
+        "ukr"
+      ],
+      "matches": [],
+      "winner": null
+    },
+    "C": {
+      "name": "Play-Off C",
+      "type": "UEFA",
+      "teams": [
+        "kos",
+        "rou",
+        "svk",
+        "tur"
+      ],
+      "matches": [],
+      "winner": null
+    },
+    "D": {
+      "name": "Play-Off D",
+      "type": "UEFA",
+      "teams": [
+        "cze",
+        "den",
+        "irl",
+        "mkd"
+      ],
+      "matches": [],
+      "winner": null
+    }
+  }
+}

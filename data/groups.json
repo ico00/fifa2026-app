@@ -1,0 +1,119 @@
+{
+  "groups": {
+    "A": {
+      "name": "Grupa A",
+      "teams": [
+        "mex",
+        "rsa",
+        "kor",
+        null
+      ],
+      "playoffSlot": "D"
+    },
+    "B": {
+      "name": "Grupa B",
+      "teams": [
+        "can",
+        null,
+        "qat",
+        "sui"
+      ],
+      "playoffSlot": "A"
+    },
+    "C": {
+      "name": "Grupa C",
+      "teams": [
+        "bra",
+        "mar",
+        "hai",
+        "sco"
+      ]
+    },
+    "D": {
+      "name": "Grupa D",
+      "teams": [
+        "usa",
+        "par",
+        "aus",
+        null
+      ],
+      "playoffSlot": "C"
+    },
+    "E": {
+      "name": "Grupa E",
+      "teams": [
+        "ger",
+        "cur",
+        "civ",
+        "ecu"
+      ]
+    },
+    "F": {
+      "name": "Grupa F",
+      "teams": [
+        "ned",
+        "jpn",
+        null,
+        "tun"
+      ],
+      "playoffSlot": "B"
+    },
+    "G": {
+      "name": "Grupa G",
+      "teams": [
+        "bel",
+        "egy",
+        "irn",
+        "nzl"
+      ]
+    },
+    "H": {
+      "name": "Grupa H",
+      "teams": [
+        "esp",
+        "cpv",
+        "ksa",
+        "uru"
+      ]
+    },
+    "I": {
+      "name": "Grupa I",
+      "teams": [
+        "fra",
+        "sen",
+        null,
+        "nor"
+      ],
+      "playoffSlot": "1"
+    },
+    "J": {
+      "name": "Grupa J",
+      "teams": [
+        "arg",
+        "alg",
+        "aut",
+        "jor"
+      ]
+    },
+    "K": {
+      "name": "Grupa K",
+      "teams": [
+        "por",
+        null,
+        "uzb",
+        "col"
+      ],
+      "playoffSlot": "2"
+    },
+    "L": {
+      "name": "Grupa L",
+      "teams": [
+        "eng",
+        "cro",
+        "gha",
+        "pan"
+      ],
+      "highlight": true
+    }
+  }
+}

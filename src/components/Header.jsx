@@ -1,0 +1,45 @@
+function Header({ darkMode, setDarkMode }) {
+  return (
+    <header className="relative overflow-hidden bg-gradient-to-b from-black/50 to-transparent py-6 text-center">
+      {/* Decorative bottom border */}
+      <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-fifa-gold/20 via-fifa-gold to-fifa-gold/20"></div>
+
+      <div className="relative z-10 flex flex-col items-center justify-center gap-4">
+        {/* Top Flags */}
+        <div className="flex gap-4 text-2xl animate-fade-in-down">
+          <span className="hover:scale-125 transition-transform duration-300 cursor-default">🇺🇸</span>
+          <span className="hover:scale-125 transition-transform duration-300 cursor-default">🇨🇦</span>
+          <span className="hover:scale-125 transition-transform duration-300 cursor-default">🇲🇽</span>
+        </div>
+
+        {/* Main Title */}
+        <div className="flex items-center gap-4">
+          <h1 className="font-sans text-4xl md:text-5xl lg:text-6xl font-black tracking-widest text-fifa-blue dark:text-fifa-gold drop-shadow-md">
+            FIFA WORLD CUP 2026
+          </h1>
+
+          {/* Theme Toggle Button */}
+          <button
+            onClick={() => setDarkMode(!darkMode)}
+            className="absolute right-4 top-4 p-2 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-all duration-300 border border-white/10 hover:border-fifa-gold/50 group"
+            title={darkMode ? "Prebaci na svijetlu temu" : "Prebaci na tamnu temu"}
+          >
+            {darkMode ? (
+              <span className="text-xl group-hover:rotate-90 transition-transform duration-500 block">☀️</span>
+            ) : (
+              <span className="text-xl group-hover:-rotate-12 transition-transform duration-500 block">🌙</span>
+            )}
+          </button>
+        </div>
+
+        {/* Subtitle */}
+        <p className="text-slate-400 font-medium tracking-[0.2em] text-sm md:text-base uppercase">
+          11. lipnja - 19. srpnja 2026.
+        </p>
+      </div>
+    </header>
+  )
+}
+
+export default Header
+

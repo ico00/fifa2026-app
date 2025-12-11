@@ -1,0 +1,653 @@
+{
+  "standings": {
+    "A": {
+      "name": "Grupa A",
+      "teams": [
+        {
+          "id": "mex",
+          "name": "Meksiko",
+          "code": "MX",
+          "order": 0,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        },
+        {
+          "id": "rsa",
+          "name": "Južnoafrička Republika",
+          "code": "ZA",
+          "order": 1,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        },
+        {
+          "id": "kor",
+          "name": "Južna Koreja",
+          "code": "KR",
+          "order": 2,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        }
+      ]
+    },
+    "B": {
+      "name": "Grupa B",
+      "teams": [
+        {
+          "id": "can",
+          "name": "Kanada",
+          "code": "CA",
+          "order": 0,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        },
+        {
+          "id": "qat",
+          "name": "Katar",
+          "code": "QA",
+          "order": 1,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        },
+        {
+          "id": "sui",
+          "name": "Švicarska",
+          "code": "CH",
+          "order": 2,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        }
+      ]
+    },
+    "C": {
+      "name": "Grupa C",
+      "teams": [
+        {
+          "id": "bra",
+          "name": "Brazil",
+          "code": "BR",
+          "order": 0,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        },
+        {
+          "id": "mar",
+          "name": "Maroko",
+          "code": "MA",
+          "order": 1,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        },
+        {
+          "id": "hai",
+          "name": "Haiti",
+          "code": "HT",
+          "order": 2,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        },
+        {
+          "id": "sco",
+          "name": "Škotska",
+          "code": "GB-SCT",
+          "order": 3,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        }
+      ]
+    },
+    "D": {
+      "name": "Grupa D",
+      "teams": [
+        {
+          "id": "usa",
+          "name": "SAD",
+          "code": "US",
+          "order": 0,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        },
+        {
+          "id": "par",
+          "name": "Paragvaj",
+          "code": "PY",
+          "order": 1,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        },
+        {
+          "id": "aus",
+          "name": "Australija",
+          "code": "AU",
+          "order": 2,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        }
+      ]
+    },
+    "E": {
+      "name": "Grupa E",
+      "teams": [
+        {
+          "id": "ger",
+          "name": "Njemačka",
+          "code": "DE",
+          "order": 0,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        },
+        {
+          "id": "cur",
+          "name": "Curacao",
+          "code": "CW",
+          "order": 1,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        },
+        {
+          "id": "civ",
+          "name": "Obala bjelokosti",
+          "code": "CI",
+          "order": 2,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        },
+        {
+          "id": "ecu",
+          "name": "Ekvador",
+          "code": "EC",
+          "order": 3,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        }
+      ]
+    },
+    "F": {
+      "name": "Grupa F",
+      "teams": [
+        {
+          "id": "ned",
+          "name": "Nizozemska",
+          "code": "NL",
+          "order": 0,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        },
+        {
+          "id": "jpn",
+          "name": "Japan",
+          "code": "JP",
+          "order": 1,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        },
+        {
+          "id": "tun",
+          "name": "Tunis",
+          "code": "TN",
+          "order": 2,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        }
+      ]
+    },
+    "G": {
+      "name": "Grupa G",
+      "teams": [
+        {
+          "id": "bel",
+          "name": "Belgija",
+          "code": "BE",
+          "order": 0,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        },
+        {
+          "id": "egy",
+          "name": "Egipat",
+          "code": "EG",
+          "order": 1,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        },
+        {
+          "id": "irn",
+          "name": "Iran",
+          "code": "IR",
+          "order": 2,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        },
+        {
+          "id": "nzl",
+          "name": "Novi Zeland",
+          "code": "NZ",
+          "order": 3,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        }
+      ]
+    },
+    "H": {
+      "name": "Grupa H",
+      "teams": [
+        {
+          "id": "esp",
+          "name": "Španjolska",
+          "code": "ES",
+          "order": 0,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        },
+        {
+          "id": "cpv",
+          "name": "Zelenortski otoci",
+          "code": "CV",
+          "order": 1,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        },
+        {
+          "id": "ksa",
+          "name": "Saudijska Arabija",
+          "code": "SA",
+          "order": 2,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        },
+        {
+          "id": "uru",
+          "name": "Urugvaj",
+          "code": "UY",
+          "order": 3,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        }
+      ]
+    },
+    "I": {
+      "name": "Grupa I",
+      "teams": [
+        {
+          "id": "fra",
+          "name": "Francuska",
+          "code": "FR",
+          "order": 0,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        },
+        {
+          "id": "sen",
+          "name": "Senegal",
+          "code": "SN",
+          "order": 1,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        },
+        {
+          "id": "nor",
+          "name": "Norveška",
+          "code": "NO",
+          "order": 2,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        }
+      ]
+    },
+    "J": {
+      "name": "Grupa J",
+      "teams": [
+        {
+          "id": "arg",
+          "name": "Argentina",
+          "code": "AR",
+          "order": 0,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        },
+        {
+          "id": "alg",
+          "name": "Alžir",
+          "code": "DZ",
+          "order": 1,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        },
+        {
+          "id": "aut",
+          "name": "Austrija",
+          "code": "AT",
+          "order": 2,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        },
+        {
+          "id": "jor",
+          "name": "Jordan",
+          "code": "JO",
+          "order": 3,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        }
+      ]
+    },
+    "K": {
+      "name": "Grupa K",
+      "teams": [
+        {
+          "id": "por",
+          "name": "Portugal",
+          "code": "PT",
+          "order": 0,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        },
+        {
+          "id": "uzb",
+          "name": "Uzbekistan",
+          "code": "UZ",
+          "order": 1,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        },
+        {
+          "id": "col",
+          "name": "Kolumbija",
+          "code": "CO",
+          "order": 2,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        }
+      ]
+    },
+    "L": {
+      "name": "Grupa L",
+      "teams": [
+        {
+          "id": "eng",
+          "name": "Engleska",
+          "code": "GB-ENG",
+          "order": 0,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        },
+        {
+          "id": "cro",
+          "name": "Hrvatska",
+          "code": "HR",
+          "order": 1,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0,
+          "highlight": true
+        },
+        {
+          "id": "gha",
+          "name": "Gana",
+          "code": "GH",
+          "order": 2,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        },
+        {
+          "id": "pan",
+          "name": "Panama",
+          "code": "PA",
+          "order": 3,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        }
+      ]
+    }
+  }
+}

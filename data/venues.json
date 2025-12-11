@@ -1,0 +1,21 @@
+{
+  "venues": [
+    { "id": "atlanta", "city": "Atlanta", "stadium": "Atlanta Stadium", "country": "SAD", "countryCode": "US" },
+    { "id": "boston", "city": "Boston", "stadium": "Boston Stadium", "country": "SAD", "countryCode": "US" },
+    { "id": "dallas", "city": "Dallas", "stadium": "Dallas Stadium", "country": "SAD", "countryCode": "US" },
+    { "id": "houston", "city": "Houston", "stadium": "Houston Stadium", "country": "SAD", "countryCode": "US" },
+    { "id": "kansas", "city": "Kansas City", "stadium": "Kansas City Stadium", "country": "SAD", "countryCode": "US" },
+    { "id": "la", "city": "Los Angeles", "stadium": "Los Angeles Stadium", "country": "SAD", "countryCode": "US" },
+    { "id": "miami", "city": "Miami", "stadium": "Miami Stadium", "country": "SAD", "countryCode": "US" },
+    { "id": "newyork", "city": "New York", "stadium": "New York New Jersey Stadium", "country": "SAD", "countryCode": "US" },
+    { "id": "philly", "city": "Philadelphia", "stadium": "Philadelphia Stadium", "country": "SAD", "countryCode": "US" },
+    { "id": "sanfran", "city": "San Francisco", "stadium": "San Francisco Bay Area Stadium", "country": "SAD", "countryCode": "US" },
+    { "id": "seattle", "city": "Seattle", "stadium": "Seattle Stadium", "country": "SAD", "countryCode": "US" },
+    { "id": "guadalajara", "city": "Guadalajara", "stadium": "Estadio Guadalajara", "country": "Meksiko", "countryCode": "MX" },
+    { "id": "mexicocity", "city": "Mexico City", "stadium": "Mexico City Stadium", "country": "Meksiko", "countryCode": "MX" },
+    { "id": "monterrey", "city": "Monterrey", "stadium": "Estadio Monterrey", "country": "Meksiko", "countryCode": "MX" },
+    { "id": "toronto", "city": "Toronto", "stadium": "Toronto Stadium", "country": "Kanada", "countryCode": "CA" },
+    { "id": "vancouver", "city": "Vancouver", "stadium": "BC Place Vancouver", "country": "Kanada", "countryCode": "CA" }
+  ]
+}
+

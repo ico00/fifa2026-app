@@ -1,0 +1,517 @@
+{
+  "teams": [
+    {
+      "id": "alb",
+      "name": "Albanija",
+      "code": "AL",
+      "confederation": "UEFA",
+      "qualified": false,
+      "playoffGroup": "B"
+    },
+    {
+      "id": "alg",
+      "name": "Alžir",
+      "code": "DZ",
+      "confederation": "CAF",
+      "qualified": true,
+      "group": "J"
+    },
+    {
+      "id": "arg",
+      "name": "Argentina",
+      "code": "AR",
+      "confederation": "CONMEBOL",
+      "qualified": true,
+      "group": "J"
+    },
+    {
+      "id": "aus",
+      "name": "Australija",
+      "code": "AU",
+      "confederation": "AFC",
+      "qualified": true,
+      "group": "D"
+    },
+    {
+      "id": "aut",
+      "name": "Austrija",
+      "code": "AT",
+      "confederation": "UEFA",
+      "qualified": true,
+      "group": "J"
+    },
+    {
+      "id": "bel",
+      "name": "Belgija",
+      "code": "BE",
+      "confederation": "UEFA",
+      "qualified": true,
+      "group": "G"
+    },
+    {
+      "id": "bol",
+      "name": "Bolivija",
+      "code": "BO",
+      "confederation": "CONMEBOL",
+      "qualified": false,
+      "playoffGroup": "1"
+    },
+    {
+      "id": "bih",
+      "name": "Bosna i Hercegovina",
+      "code": "BA",
+      "confederation": "UEFA",
+      "qualified": false,
+      "playoffGroup": "A"
+    },
+    {
+      "id": "bra",
+      "name": "Brazil",
+      "code": "BR",
+      "confederation": "CONMEBOL",
+      "qualified": true,
+      "group": "C"
+    },
+    {
+      "id": "cze",
+      "name": "Češka",
+      "code": "CZ",
+      "confederation": "UEFA",
+      "qualified": false,
+      "playoffGroup": "D"
+    },
+    {
+      "id": "cur",
+      "name": "Curacao",
+      "code": "CW",
+      "confederation": "CONCACAF",
+      "qualified": true,
+      "group": "E"
+    },
+    {
+      "id": "den",
+      "name": "Danska",
+      "code": "DK",
+      "confederation": "UEFA",
+      "qualified": false,
+      "playoffGroup": "D"
+    },
+    {
+      "id": "egy",
+      "name": "Egipat",
+      "code": "EG",
+      "confederation": "CAF",
+      "qualified": true,
+      "group": "G"
+    },
+    {
+      "id": "ecu",
+      "name": "Ekvador",
+      "code": "EC",
+      "confederation": "CONMEBOL",
+      "qualified": true,
+      "group": "E"
+    },
+    {
+      "id": "eng",
+      "name": "Engleska",
+      "code": "GB-ENG",
+      "confederation": "UEFA",
+      "qualified": true,
+      "group": "L"
+    },
+    {
+      "id": "fra",
+      "name": "Francuska",
+      "code": "FR",
+      "confederation": "UEFA",
+      "qualified": true,
+      "group": "I"
+    },
+    {
+      "id": "gha",
+      "name": "Gana",
+      "code": "GH",
+      "confederation": "CAF",
+      "qualified": true,
+      "group": "L"
+    },
+    {
+      "id": "hai",
+      "name": "Haiti",
+      "code": "HT",
+      "confederation": "CONCACAF",
+      "qualified": true,
+      "group": "C"
+    },
+    {
+      "id": "cro",
+      "name": "Hrvatska",
+      "code": "HR",
+      "confederation": "UEFA",
+      "qualified": true,
+      "group": "L",
+      "highlight": true
+    },
+    {
+      "id": "irq",
+      "name": "Irak",
+      "code": "IQ",
+      "confederation": "AFC",
+      "qualified": false,
+      "playoffGroup": "1"
+    },
+    {
+      "id": "irn",
+      "name": "Iran",
+      "code": "IR",
+      "confederation": "AFC",
+      "qualified": true,
+      "group": "G"
+    },
+    {
+      "id": "irl",
+      "name": "Irska",
+      "code": "IE",
+      "confederation": "UEFA",
+      "qualified": false,
+      "playoffGroup": "D"
+    },
+    {
+      "id": "ita",
+      "name": "Italija",
+      "code": "IT",
+      "confederation": "UEFA",
+      "qualified": false,
+      "playoffGroup": "A"
+    },
+    {
+      "id": "jam",
+      "name": "Jamajka",
+      "code": "JM",
+      "confederation": "CONCACAF",
+      "qualified": false,
+      "playoffGroup": "2"
+    },
+    {
+      "id": "jpn",
+      "name": "Japan",
+      "code": "JP",
+      "confederation": "AFC",
+      "qualified": true,
+      "group": "F"
+    },
+    {
+      "id": "jor",
+      "name": "Jordan",
+      "code": "JO",
+      "confederation": "AFC",
+      "qualified": true,
+      "group": "J"
+    },
+    {
+      "id": "rsa",
+      "name": "Južnoafrička Republika",
+      "code": "ZA",
+      "confederation": "CAF",
+      "qualified": true,
+      "group": "A"
+    },
+    {
+      "id": "kor",
+      "name": "Južna Koreja",
+      "code": "KR",
+      "confederation": "AFC",
+      "qualified": true,
+      "group": "A"
+    },
+    {
+      "id": "can",
+      "name": "Kanada",
+      "code": "CA",
+      "confederation": "CONCACAF",
+      "qualified": true,
+      "group": "B"
+    },
+    {
+      "id": "qat",
+      "name": "Katar",
+      "code": "QA",
+      "confederation": "AFC",
+      "qualified": true,
+      "group": "B"
+    },
+    {
+      "id": "col",
+      "name": "Kolumbija",
+      "code": "CO",
+      "confederation": "CONMEBOL",
+      "qualified": true,
+      "group": "K"
+    },
+    {
+      "id": "cgo",
+      "name": "Kongo",
+      "code": "CG",
+      "confederation": "CAF",
+      "qualified": false,
+      "playoffGroup": "2"
+    },
+    {
+      "id": "kos",
+      "name": "Kosovo",
+      "code": "XK",
+      "confederation": "UEFA",
+      "qualified": false,
+      "playoffGroup": "C"
+    },
+    {
+      "id": "mkd",
+      "name": "Makedonija",
+      "code": "MK",
+      "confederation": "UEFA",
+      "qualified": false,
+      "playoffGroup": "D"
+    },
+    {
+      "id": "mar",
+      "name": "Maroko",
+      "code": "MA",
+      "confederation": "CAF",
+      "qualified": true,
+      "group": "C"
+    },
+    {
+      "id": "mex",
+      "name": "Meksiko",
+      "code": "MX",
+      "confederation": "CONCACAF",
+      "qualified": true,
+      "group": "A"
+    },
+    {
+      "id": "ned",
+      "name": "Nizozemska",
+      "code": "NL",
+      "confederation": "UEFA",
+      "qualified": true,
+      "group": "F"
+    },
+    {
+      "id": "ger",
+      "name": "Njemačka",
+      "code": "DE",
+      "confederation": "UEFA",
+      "qualified": true,
+      "group": "E"
+    },
+    {
+      "id": "nor",
+      "name": "Norveška",
+      "code": "NO",
+      "confederation": "UEFA",
+      "qualified": true,
+      "group": "I"
+    },
+    {
+      "id": "ncl",
+      "name": "Nova Kaledonija",
+      "code": "NC",
+      "confederation": "OFC",
+      "qualified": false,
+      "playoffGroup": "2"
+    },
+    {
+      "id": "nzl",
+      "name": "Novi Zeland",
+      "code": "NZ",
+      "confederation": "OFC",
+      "qualified": true,
+      "group": "G"
+    },
+    {
+      "id": "civ",
+      "name": "Obala bjelokosti",
+      "code": "CI",
+      "confederation": "CAF",
+      "qualified": true,
+      "group": "E"
+    },
+    {
+      "id": "pan",
+      "name": "Panama",
+      "code": "PA",
+      "confederation": "CONCACAF",
+      "qualified": true,
+      "group": "L"
+    },
+    {
+      "id": "par",
+      "name": "Paragvaj",
+      "code": "PY",
+      "confederation": "CONMEBOL",
+      "qualified": true,
+      "group": "D"
+    },
+    {
+      "id": "pol",
+      "name": "Poljska",
+      "code": "PL",
+      "confederation": "UEFA",
+      "qualified": false,
+      "playoffGroup": "B"
+    },
+    {
+      "id": "por",
+      "name": "Portugal",
+      "code": "PT",
+      "confederation": "UEFA",
+      "qualified": true,
+      "group": "K"
+    },
+    {
+      "id": "rou",
+      "name": "Rumunjska",
+      "code": "RO",
+      "confederation": "UEFA",
+      "qualified": false,
+      "playoffGroup": "C"
+    },
+    {
+      "id": "usa",
+      "name": "SAD",
+      "code": "US",
+      "confederation": "CONCACAF",
+      "qualified": true,
+      "group": "D"
+    },
+    {
+      "id": "ksa",
+      "name": "Saudijska Arabija",
+      "code": "SA",
+      "confederation": "AFC",
+      "qualified": true,
+      "group": "H"
+    },
+    {
+      "id": "sen",
+      "name": "Senegal",
+      "code": "SN",
+      "confederation": "CAF",
+      "qualified": true,
+      "group": "I"
+    },
+    {
+      "id": "nir",
+      "name": "Sjeverna Irska",
+      "code": "GB-NIR",
+      "confederation": "UEFA",
+      "qualified": false,
+      "playoffGroup": "A"
+    },
+    {
+      "id": "sco",
+      "name": "Škotska",
+      "code": "GB-SCT",
+      "confederation": "UEFA",
+      "qualified": true,
+      "group": "C"
+    },
+    {
+      "id": "svk",
+      "name": "Slovačka",
+      "code": "SK",
+      "confederation": "UEFA",
+      "qualified": false,
+      "playoffGroup": "C"
+    },
+    {
+      "id": "esp",
+      "name": "Španjolska",
+      "code": "ES",
+      "confederation": "UEFA",
+      "qualified": true,
+      "group": "H"
+    },
+    {
+      "id": "sur",
+      "name": "Surinam",
+      "code": "SR",
+      "confederation": "CONCACAF",
+      "qualified": false,
+      "playoffGroup": "1"
+    },
+    {
+      "id": "swe",
+      "name": "Švedska",
+      "code": "SE",
+      "confederation": "UEFA",
+      "qualified": false,
+      "playoffGroup": "B"
+    },
+    {
+      "id": "sui",
+      "name": "Švicarska",
+      "code": "CH",
+      "confederation": "UEFA",
+      "qualified": true,
+      "group": "B"
+    },
+    {
+      "id": "tun",
+      "name": "Tunis",
+      "code": "TN",
+      "confederation": "CAF",
+      "qualified": true,
+      "group": "F"
+    },
+    {
+      "id": "tur",
+      "name": "Turska",
+      "code": "TR",
+      "confederation": "UEFA",
+      "qualified": false,
+      "playoffGroup": "C"
+    },
+    {
+      "id": "ukr",
+      "name": "Ukrajina",
+      "code": "UA",
+      "confederation": "UEFA",
+      "qualified": false,
+      "playoffGroup": "B"
+    },
+    {
+      "id": "uru",
+      "name": "Urugvaj",
+      "code": "UY",
+      "confederation": "CONMEBOL",
+      "qualified": true,
+      "group": "H"
+    },
+    {
+      "id": "uzb",
+      "name": "Uzbekistan",
+      "code": "UZ",
+      "confederation": "AFC",
+      "qualified": true,
+      "group": "K"
+    },
+    {
+      "id": "wal",
+      "name": "Wales",
+      "code": "GB-WLS",
+      "confederation": "UEFA",
+      "qualified": false,
+      "playoffGroup": "A"
+    },
+    {
+      "id": "cpv",
+      "name": "Zelenortski otoci",
+      "code": "CV",
+      "confederation": "CAF",
+      "qualified": true,
+      "group": "H"
+    }
+  ]
+}
