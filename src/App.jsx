@@ -11,10 +11,18 @@ import AdminLogin from './components/AdminLogin'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api'
 
+// Debug logging za production
+if (import.meta.env.VITE_API_URL) {
+    console.log('🌐 Production API URL:', API_URL)
+} else {
+    console.log('🔧 Development API URL:', API_URL)
+}
+
 function App() {
-    // Detektuj da li je production (Render.com) i omogući read-only mod
+    // Detektuj da li je production (Render.com)
     const isProduction = window.location.hostname.includes('onrender.com')
-    const isReadOnly = isProduction
+    // U production-u, aplikacija je read-only SAMO ako korisnik nije admin
+    // (ne više automatski read-only za sve u production-u)
 
     const [activeTab, setActiveTab] = useState('playoffs')
     const [darkMode, setDarkMode] = useState(() => {
@@ -29,6 +37,7 @@ function App() {
     const [isAdmin, setIsAdmin] = useState(false)
     const [adminToken, setAdminToken] = useState(null)
     const [showAdminLogin, setShowAdminLogin] = useState(false)
+    const [serverAvailable, setServerAvailable] = useState(true)
 
     useEffect(() => {
         if (darkMode) {
@@ -40,6 +49,11 @@ function App() {
         }
     }, [darkMode])
 
+    // Provjeri dostupnost servera pri učitavanju
+    useEffect(() => {
+        checkServerAvailability()
+    }, [])
+
     // Provjeri admin token pri učitavanju
     useEffect(() => {
         const token = localStorage.getItem('adminToken')
@@ -47,6 +61,36 @@ function App() {
             verifyAdminToken(token)
         }
     }, [])
+
+    // Funkcija za provjeru dostupnosti servera
+    const checkServerAvailability = async () => {
+        try {
+            const controller = new AbortController()
+            const timeoutId = setTimeout(() => controller.abort(), 5000) // Timeout od 5 sekundi (više za production)
+            
+            const response = await fetch(`${API_URL}/teams`, {
+                method: 'GET',
+                signal: controller.signal
+            })
+            clearTimeout(timeoutId)
+            setServerAvailable(response.ok)
+            
+            // Ako je production i server je dostupan, ne prikazuj upozorenje
+            if (isProduction && response.ok) {
+                console.log('✅ Production server je dostupan:', API_URL)
+            }
+        } catch (error) {
+            // U production-u, možda je server sporiji, ne prikazuj upozorenje odmah
+            if (isProduction) {
+                // U production-u, pretpostavi da je server dostupan (možda je samo spor)
+                setServerAvailable(true)
+                console.warn('⚠️ Production server možda je spor, ali pretpostavljamo da je dostupan')
+            } else {
+                setServerAvailable(false)
+                console.warn('Server nije dostupan:', error.message)
+            }
+        }
+    }
 
     // Funkcija za provjeru validnosti admin tokena
     const verifyAdminToken = async (token) => {
@@ -76,8 +120,12 @@ function App() {
 
     // Funkcija za login
     const handleAdminLogin = (token) => {
+        console.log('🔐 handleAdminLogin pozvan, token:', token ? 'postoji' : 'nema')
         setAdminToken(token)
         setIsAdmin(true)
+        console.log('✅ Admin prijavljen, isAdmin postavljen na: true')
+        // Ažuriraj podatke nakon prijave da se komponente osvježe
+        fetchData()
     }
 
     // Funkcija za logout
@@ -116,6 +164,9 @@ function App() {
                 fetch(`${API_URL}/venues`)
             ])
 
+            // Ažuriraj status dostupnosti servera
+            setServerAvailable(true)
+
             const teamsData = await teamsRes.json()
             const groupsData = await groupsRes.json()
             const playoffsData = await playoffsRes.json()
@@ -133,6 +184,7 @@ function App() {
             setLoading(false)
         } catch (error) {
             console.error('Greška pri dohvaćanju podataka:', error)
+            setServerAvailable(false)
             setLoading(false)
         }
     }
@@ -210,8 +262,20 @@ function App() {
         )
     }
 
-    // Kombiniraj isReadOnly s admin statusom
-    const effectiveReadOnly = isReadOnly || !isAdmin
+    // Aplikacija je read-only samo ako korisnik NIJE admin
+    // (u production-u, admin može mijenjati podatke nakon prijave)
+    const effectiveReadOnly = !isAdmin
+    
+    // Debug logging - provjeri da li se state pravilno ažurira
+    useEffect(() => {
+        console.log('🔐 Admin status promijenjen:', { 
+            isAdmin, 
+            effectiveReadOnly, 
+            adminToken: adminToken ? 'postoji' : 'nema',
+            canEdit: !effectiveReadOnly,
+            timestamp: new Date().toISOString()
+        })
+    }, [isAdmin, adminToken])
 
     return (
         <div className="min-h-screen flex flex-col w-full max-w-[1600px] mx-auto px-4 md:px-8 py-4">
@@ -221,6 +285,7 @@ function App() {
                 isAdmin={isAdmin}
                 onAdminClick={() => setShowAdminLogin(true)}
                 onLogout={handleAdminLogout}
+                serverAvailable={serverAvailable}
             />
             <Navigation activeTab={activeTab} setActiveTab={setActiveTab} />
 

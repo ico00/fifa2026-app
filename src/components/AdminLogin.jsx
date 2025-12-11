@@ -22,7 +22,7 @@ function AdminLogin({ isOpen, onClose, onLogin }) {
             if (!response.ok) {
                 // Ako je status 404 ili 500, server možda nije pokrenut
                 if (response.status === 404 || response.status >= 500) {
-                    setError('Server nije dostupan. Provjerite da li je backend server pokrenut.');
+                    setError('Server nije dostupan. Provjerite da li je backend server pokrenut. Pokrenite server sa: npm start');
                     return;
                 }
             }

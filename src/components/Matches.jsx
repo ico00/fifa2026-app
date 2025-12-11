@@ -1,8 +1,13 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Flag from './Flag'
 
 function Matches({ matches, teams, venues, groups, playoffs, updateMatch, isReadOnly }) {
   const [searchQuery, setSearchQuery] = useState('')
+
+  // Debug logging
+  useEffect(() => {
+    console.log('📝 Matches komponenta - isReadOnly:', isReadOnly, 'canEdit:', !isReadOnly)
+  }, [isReadOnly])
 
   const getTeamById = (id) => teams.find(t => t.id === id)
   const getVenueById = (id) => venues.find(v => v.id === id)

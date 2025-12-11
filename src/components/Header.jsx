@@ -1,8 +1,16 @@
-function Header({ darkMode, setDarkMode, isAdmin, onAdminClick, onLogout }) {
+function Header({ darkMode, setDarkMode, isAdmin, onAdminClick, onLogout, serverAvailable = true }) {
   return (
     <header className="relative overflow-hidden bg-gradient-to-b from-black/50 to-transparent py-6 text-center">
       {/* Decorative bottom border */}
       <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-fifa-gold/20 via-fifa-gold to-fifa-gold/20"></div>
+
+      {/* Server Status Warning - samo u development okruženju */}
+      {!serverAvailable && !window.location.hostname.includes('onrender.com') && (
+        <div className="absolute top-2 left-1/2 transform -translate-x-1/2 z-20 bg-red-500/90 text-white px-4 py-2 rounded-lg shadow-lg border-2 border-red-400 flex items-center gap-2 text-sm font-semibold animate-pulse">
+          <span>⚠️</span>
+          <span>Backend server nije pokrenut. Pokrenite server sa: npm start</span>
+        </div>
+      )}
 
       <div className="relative z-10 flex flex-col items-center justify-center gap-4">
         {/* Top Flags */}
