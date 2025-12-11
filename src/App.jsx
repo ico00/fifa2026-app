@@ -49,19 +49,6 @@ function App() {
         }
     }, [darkMode])
 
-    // Provjeri dostupnost servera pri učitavanju
-    useEffect(() => {
-        checkServerAvailability()
-    }, [])
-
-    // Provjeri admin token pri učitavanju
-    useEffect(() => {
-        const token = localStorage.getItem('adminToken')
-        if (token) {
-            verifyAdminToken(token)
-        }
-    }, [])
-
     // Funkcija za provjeru dostupnosti servera
     const checkServerAvailability = async () => {
         try {
@@ -117,6 +104,21 @@ function App() {
             setAdminToken(null)
         }
     }
+
+    // Provjeri dostupnost servera pri učitavanju
+    useEffect(() => {
+        checkServerAvailability()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    // Provjeri admin token pri učitavanju
+    useEffect(() => {
+        const token = localStorage.getItem('adminToken')
+        if (token) {
+            verifyAdminToken(token)
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     // Funkcija za login
     const handleAdminLogin = (token) => {
