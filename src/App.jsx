@@ -7,6 +7,7 @@ import Matches from './components/Matches'
 import Standings from './components/Standings'
 import Knockout from './components/Knockout'
 import Simulation from './components/Simulation'
+import AdminLogin from './components/AdminLogin'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api'
 
@@ -24,6 +25,11 @@ function App() {
         return false
     })
 
+    // Admin state management
+    const [isAdmin, setIsAdmin] = useState(false)
+    const [adminToken, setAdminToken] = useState(null)
+    const [showAdminLogin, setShowAdminLogin] = useState(false)
+
     useEffect(() => {
         if (darkMode) {
             document.documentElement.classList.add('dark')
@@ -33,6 +39,62 @@ function App() {
             localStorage.setItem('theme', 'light')
         }
     }, [darkMode])
+
+    // Provjeri admin token pri učitavanju
+    useEffect(() => {
+        const token = localStorage.getItem('adminToken')
+        if (token) {
+            verifyAdminToken(token)
+        }
+    }, [])
+
+    // Funkcija za provjeru validnosti admin tokena
+    const verifyAdminToken = async (token) => {
+        try {
+            const response = await fetch(`${API_URL}/auth/verify`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            const data = await response.json()
+            if (data.valid) {
+                setIsAdmin(true)
+                setAdminToken(token)
+            } else {
+                // Token nije validan, ukloni ga
+                localStorage.removeItem('adminToken')
+                setIsAdmin(false)
+                setAdminToken(null)
+            }
+        } catch (error) {
+            console.error('Greška pri provjeri tokena:', error)
+            localStorage.removeItem('adminToken')
+            setIsAdmin(false)
+            setAdminToken(null)
+        }
+    }
+
+    // Funkcija za login
+    const handleAdminLogin = (token) => {
+        setAdminToken(token)
+        setIsAdmin(true)
+    }
+
+    // Funkcija za logout
+    const handleAdminLogout = () => {
+        localStorage.removeItem('adminToken')
+        setAdminToken(null)
+        setIsAdmin(false)
+    }
+
+    // Helper funkcija za dobivanje Authorization headera
+    const getAuthHeaders = () => {
+        const headers = { 'Content-Type': 'application/json' }
+        if (adminToken) {
+            headers['Authorization'] = `Bearer ${adminToken}`
+        }
+        return headers
+    }
 
     const [teams, setTeams] = useState([])
     const [groups, setGroups] = useState({})
@@ -83,11 +145,15 @@ function App() {
         try {
             const response = await fetch(`${API_URL}/matches/${matchId}`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                headers: getAuthHeaders(),
                 body: JSON.stringify(data)
             })
             if (response.ok) {
                 fetchData() // Ponovno dohvati sve podatke
+            } else if (response.status === 401) {
+                // Token nije validan, odjavi korisnika
+                handleAdminLogout()
+                alert('Vaša sesija je istekla. Molimo prijavite se ponovno.')
             }
         } catch (error) {
             console.error('Greška pri ažuriranju utakmice:', error)
@@ -98,11 +164,15 @@ function App() {
         try {
             const response = await fetch(`${API_URL}/playoffs/${playoffId}/winner`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                headers: getAuthHeaders(),
                 body: JSON.stringify({ winner: winner || null })
             })
             if (response.ok) {
                 fetchData()
+            } else if (response.status === 401) {
+                // Token nije validan, odjavi korisnika
+                handleAdminLogout()
+                alert('Vaša sesija je istekla. Molimo prijavite se ponovno.')
             }
         } catch (error) {
             console.error('Greška pri postavljanju pobjednika:', error)
@@ -113,11 +183,15 @@ function App() {
         try {
             const response = await fetch(`${API_URL}/knockout/${round}/${matchId}`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                headers: getAuthHeaders(),
                 body: JSON.stringify(data)
             })
             if (response.ok) {
                 fetchData()
+            } else if (response.status === 401) {
+                // Token nije validan, odjavi korisnika
+                handleAdminLogout()
+                alert('Vaša sesija je istekla. Molimo prijavite se ponovno.')
             }
         } catch (error) {
             console.error('Greška pri ažuriranju knockout utakmice:', error)
@@ -136,9 +210,18 @@ function App() {
         )
     }
 
+    // Kombiniraj isReadOnly s admin statusom
+    const effectiveReadOnly = isReadOnly || !isAdmin
+
     return (
         <div className="min-h-screen flex flex-col w-full max-w-[1600px] mx-auto px-4 md:px-8 py-4">
-            <Header darkMode={darkMode} setDarkMode={setDarkMode} />
+            <Header 
+                darkMode={darkMode} 
+                setDarkMode={setDarkMode}
+                isAdmin={isAdmin}
+                onAdminClick={() => setShowAdminLogin(true)}
+                onLogout={handleAdminLogout}
+            />
             <Navigation activeTab={activeTab} setActiveTab={setActiveTab} />
 
             <main className="flex-1 w-full py-8 text-slate-900 dark:text-slate-100">
@@ -155,7 +238,7 @@ function App() {
                         playoffs={playoffs}
                         teams={teams}
                         setPlayoffWinner={setPlayoffWinner}
-                        isReadOnly={isReadOnly}
+                        isReadOnly={effectiveReadOnly}
                     />
                 )}
 
@@ -167,7 +250,7 @@ function App() {
                         groups={groups}
                         playoffs={playoffs}
                         updateMatch={updateMatch}
-                        isReadOnly={isReadOnly}
+                        isReadOnly={effectiveReadOnly}
                     />
                 )}
 
@@ -188,7 +271,7 @@ function App() {
                         teams={teams}
                         venues={venues}
                         updateKnockoutMatch={updateKnockoutMatch}
-                        isReadOnly={isReadOnly}
+                        isReadOnly={effectiveReadOnly}
                     />
                 )}
 
@@ -206,6 +289,13 @@ function App() {
                 <p className="mb-2 font-medium">🏆 FIFA World Cup 2026™ - SAD 🇺🇸 | Kanada 🇨🇦 | Meksiko 🇲🇽</p>
                 <p className="font-bold text-red-600 dark:text-red-500 animate-pulse text-lg">🇭🇷 Idemo Vatreni! 🇭🇷</p>
             </footer>
+
+            {/* Admin Login Modal */}
+            <AdminLogin
+                isOpen={showAdminLogin}
+                onClose={() => setShowAdminLogin(false)}
+                onLogin={handleAdminLogin}
+            />
         </div>
     )
 }

@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
+const { login, verifyToken, authMiddleware } = require('./auth.cjs');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -59,6 +60,39 @@ app.get('/api/playoffs', (req, res) => {
 app.get('/api/venues', (req, res) => {
   const data = readJsonFile('venues.json');
   res.json(data);
+});
+
+// ============ AUTH ENDPOINTS ============
+
+// Login endpoint - prima lozinku, vraća JWT token
+app.post('/api/auth/login', (req, res) => {
+  const { password } = req.body;
+
+  if (!password) {
+    return res.status(400).json({ error: 'Lozinka je obavezna' });
+  }
+
+  const result = login(password);
+
+  if (result.success) {
+    res.json({ success: true, token: result.token });
+  } else {
+    res.status(401).json({ error: result.message });
+  }
+});
+
+// Verify endpoint - proverava da li je token validan
+app.get('/api/auth/verify', (req, res) => {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.json({ valid: false });
+  }
+
+  const token = authHeader.substring(7);
+  const result = verifyToken(token);
+
+  res.json({ valid: result.valid });
 });
 
 // Dohvati sve utakmice
@@ -140,7 +174,7 @@ app.get('/api/standings', (req, res) => {
 });
 
 // Ažuriraj knockout utakmicu
-app.put('/api/knockout/:round/:id', (req, res) => {
+app.put('/api/knockout/:round/:id', authMiddleware, (req, res) => {
   const { round, id } = req.params;
   const { homeScore, awayScore, homePenalty, awayPenalty } = req.body;
 
@@ -212,7 +246,7 @@ app.put('/api/knockout/:round/:id', (req, res) => {
 
 // ============ SIMULACIJA (PREDICTIONS) ============
 
-// Spremi/Ažuriraj prognoze korisnika
+// Spremi/Ažuriraj prognoze korisnika (NE zaštićeno - korisnici mogu čuvati svoje prognoze)
 app.post('/api/predictions', (req, res) => {
   const { username, predictions, playoffPredictions } = req.body;
   if (!username) {
@@ -268,7 +302,7 @@ app.get('/api/predictions/:username', (req, res) => {
 // ============ AŽURIRANJE PODATAKA ============
 
 // Ažuriraj utakmicu (unos rezultata)
-app.put('/api/matches/:id', (req, res) => {
+app.put('/api/matches/:id', authMiddleware, (req, res) => {
   const matchId = parseInt(req.params.id);
   const { homeTeam, awayTeam, homeScore, awayScore, group, venue } = req.body;
 
@@ -317,7 +351,7 @@ app.put('/api/matches/:id', (req, res) => {
 });
 
 // Dodaj novu utakmicu
-app.post('/api/matches', (req, res) => {
+app.post('/api/matches', authMiddleware, (req, res) => {
   const { date, venue, group, homeTeam, awayTeam, phase } = req.body;
 
   const data = readJsonFile('matches.json');
@@ -350,7 +384,7 @@ app.post('/api/matches', (req, res) => {
 });
 
 // Ažuriraj play-off pobjednika
-app.put('/api/playoffs/:id/winner', (req, res) => {
+app.put('/api/playoffs/:id/winner', authMiddleware, (req, res) => {
   const playoffId = req.params.id;
   const { winner } = req.body;
 

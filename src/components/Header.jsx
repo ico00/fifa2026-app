@@ -1,4 +1,4 @@
-function Header({ darkMode, setDarkMode }) {
+function Header({ darkMode, setDarkMode, isAdmin, onAdminClick, onLogout }) {
   return (
     <header className="relative overflow-hidden bg-gradient-to-b from-black/50 to-transparent py-6 text-center">
       {/* Decorative bottom border */}
@@ -30,6 +30,32 @@ function Header({ darkMode, setDarkMode }) {
               <span className="text-xl group-hover:-rotate-12 transition-transform duration-500 block">🌙</span>
             )}
           </button>
+
+          {/* Admin Button */}
+          <div className="absolute left-4 top-4 flex items-center gap-2">
+            {isAdmin ? (
+              <button
+                onClick={onLogout}
+                className="px-4 py-2 rounded-lg bg-red-500/80 hover:bg-red-600/90 backdrop-blur-sm transition-all duration-300 border border-red-400/50 hover:border-red-300 text-white text-sm font-semibold flex items-center gap-2"
+                title="Odjavi se"
+              >
+                <span>🔓</span> Odjavi se
+              </button>
+            ) : (
+              <button
+                onClick={onAdminClick}
+                className="px-4 py-2 rounded-lg bg-slate-700/80 hover:bg-slate-600/90 backdrop-blur-sm transition-all duration-300 border border-slate-500/50 hover:border-slate-400 text-white text-sm font-semibold flex items-center gap-2"
+                title="Admin pristup"
+              >
+                <span>🔐</span> Admin
+              </button>
+            )}
+            {isAdmin && (
+              <div className="px-3 py-1 rounded-full bg-green-500/80 backdrop-blur-sm border border-green-400/50 text-white text-xs font-bold flex items-center gap-1">
+                <span>✓</span> Admin
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Subtitle */}
