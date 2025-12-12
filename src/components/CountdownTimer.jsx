@@ -60,15 +60,15 @@ function CountdownTimer({ targetDate, targetTime, homeTeam, awayTeam, homeTeamPl
   const away = awayTeamId ? getTeamById(awayTeamId) : null
   const venueData = venue ? getVenueById(venue) : null
 
-  const formatDate = (dateStr) => {
+  const formatDate = (dateStr, timeStr) => {
     const date = new Date(dateStr)
-    return date.toLocaleDateString('hr-HR', { 
+    const formattedDate = date.toLocaleDateString('hr-HR', { 
       weekday: 'long', 
       day: 'numeric', 
-      month: 'long',
-      hour: '2-digit',
-      minute: '2-digit'
+      month: 'long'
     })
+    // Koristi originalno vrijeme iz matches.json umjesto konvertiranog
+    return `${formattedDate} u ${timeStr}`
   }
 
   return (
@@ -138,7 +138,7 @@ function CountdownTimer({ targetDate, targetTime, homeTeam, awayTeam, homeTeamPl
         {/* Date & Venue */}
         <div className="text-center sm:text-right">
           <div className="text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-300">
-            {formatDate(targetDate)}
+            {formatDate(targetDate, targetTime)}
           </div>
           {venueData && (
             <div className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 mt-1">
