@@ -8,6 +8,7 @@ import Standings from './components/Standings'
 import Knockout from './components/Knockout'
 import Simulation from './components/Simulation'
 import AdminLogin from './components/AdminLogin'
+import CountdownTimer from './components/CountdownTimer'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api'
 
@@ -278,6 +279,66 @@ function App() {
     // (u production-u, admin može mijenjati podatke nakon prijave)
     const effectiveReadOnly = !isAdmin
 
+    // Pronađi prvu sljedeću hrvatsku utakmicu
+    const getNextCroatiaMatch = () => {
+        if (!matches || !teams.length || !playoffs) return null
+
+        // Funkcija za dobivanje play-off pobjednika
+        const getPlayoffWinner = (playoffId) => {
+            if (!playoffs || !playoffs[playoffId]) return null
+            return playoffs[playoffId].winner || null
+        }
+
+        const allMatches = [
+            ...(matches.groupStage || []),
+            ...(matches.knockoutStage?.roundOf32 || []),
+            ...(matches.knockoutStage?.roundOf16 || []),
+            ...(matches.knockoutStage?.quarterFinals || []),
+            ...(matches.knockoutStage?.semiFinals || []),
+            ...(matches.knockoutStage?.thirdPlace ? [matches.knockoutStage.thirdPlace] : []),
+            ...(matches.knockoutStage?.final ? [matches.knockoutStage.final] : [])
+        ]
+
+        const now = new Date()
+        const upcomingCroatiaMatches = allMatches
+            .filter(match => {
+                // Provjeri da li je utakmica odigrana
+                if (match.played || (match.homeScore !== null && match.awayScore !== null)) {
+                    return false
+                }
+
+                // Provjeri play-off pobjednike
+                const homePlayoffWinner = match.homeTeamPlayoff ? getPlayoffWinner(match.homeTeamPlayoff) : null
+                const awayPlayoffWinner = match.awayTeamPlayoff ? getPlayoffWinner(match.awayTeamPlayoff) : null
+
+                // Provjeri da li Hrvatska sudjeluje (direktno ili kroz play-off)
+                const homeTeamId = match.homeTeam || homePlayoffWinner
+                const awayTeamId = match.awayTeam || awayPlayoffWinner
+                const isCroatiaMatch = homeTeamId === 'cro' || awayTeamId === 'cro'
+                
+                if (!isCroatiaMatch) return false
+
+                // Provjeri da li je utakmica u budućnosti
+                if (!match.date || !match.time) return false
+                
+                const [hours, minutes] = match.time.split(':').map(Number)
+                const matchDate = new Date(match.date)
+                matchDate.setHours(hours, minutes, 0, 0)
+
+                return matchDate > now
+            })
+            .sort((a, b) => {
+                // Sortiraj po datumu i vremenu
+                const dateA = new Date(`${a.date}T${a.time}`)
+                const dateB = new Date(`${b.date}T${b.time}`)
+                return dateA - dateB
+            })
+
+        return upcomingCroatiaMatches.length > 0 ? upcomingCroatiaMatches[0] : null
+    }
+
+    const nextCroatiaMatch = getNextCroatiaMatch()
+
     return (
         <div className="min-h-screen flex flex-col w-full max-w-[1920px] mx-auto px-3 sm:px-4 md:px-8 lg:px-12 py-2 sm:py-4">
             <Header 
@@ -289,6 +350,24 @@ function App() {
                 serverAvailable={serverAvailable}
             />
             <Navigation activeTab={activeTab} setActiveTab={setActiveTab} />
+
+            {/* Timer za hrvatske utakmice */}
+            {nextCroatiaMatch && (
+                <div className="w-full px-3 sm:px-4 md:px-8 lg:px-12 -mx-3 sm:-mx-4 md:-mx-8 lg:-mx-12">
+                    <CountdownTimer
+                        targetDate={nextCroatiaMatch.date}
+                        targetTime={nextCroatiaMatch.time}
+                        homeTeam={nextCroatiaMatch.homeTeam}
+                        awayTeam={nextCroatiaMatch.awayTeam}
+                        homeTeamPlayoff={nextCroatiaMatch.homeTeamPlayoff}
+                        awayTeamPlayoff={nextCroatiaMatch.awayTeamPlayoff}
+                        venue={nextCroatiaMatch.venue}
+                        teams={teams}
+                        venues={venues}
+                        playoffs={playoffs}
+                    />
+                </div>
+            )}
 
             <main className="flex-1 w-full py-4 sm:py-6 md:py-8 text-slate-900 dark:text-slate-100">
                 {activeTab === 'groups' && (

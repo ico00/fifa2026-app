@@ -189,7 +189,7 @@ function Knockout({ matches, groupMatches, teams, venues, updateKnockoutMatch, i
       {isReadOnly && (
         <div className="bg-slate-100 dark:bg-slate-800/50 border border-slate-300 dark:border-slate-600 rounded-lg p-2.5 mb-4">
           <p className="text-slate-600 dark:text-slate-400 text-sm font-medium flex items-center gap-1.5">
-            <span className="text-xs">🔒</span> Aplikacija je u read-only modu - ne možete mijenjati podatke.
+            <span className="text-xs">🔒</span> Aplikacija je u read-only modu
           </p>
         </div>
       )}

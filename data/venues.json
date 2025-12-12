@@ -7,7 +7,7 @@
     { "id": "kansas", "city": "Kansas City", "stadium": "Kansas City Stadium", "country": "SAD", "countryCode": "US" },
     { "id": "la", "city": "Los Angeles", "stadium": "Los Angeles Stadium", "country": "SAD", "countryCode": "US" },
     { "id": "miami", "city": "Miami", "stadium": "Miami Stadium", "country": "SAD", "countryCode": "US" },
-    { "id": "newyork", "city": "New York", "stadium": "New York New Jersey Stadium", "country": "SAD", "countryCode": "US" },
+    { "id": "newyork", "city": "New York New Jersey", "stadium": "New York New Jersey Stadium", "country": "SAD", "countryCode": "US" },
     { "id": "philly", "city": "Philadelphia", "stadium": "Philadelphia Stadium", "country": "SAD", "countryCode": "US" },
     { "id": "sanfran", "city": "San Francisco", "stadium": "San Francisco Bay Area Stadium", "country": "SAD", "countryCode": "US" },
     { "id": "seattle", "city": "Seattle", "stadium": "Seattle Stadium", "country": "SAD", "countryCode": "US" },
