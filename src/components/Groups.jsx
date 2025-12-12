@@ -12,11 +12,11 @@ function Groups({ groups, teams, playoffs }) {
 
   return (
     <div className="flex flex-col gap-6 w-full animate-fade-in-up">
-      <h2 className="text-3xl md:text-4xl font-black text-fifa-gold tracking-widest flex items-center gap-3 drop-shadow-md">
-        <span>📋</span> GRUPE SVJETSKOG PRVENSTVA
+      <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-fifa-gold tracking-widest flex items-center gap-2 sm:gap-3 drop-shadow-md">
+        <span>📋</span> <span className="break-words">GRUPE SVJETSKOG PRVENSTVA</span>
       </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 w-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6 w-full">
         {Object.entries(groups).map(([groupKey, group]) => {
           const hasHighlight = group.teams.some(teamId => {
             const team = getTeamById(teamId)

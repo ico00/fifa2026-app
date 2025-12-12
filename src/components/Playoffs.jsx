@@ -51,13 +51,13 @@ function Playoffs({ playoffs, teams, setPlayoffWinner, isReadOnly }) {
 
   return (
     <div className={`flex flex-col gap-6 w-full animate-fade-in-up transition-opacity duration-500 ${allWinnersSelected ? 'opacity-50 grayscale-[0.3] pointer-events-none' : ''}`}>
-      <h2 className="text-3xl md:text-4xl font-black text-fifa-gold tracking-widest flex items-center gap-3 drop-shadow-md">
-        <span>🎯</span> PLAY-OFF KVALIFIKACIJE
+      <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-fifa-gold tracking-widest flex items-center gap-2 sm:gap-3 drop-shadow-md">
+        <span>🎯</span> <span className="break-words">PLAY-OFF KVALIFIKACIJE</span>
       </h2>
       {isReadOnly ? (
-        <div className="bg-amber-50 dark:bg-amber-900/20 border-2 border-amber-400 dark:border-amber-600 rounded-lg p-4 mb-6">
-          <p className="text-amber-800 dark:text-amber-200 font-semibold flex items-center gap-2">
-            <span>🔒</span> Aplikacija je u read-only modu - ne možete mijenjati podatke.
+        <div className="bg-slate-100 dark:bg-slate-800/50 border border-slate-300 dark:border-slate-600 rounded-lg p-2.5 mb-4">
+          <p className="text-slate-600 dark:text-slate-400 text-sm font-medium flex items-center gap-1.5">
+            <span className="text-xs">🔒</span> Aplikacija je u read-only modu - ne možete mijenjati podatke.
           </p>
         </div>
       ) : (

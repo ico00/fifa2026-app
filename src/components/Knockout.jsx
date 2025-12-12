@@ -182,14 +182,14 @@ function Knockout({ matches, groupMatches, teams, venues, updateKnockoutMatch, i
 
   return (
     <div className="flex flex-col gap-6 w-full animate-fade-in-up">
-      <h2 className="text-3xl md:text-4xl font-black text-fifa-gold tracking-widest flex items-center gap-3 drop-shadow-md">
-        <span>🏆</span> KNOCKOUT FAZA
+      <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-fifa-gold tracking-widest flex items-center gap-2 sm:gap-3 drop-shadow-md">
+        <span>🏆</span> <span className="break-words">KNOCKOUT FAZA</span>
       </h2>
 
       {isReadOnly && (
-        <div className="bg-amber-50 dark:bg-amber-900/20 border-2 border-amber-400 dark:border-amber-600 rounded-lg p-4">
-          <p className="text-amber-800 dark:text-amber-200 font-semibold flex items-center gap-2">
-            <span>🔒</span> Aplikacija je u read-only modu - ne možete mijenjati podatke.
+        <div className="bg-slate-100 dark:bg-slate-800/50 border border-slate-300 dark:border-slate-600 rounded-lg p-2.5 mb-4">
+          <p className="text-slate-600 dark:text-slate-400 text-sm font-medium flex items-center gap-1.5">
+            <span className="text-xs">🔒</span> Aplikacija je u read-only modu - ne možete mijenjati podatke.
           </p>
         </div>
       )}
@@ -204,12 +204,6 @@ function Knockout({ matches, groupMatches, teams, venues, updateKnockoutMatch, i
           <br />
           Ukupno 32 reprezentacije ulaze u knockout fazu.
         </p>
-        <div className="bg-yellow-50 dark:bg-yellow-900/10 p-4 rounded-lg inline-block text-sm text-slate-700 dark:text-slate-300 border border-yellow-200 dark:border-yellow-700/50">
-          <strong className="text-yellow-600 dark:text-yellow-500 font-bold block mb-1">💡 Automatska logika:</strong>
-          Parovi se automatski određuju na temelju finalnih pozicija u grupama.
-          <br />
-          Pobjednici prethodnih rundi automatski napreduju u sljedeću rundu.
-        </div>
 
         <div className="flex flex-wrap justify-center gap-4 mt-8">
           <div className="bg-slate-100 dark:bg-slate-700/50 p-4 rounded-lg min-w-[120px]">
@@ -245,7 +239,7 @@ function Knockout({ matches, groupMatches, teams, venues, updateKnockoutMatch, i
 
           return (
             <div key={round.key} className="bg-white dark:bg-slate-800 rounded-xl p-4 md:p-8 shadow-lg border border-slate-200 dark:border-slate-700">
-              <h3 className="text-3xl font-black text-center text-fifa-blue dark:text-fifa-gold mb-8 uppercase tracking-widest relative pb-4">
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-center text-fifa-blue dark:text-fifa-gold mb-6 sm:mb-8 uppercase tracking-widest relative pb-3 sm:pb-4">
                 {round.name}
                 <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-fifa-gold rounded-full"></span>
               </h3>
@@ -261,7 +255,7 @@ function Knockout({ matches, groupMatches, teams, venues, updateKnockoutMatch, i
                     const roundKey = getRoundKey(match)
 
                     return (
-                      <div key={match.id || index} className="bg-slate-50 hover:bg-white dark:bg-slate-900/50 dark:hover:bg-slate-900 border border-slate-200 dark:border-slate-700 hover:border-fifa-blue dark:hover:border-fifa-gold rounded-xl p-4 w-full max-w-[500px] transition-all duration-300 hover:shadow-lg flex flex-col gap-3 group relative hover:z-30">
+                      <div key={match.id || index} className="bg-slate-50 hover:bg-white dark:bg-slate-900/50 dark:hover:bg-slate-900 border border-slate-200 dark:border-slate-700 hover:border-fifa-blue dark:hover:border-fifa-gold rounded-xl p-4 w-full max-w-[500px] xl:max-w-[550px] 2xl:max-w-[600px] transition-all duration-300 hover:shadow-lg flex flex-col gap-3 group relative hover:z-30">
                         {match.matchCode && (
                           <div className="text-center text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">{match.matchCode}</div>
                         )}

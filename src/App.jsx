@@ -279,7 +279,7 @@ function App() {
     const effectiveReadOnly = !isAdmin
 
     return (
-        <div className="min-h-screen flex flex-col w-full max-w-[1600px] mx-auto px-4 md:px-8 py-4">
+        <div className="min-h-screen flex flex-col w-full max-w-[1920px] mx-auto px-3 sm:px-4 md:px-8 lg:px-12 py-2 sm:py-4">
             <Header 
                 darkMode={darkMode} 
                 setDarkMode={setDarkMode}
@@ -290,7 +290,7 @@ function App() {
             />
             <Navigation activeTab={activeTab} setActiveTab={setActiveTab} />
 
-            <main className="flex-1 w-full py-8 text-slate-900 dark:text-slate-100">
+            <main className="flex-1 w-full py-4 sm:py-6 md:py-8 text-slate-900 dark:text-slate-100">
                 {activeTab === 'groups' && (
                     <Groups
                         groups={groups}
@@ -351,9 +351,9 @@ function App() {
                 )}
             </main>
 
-            <footer className="text-center py-8 text-slate-500 dark:text-slate-400 border-t border-slate-200 dark:border-slate-800 mt-auto">
-                <p className="mb-2 font-medium">🏆 FIFA World Cup 2026™ - SAD 🇺🇸 | Kanada 🇨🇦 | Meksiko 🇲🇽</p>
-                <p className="font-bold text-red-600 dark:text-red-500 animate-pulse text-lg">🇭🇷 Idemo Vatreni! 🇭🇷</p>
+            <footer className="text-center py-4 sm:py-6 md:py-8 text-slate-500 dark:text-slate-400 border-t border-slate-200 dark:border-slate-800 mt-auto px-2">
+                <p className="mb-2 font-medium text-sm sm:text-base">🏆 FIFA World Cup 2026™ - SAD 🇺🇸 | Kanada 🇨🇦 | Meksiko 🇲🇽</p>
+                <p className="font-bold text-red-600 dark:text-red-500 animate-pulse text-base sm:text-lg">🇭🇷 Idemo Vatreni! 🇭🇷</p>
             </footer>
 
             {/* Admin Login Modal */}

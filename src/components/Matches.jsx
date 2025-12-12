@@ -197,14 +197,14 @@ function Matches({ matches, teams, venues, groups, playoffs, updateMatch, isRead
 
   return (
     <div className="flex flex-col gap-6 w-full animate-fade-in-up">
-      <h2 className="text-3xl md:text-4xl font-black text-fifa-gold tracking-widest flex items-center gap-3 drop-shadow-md">
-        <span>⚽</span> RASPORED UTAKMICA
+      <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-fifa-gold tracking-widest flex items-center gap-2 sm:gap-3 drop-shadow-md">
+        <span>⚽</span> <span className="break-words">RASPORED UTAKMICA</span>
       </h2>
 
       {isReadOnly && (
-        <div className="bg-amber-50 dark:bg-amber-900/20 border-2 border-amber-400 dark:border-amber-600 rounded-lg p-4 mb-6">
-          <p className="text-amber-800 dark:text-amber-200 font-semibold flex items-center gap-2">
-            <span>🔒</span> Aplikacija je u read-only modu - ne možete mijenjati podatke.
+        <div className="bg-slate-100 dark:bg-slate-800/50 border border-slate-300 dark:border-slate-600 rounded-lg p-2.5 mb-4">
+          <p className="text-slate-600 dark:text-slate-400 text-sm font-medium flex items-center gap-1.5">
+            <span className="text-xs">🔒</span> Aplikacija je u read-only modu - ne možete mijenjati podatke.
           </p>
         </div>
       )}
@@ -261,7 +261,7 @@ function Matches({ matches, teams, venues, groups, playoffs, updateMatch, isRead
               <span className="text-xl">📅</span>
               <span className="font-bold text-slate-700 dark:text-slate-200 capitalize">{formatDate(date)}</span>
             </div>
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4">
               {dateMatches.sort((a, b) => a.time.localeCompare(b.time)).map(renderMatch)}
             </div>
           </div>
@@ -280,7 +280,7 @@ function Matches({ matches, teams, venues, groups, playoffs, updateMatch, isRead
                     <span className="text-slate-400">📅</span>
                     <span className="font-semibold text-slate-500 dark:text-slate-400 text-sm capitalize">{formatDate(date)}</span>
                   </div>
-                  <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4">
                     {dateMatches.sort((a, b) => a.time.localeCompare(b.time)).map(renderMatch)}
                   </div>
                 </div>
