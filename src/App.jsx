@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import Header from './components/Header'
 import Navigation from './components/Navigation'
+import Home from './components/Home'
 import Groups from './components/Groups'
 import Playoffs from './components/Playoffs'
 import Matches from './components/Matches'
@@ -25,7 +26,7 @@ function App() {
     // U production-u, aplikacija je read-only SAMO ako korisnik nije admin
     // (ne više automatski read-only za sve u production-u)
 
-    const [activeTab, setActiveTab] = useState('playoffs')
+    const [activeTab, setActiveTab] = useState('home')
     const [darkMode, setDarkMode] = useState(() => {
         if (typeof window !== 'undefined') {
             return localStorage.getItem('theme') === 'dark' ||
@@ -265,12 +266,12 @@ function App() {
 
     if (loading) {
         return (
-            <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white">
-                <div className="text-center animate-bounce">
-                    <div className="text-6xl mb-4 drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]">⚽</div>
+            <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white px-4">
+                <div className="text-center animate-bounce mb-6">
+                    <div className="text-4xl sm:text-5xl md:text-6xl mb-4 drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]">⚽</div>
                 </div>
-                <h2 className="text-4xl font-black tracking-widest text-fifa-gold mb-2 drop-shadow-md font-sans">FIFA World Cup 2026</h2>
-                <p className="text-slate-400 text-lg tracking-wide uppercase">Učitavanje...</p>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-widest text-fifa-gold mb-3 drop-shadow-md font-sans text-center">FIFA World Cup 2026</h2>
+                <p className="text-slate-400 text-sm sm:text-base md:text-lg tracking-wide uppercase">UČITAVANJE...</p>
             </div>
         )
     }
@@ -351,25 +352,31 @@ function App() {
             />
             <Navigation activeTab={activeTab} setActiveTab={setActiveTab} />
 
-            {/* Timer za hrvatske utakmice */}
-            {nextCroatiaMatch && (
-                <div className="w-full px-3 sm:px-4 md:px-8 lg:px-12 -mx-3 sm:-mx-4 md:-mx-8 lg:-mx-12">
-                    <CountdownTimer
-                        targetDate={nextCroatiaMatch.date}
-                        targetTime={nextCroatiaMatch.time}
-                        homeTeam={nextCroatiaMatch.homeTeam}
-                        awayTeam={nextCroatiaMatch.awayTeam}
-                        homeTeamPlayoff={nextCroatiaMatch.homeTeamPlayoff}
-                        awayTeamPlayoff={nextCroatiaMatch.awayTeamPlayoff}
-                        venue={nextCroatiaMatch.venue}
-                        teams={teams}
-                        venues={venues}
-                        playoffs={playoffs}
-                    />
+            {/* Timer za hrvatske utakmice - ne prikazuj na Home tabu */}
+            {nextCroatiaMatch && activeTab !== 'home' && (
+                <div className="w-full -mx-3 sm:-mx-4 md:-mx-8 lg:-mx-12">
+                    <div className="px-3 sm:px-4 md:px-8 lg:px-12 w-full">
+                        <CountdownTimer
+                            targetDate={nextCroatiaMatch.date}
+                            targetTime={nextCroatiaMatch.time}
+                            homeTeam={nextCroatiaMatch.homeTeam}
+                            awayTeam={nextCroatiaMatch.awayTeam}
+                            homeTeamPlayoff={nextCroatiaMatch.homeTeamPlayoff}
+                            awayTeamPlayoff={nextCroatiaMatch.awayTeamPlayoff}
+                            venue={nextCroatiaMatch.venue}
+                            teams={teams}
+                            venues={venues}
+                            playoffs={playoffs}
+                        />
+                    </div>
                 </div>
             )}
 
             <main className="flex-1 w-full py-4 sm:py-6 md:py-8 text-slate-900 dark:text-slate-100">
+                {activeTab === 'home' && (
+                    <Home />
+                )}
+
                 {activeTab === 'groups' && (
                     <Groups
                         groups={groups}
@@ -431,7 +438,8 @@ function App() {
             </main>
 
             <footer className="text-center py-4 sm:py-6 md:py-8 text-slate-500 dark:text-slate-400 border-t border-slate-200 dark:border-slate-800 mt-auto px-2">
-                <p className="mb-2 font-medium text-sm sm:text-base">🏆 FIFA World Cup 2026™ - SAD 🇺🇸 | Kanada 🇨🇦 | Meksiko 🇲🇽</p>
+                <p className="mb-2 font-medium text-sm sm:text-base">🏆 FIFA World Cup 2026™</p>
+                <p className="mb-2 font-medium text-sm sm:text-base">SAD 🇺🇸 | Kanada 🇨🇦 | Meksiko 🇲🇽</p>
                 <p className="font-bold text-red-600 dark:text-red-500 animate-pulse text-base sm:text-lg">🇭🇷 Idemo Vatreni! 🇭🇷</p>
             </footer>
 

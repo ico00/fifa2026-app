@@ -1,5 +1,6 @@
 function Navigation({ activeTab, setActiveTab }) {
   const tabs = [
+    { id: 'home', label: 'Početna', icon: '🏠' },
     { id: 'playoffs', label: 'Play-Off', icon: '🎯' },
     { id: 'groups', label: 'Grupe', icon: '📋' },
     { id: 'matches', label: 'Utakmice', icon: '⚽' },

@@ -21,26 +21,26 @@ function Header({ darkMode, setDarkMode, isAdmin, onAdminClick, onLogout, server
         </div>
 
         {/* Main Title */}
-        <div className="flex items-center gap-4">
-          <h1 className="font-sans text-2xl sm:text-3xl md:text-5xl lg:text-6xl 2xl:text-7xl font-black tracking-widest text-fifa-blue dark:text-fifa-gold drop-shadow-md px-2">
+        <div className="flex items-center gap-4 relative w-full px-10 sm:px-16 md:px-20">
+          <h1 className="font-sans text-2xl sm:text-3xl md:text-5xl lg:text-6xl 2xl:text-7xl font-black tracking-widest text-fifa-blue dark:text-fifa-gold drop-shadow-md px-2 mx-auto text-center">
             FIFA WORLD CUP 2026
           </h1>
 
           {/* Theme Toggle Button */}
           <button
             onClick={() => setDarkMode(!darkMode)}
-            className="absolute right-2 sm:right-4 top-2 sm:top-4 p-2 sm:p-2.5 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-all duration-300 border border-white/10 hover:border-fifa-gold/50 group touch-manipulation"
+            className="absolute right-1 sm:right-4 top-1 sm:top-4 p-1.5 sm:p-2 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-all duration-300 border border-white/10 hover:border-fifa-gold/50 group touch-manipulation z-10"
             title={darkMode ? "Prebaci na svijetlu temu" : "Prebaci na tamnu temu"}
           >
             {darkMode ? (
-              <span className="text-xl group-hover:rotate-90 transition-transform duration-500 block">☀️</span>
+              <span className="text-sm sm:text-base group-hover:rotate-90 transition-transform duration-500 block">☀️</span>
             ) : (
-              <span className="text-xl group-hover:-rotate-12 transition-transform duration-500 block">🌙</span>
+              <span className="text-sm sm:text-base group-hover:-rotate-12 transition-transform duration-500 block">🌙</span>
             )}
           </button>
 
           {/* Admin Button */}
-          <div className="absolute left-2 sm:left-4 top-2 sm:top-4 flex items-center gap-1.5 sm:gap-2 flex-wrap">
+          <div className="absolute left-1 sm:left-4 top-1 sm:top-4 flex items-center gap-1.5 sm:gap-2 flex-wrap z-10">
             {isAdmin ? (
               <button
                 onClick={onLogout}

@@ -72,7 +72,7 @@ function CountdownTimer({ targetDate, targetTime, homeTeam, awayTeam, homeTeamPl
   }
 
   return (
-    <div className="relative bg-gradient-to-r from-fifa-red/10 via-fifa-red/5 to-fifa-blue/10 dark:from-fifa-red/20 dark:via-fifa-red/10 dark:to-fifa-blue/20 border-2 border-fifa-red/30 dark:border-fifa-red/50 rounded-xl p-4 sm:p-5 mb-4 shadow-lg overflow-hidden">
+    <div className="relative w-full bg-gradient-to-r from-fifa-red/10 via-fifa-red/5 to-fifa-blue/10 dark:from-fifa-red/20 dark:via-fifa-red/10 dark:to-fifa-blue/20 border-2 border-fifa-red/30 dark:border-fifa-red/50 rounded-xl p-4 sm:p-5 mb-4 shadow-lg overflow-hidden">
       {/* Hrvatski šahovni uzorak u pozadini */}
       <div className="absolute inset-0 opacity-[0.08] dark:opacity-[0.12] pointer-events-none">
         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
