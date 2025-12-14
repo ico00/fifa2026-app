@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Orbitron:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap');
 
 @import "tailwindcss";
 
@@ -13,6 +13,11 @@
 @layer base {
   body {
     @apply font-['Poppins'] bg-slate-50 text-slate-900 transition-colors duration-300 min-h-screen overflow-x-hidden;
+  }
+
+  /* Orbitron font za naslove */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Orbitron', sans-serif;
   }
 
   /* Dark mode - mnogo tamnija pozadina */

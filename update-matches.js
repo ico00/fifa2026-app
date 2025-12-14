@@ -24,9 +24,9 @@ const cityToVenue = {
 // Mapiranje naziva reprezentacija na team ID-eve
 const teamNameToId = {
   'Meksiko': 'mex',
-  'Južnoafrička Republika': 'rsa',
+  'JAR': 'rsa',
+  'Južnoafrička Republika': 'rsa', // Također podržava stari naziv
   'Južna Afrika': 'rsa', // Također podržava stari naziv
-  'Južnoafrička Republika': 'rsa',
   'Južna Koreja': 'kor',
   'Kanada': 'can',
   'Katar': 'qat',

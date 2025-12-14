@@ -137,7 +137,7 @@ function Home() {
         {/* Sadržaj hero sekcije */}
         <div className="relative z-10 text-center px-4 sm:px-6 md:px-8 max-w-4xl mx-auto">
           {/* Glavni naslov - pulsirajući tekst */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6 sm:mb-8 drop-shadow-2xl animate-pulse-slow">
+          <h1 className="font-['Orbitron'] text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6 sm:mb-8 drop-shadow-2xl animate-pulse-slow">
             HRVATSKA JE SPREMNA
           </h1>
 

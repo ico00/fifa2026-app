@@ -77,7 +77,7 @@ function Playoffs({ playoffs, teams, setPlayoffWinner, isReadOnly }) {
             >
               <div className="bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-900 p-4 flex flex-col gap-1 border-b border-slate-200 dark:border-slate-700">
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">{playoff.type}</span>
-                <span className="text-2xl font-black tracking-widest font-sans text-slate-700 dark:text-slate-200">{playoff.name}</span>
+                <span className="text-2xl font-black tracking-widest text-slate-700 dark:text-slate-200">{playoff.name}</span>
               </div>
 
               <div className="p-4 flex flex-col gap-2 flex-grow">

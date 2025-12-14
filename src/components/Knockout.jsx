@@ -195,7 +195,7 @@ function Knockout({ matches, groupMatches, teams, venues, updateKnockoutMatch, i
       )}
 
       <div className="bg-white dark:bg-slate-800 rounded-xl p-6 md:p-8 shadow-lg border border-slate-200 dark:border-slate-700 text-center mb-8">
-        <h3 className="text-2xl font-bold text-fifa-gold mb-4 tracking-wide font-sans">
+        <h3 className="text-2xl font-bold text-fifa-gold mb-4 tracking-wide">
           Format natjecanja
         </h3>
         <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed max-w-3xl mx-auto">

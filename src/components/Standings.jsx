@@ -107,53 +107,53 @@ function Standings({ standings, teams, bestThirdPlaced = [], groups = {}, playof
                 {hasCroatia && <span className="text-xl font-bold">🇭🇷 VATRENI!</span>}
               </div>
 
-              <div className="overflow-x-auto bg-white dark:bg-slate-800 -mx-2 sm:mx-0">
-                <table className="w-full text-sm sm:text-sm">
-                  <thead className="bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700">
+              <div className="bg-white dark:bg-slate-800/50 -mx-2 sm:mx-0 pr-2 sm:pr-0">
+                <table className="w-full table-fixed text-xs sm:text-sm">
+                  <thead className="bg-slate-50 dark:bg-slate-800/70 border-b border-slate-200 dark:border-fifa-gold/20">
                     <tr>
-                      <th className="p-2 sm:p-3 pl-3 sm:pl-4 text-left w-2/5 font-semibold text-slate-500 dark:text-slate-400 text-xs sm:text-sm uppercase tracking-wide">REPREZENTACIJA</th>
-                      <th className="p-2 sm:p-3 text-center font-semibold text-slate-500 dark:text-slate-400 text-xs sm:text-sm uppercase tracking-wide">OU</th>
-                      <th className="p-2 sm:p-3 text-center font-semibold text-slate-500 dark:text-slate-400 text-xs sm:text-sm uppercase tracking-wide">P</th>
-                      <th className="p-2 sm:p-3 text-center font-semibold text-slate-500 dark:text-slate-400 text-xs sm:text-sm uppercase tracking-wide">N</th>
-                      <th className="p-2 sm:p-3 text-center font-semibold text-slate-500 dark:text-slate-400 text-xs sm:text-sm uppercase tracking-wide">I</th>
-                      <th className="p-2 sm:p-3 text-center font-semibold text-slate-500 dark:text-slate-400 text-xs sm:text-sm uppercase tracking-wide hidden sm:table-cell">G+</th>
-                      <th className="p-2 sm:p-3 text-center font-semibold text-slate-500 dark:text-slate-400 text-xs sm:text-sm uppercase tracking-wide hidden sm:table-cell">G-</th>
-                      <th className="p-2 sm:p-3 text-center font-semibold text-slate-500 dark:text-slate-400 text-xs sm:text-sm uppercase tracking-wide">GR</th>
-                      <th className="p-2 sm:p-3 text-center font-bold text-slate-700 dark:text-slate-200 text-xs sm:text-sm uppercase tracking-wide">BOD</th>
+                      <th className="p-1.5 sm:p-2 md:p-3 pl-3 sm:pl-4 md:pl-4 text-left font-semibold text-slate-500 dark:text-fifa-gold text-xs sm:text-xs md:text-sm uppercase tracking-wide w-[40%] sm:w-[45%] md:w-[42%]">REPREZENTACIJA</th>
+                      <th className="py-1.5 sm:py-2 md:py-3 px-0.5 sm:px-1 md:px-1.5 text-center font-semibold text-slate-500 dark:text-fifa-gold text-xs sm:text-xs md:text-sm uppercase tracking-wide whitespace-nowrap w-[7.5%] md:w-[7%]">OU</th>
+                      <th className="py-1.5 sm:py-2 md:py-3 px-0.5 sm:px-1 md:px-1.5 text-center font-semibold text-slate-500 dark:text-fifa-gold text-xs sm:text-xs md:text-sm uppercase tracking-wide whitespace-nowrap w-[7.5%] md:w-[7%]">P</th>
+                      <th className="py-1.5 sm:py-2 md:py-3 px-0.5 sm:px-1 md:px-1.5 text-center font-semibold text-slate-500 dark:text-fifa-gold text-xs sm:text-xs md:text-sm uppercase tracking-wide whitespace-nowrap w-[7.5%] md:w-[7%]">N</th>
+                      <th className="py-1.5 sm:py-2 md:py-3 px-0.5 sm:px-1 md:px-1.5 text-center font-semibold text-slate-500 dark:text-fifa-gold text-xs sm:text-xs md:text-sm uppercase tracking-wide whitespace-nowrap w-[7.5%] md:w-[7%]">I</th>
+                      <th className="py-1.5 sm:py-2 md:py-3 px-0.5 sm:px-1 md:px-1.5 text-center font-semibold text-slate-500 dark:text-fifa-gold text-xs sm:text-xs md:text-sm uppercase tracking-wide hidden sm:table-cell whitespace-nowrap w-[7.5%] md:w-[7%]">G+</th>
+                      <th className="py-1.5 sm:py-2 md:py-3 px-0.5 sm:px-1 md:px-1.5 text-center font-semibold text-slate-500 dark:text-fifa-gold text-xs sm:text-xs md:text-sm uppercase tracking-wide hidden sm:table-cell whitespace-nowrap w-[7.5%] md:w-[7%]">G-</th>
+                      <th className="py-1.5 sm:py-2 md:py-3 px-0.5 sm:px-1 md:px-1.5 text-center font-semibold text-slate-500 dark:text-fifa-gold text-xs sm:text-xs md:text-sm uppercase tracking-wide whitespace-nowrap w-[7.5%] md:w-[7%]">GR</th>
+                      <th className="py-1.5 sm:py-2 md:py-3 px-0.5 sm:px-1 md:px-1.5 text-center font-bold text-slate-700 dark:text-fifa-gold text-xs sm:text-xs md:text-sm uppercase tracking-wide whitespace-nowrap w-[8%] md:w-[8%]">BOD</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-100 dark:divide-slate-700/50">
+                  <tbody>
                     {displayItems.map((item, displayIndex) => {
                       if (item.type === 'playoff') {
                         // Play-off placeholder na pozicijama 1 ili 2 prolazi u knockout (zeleno)
                         const isPlayoffQualified = item.position <= 2
                         return (
-                          <tr key={`playoff-${groupKey}-${item.position}`} className={`${isPlayoffQualified ? 'bg-green-50/50 dark:bg-green-900/10' : ''}`}>
-                            <td className="p-2 sm:p-3 pl-3 sm:pl-4">
-                              <div className="flex items-center gap-2 sm:gap-3">
-                                <span className={`
-                                  w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center rounded-full text-xs sm:text-sm font-bold shrink-0 flex-shrink-0
-                                  ${isPlayoffQualified
-                                    ? 'bg-green-500 text-white shadow-sm'
-                                    : 'bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400'
-                                  }
-                                `}>
-                                  {item.position}
-                                </span>
-                                <span className="text-base sm:text-xl shrink-0">❓</span>
-                                <span className="italic font-semibold text-fifa-gold text-[10px] sm:text-xs md:text-sm truncate">
-                                  W {playoff?.name || `Play-Off ${playoffSlot}`}
-                                </span>
-                              </div>
-                            </td>
-                            <td className="p-2 sm:p-3 text-center text-slate-400">-</td>
-                            <td className="p-2 sm:p-3 text-center text-slate-400">-</td>
-                            <td className="p-2 sm:p-3 text-center text-slate-400">-</td>
-                            <td className="p-2 sm:p-3 text-center text-slate-400">-</td>
-                            <td className="p-2 sm:p-3 text-center text-slate-400 hidden sm:table-cell">-</td>
-                            <td className="p-2 sm:p-3 text-center text-slate-400 hidden sm:table-cell">-</td>
-                            <td className="p-2 sm:p-3 text-center text-slate-400">-</td>
-                            <td className="p-2 sm:p-3 text-center font-bold text-slate-400">-</td>
+                          <tr key={`playoff-${groupKey}-${item.position}`} className={`border-b border-white/10 dark:border-white/5 ${isPlayoffQualified ? 'bg-green-50/50 dark:bg-green-900/10' : ''}`}>
+                          <td className="p-1.5 sm:p-2 md:p-3 pl-3 sm:pl-4 md:pl-4">
+                            <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3 min-w-0">
+                              <span className={`
+                                w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 flex items-center justify-center rounded-full text-[10px] sm:text-xs md:text-sm font-bold shrink-0 flex-shrink-0
+                                ${isPlayoffQualified
+                                  ? 'bg-green-500 text-white shadow-sm'
+                                  : 'bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400'
+                                }
+                              `}>
+                                {item.position}
+                              </span>
+                              <span className="text-sm sm:text-base md:text-xl shrink-0">❓</span>
+                              <span className="italic font-semibold text-fifa-gold text-[10px] sm:text-xs md:text-xs lg:text-sm break-words min-w-0">
+                                W {playoff?.name || `Play-Off ${playoffSlot}`}
+                              </span>
+                            </div>
+                          </td>
+                          <td className="py-1.5 sm:py-2 md:py-3 px-0.5 sm:px-1 md:px-1.5 text-center text-slate-400 dark:text-slate-200 text-xs sm:text-sm">-</td>
+                          <td className="py-1.5 sm:py-2 md:py-3 px-0.5 sm:px-1 md:px-1.5 text-center text-slate-400 dark:text-slate-200 text-xs sm:text-sm">-</td>
+                          <td className="py-1.5 sm:py-2 md:py-3 px-0.5 sm:px-1 md:px-1.5 text-center text-slate-400 dark:text-slate-200 text-xs sm:text-sm">-</td>
+                          <td className="py-1.5 sm:py-2 md:py-3 px-0.5 sm:px-1 md:px-1.5 text-center text-slate-400 dark:text-slate-200 text-xs sm:text-sm">-</td>
+                          <td className="py-1.5 sm:py-2 md:py-3 px-0.5 sm:px-1 md:px-1.5 text-center text-slate-400 dark:text-slate-200 text-xs sm:text-sm hidden sm:table-cell">-</td>
+                          <td className="py-1.5 sm:py-2 md:py-3 px-0.5 sm:px-1 md:px-1.5 text-center text-slate-400 dark:text-slate-200 text-xs sm:text-sm hidden sm:table-cell">-</td>
+                          <td className="py-1.5 sm:py-2 md:py-3 px-0.5 sm:px-1 md:px-1.5 text-center text-slate-400 dark:text-slate-200 text-xs sm:text-sm">-</td>
+                          <td className="py-1.5 sm:py-2 md:py-3 px-0.5 sm:px-1 md:px-1.5 text-center font-bold text-slate-400 dark:text-slate-200 text-xs sm:text-sm">-</td>
                           </tr>
                         )
                       }
@@ -172,15 +172,15 @@ function Standings({ standings, teams, bestThirdPlaced = [], groups = {}, playof
                         <tr
                           key={teamData.id}
                           className={`
-                            transition-colors hover:bg-slate-50 dark:hover:bg-slate-700/30
+                            border-b border-white/10 dark:border-white/5 transition-colors hover:bg-slate-50 dark:hover:bg-slate-700/50
                             ${isQualified ? 'bg-green-50/50 dark:bg-green-900/10' : ''} 
                             ${isCroatia ? 'bg-gradient-to-r from-fifa-red/5 via-transparent to-transparent' : ''}
                           `}
                         >
-                          <td className="p-2 sm:p-3 pl-3 sm:pl-4">
-                            <div className="flex items-center gap-2 sm:gap-3">
+                          <td className="p-1.5 sm:p-2 md:p-3 pl-3 sm:pl-4 md:pl-4">
+                            <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3 min-w-0">
                               <span className={`
-                                w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center rounded-full text-xs sm:text-sm font-bold shrink-0 flex-shrink-0
+                                w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 flex items-center justify-center rounded-full text-[10px] sm:text-xs md:text-sm font-bold shrink-0 flex-shrink-0
                                 ${isBestThirdPlaced
                                   ? 'bg-blue-500 text-white shadow-sm'
                                   : isQualified
@@ -191,24 +191,24 @@ function Standings({ standings, teams, bestThirdPlaced = [], groups = {}, playof
                                 {displayPosition}
                               </span>
                               {team && <Flag code={team.code} size="sm" className="shrink-0" />}
-                              <span className={`font-semibold text-xs sm:text-sm md:text-base truncate ${isCroatia ? 'text-fifa-red dark:text-fifa-gold font-bold' : 'text-slate-700 dark:text-slate-200'}`}>
+                              <span className={`font-semibold text-[10px] sm:text-xs md:text-sm lg:text-base break-words min-w-0 ${isCroatia ? 'text-fifa-red dark:text-fifa-gold font-bold' : 'text-slate-700 dark:text-slate-200'}`}>
                                 {teamData.name}
                                 {isCroatia && ' 🔥'}
                               </span>
                             </div>
                           </td>
-                          <td className="p-2 sm:p-3 text-center text-slate-600 dark:text-slate-400 text-sm sm:text-base font-medium">{teamData.played}</td>
-                          <td className="p-2 sm:p-3 text-center text-slate-600 dark:text-slate-400 text-sm sm:text-base font-medium">{teamData.won}</td>
-                          <td className="p-2 sm:p-3 text-center text-slate-600 dark:text-slate-400 text-sm sm:text-base font-medium">{teamData.drawn}</td>
-                          <td className="p-2 sm:p-3 text-center text-slate-600 dark:text-slate-400 text-sm sm:text-base font-medium">{teamData.lost}</td>
-                          <td className="p-2 sm:p-3 text-center text-slate-600 dark:text-slate-400 text-sm sm:text-base font-medium hidden sm:table-cell">{teamData.goalsFor}</td>
-                          <td className="p-2 sm:p-3 text-center text-slate-600 dark:text-slate-400 text-sm sm:text-base font-medium hidden sm:table-cell">{teamData.goalsAgainst}</td>
-                          <td className={`p-2 sm:p-3 text-center font-bold text-sm sm:text-base ${teamData.goalDifference > 0 ? 'text-green-600 dark:text-green-400' :
-                            teamData.goalDifference < 0 ? 'text-red-500' : 'text-slate-500'
+                          <td className="py-1.5 sm:py-2 md:py-3 px-0.5 sm:px-1 md:px-1.5 text-center text-slate-600 dark:text-slate-200 text-xs sm:text-sm font-medium whitespace-nowrap">{teamData.played}</td>
+                          <td className="py-1.5 sm:py-2 md:py-3 px-0.5 sm:px-1 md:px-1.5 text-center text-slate-600 dark:text-slate-200 text-xs sm:text-sm font-medium whitespace-nowrap">{teamData.won}</td>
+                          <td className="py-1.5 sm:py-2 md:py-3 px-0.5 sm:px-1 md:px-1.5 text-center text-slate-600 dark:text-slate-200 text-xs sm:text-sm font-medium whitespace-nowrap">{teamData.drawn}</td>
+                          <td className="py-1.5 sm:py-2 md:py-3 px-0.5 sm:px-1 md:px-1.5 text-center text-slate-600 dark:text-slate-200 text-xs sm:text-sm font-medium whitespace-nowrap">{teamData.lost}</td>
+                          <td className="py-1.5 sm:py-2 md:py-3 px-0.5 sm:px-1 md:px-1.5 text-center text-slate-600 dark:text-slate-200 text-xs sm:text-sm font-medium hidden sm:table-cell whitespace-nowrap">{teamData.goalsFor}</td>
+                          <td className="py-1.5 sm:py-2 md:py-3 px-0.5 sm:px-1 md:px-1.5 text-center text-slate-600 dark:text-slate-200 text-xs sm:text-sm font-medium hidden sm:table-cell whitespace-nowrap">{teamData.goalsAgainst}</td>
+                          <td className={`py-1.5 sm:py-2 md:py-3 px-0.5 sm:px-1 md:px-1.5 text-center font-bold text-xs sm:text-sm whitespace-nowrap ${teamData.goalDifference > 0 ? 'text-green-600 dark:text-green-400' :
+                            teamData.goalDifference < 0 ? 'text-red-500 dark:text-red-400' : 'text-slate-500 dark:text-slate-200'
                             }`}>
                             {teamData.goalDifference > 0 ? '+' : ''}{teamData.goalDifference}
                           </td>
-                          <td className="p-2 sm:p-3 text-center font-bold text-slate-600 dark:text-slate-400 text-sm sm:text-base">{teamData.points}</td>
+                          <td className="py-1.5 sm:py-2 md:py-3 px-0.5 sm:px-1 md:px-1.5 text-center font-bold text-slate-600 dark:text-slate-200 text-xs sm:text-sm whitespace-nowrap">{teamData.points}</td>
                         </tr>
                       )
                     })}

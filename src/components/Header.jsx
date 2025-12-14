@@ -31,7 +31,7 @@ function Header({ darkMode, setDarkMode, isAdmin, onAdminClick, onLogout, server
 
         {/* Main Title */}
         <div className="flex items-center gap-4 relative w-full px-10 sm:px-16 md:px-20">
-          <h1 className="font-sans text-2xl sm:text-3xl md:text-5xl lg:text-6xl 2xl:text-7xl font-black tracking-widest text-white drop-shadow-2xl px-2 mx-auto text-center">
+          <h1 className="font-['Orbitron'] text-2xl sm:text-3xl md:text-5xl lg:text-6xl 2xl:text-7xl font-black tracking-widest text-white drop-shadow-2xl px-2 mx-auto text-center">
             FIFA WORLD CUP 2026
           </h1>
 
