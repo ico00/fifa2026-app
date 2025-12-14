@@ -78,8 +78,8 @@ function Matches({ matches, teams, venues, groups, playoffs, updateMatch, isRead
           ${isCroatiaMatch
             ? 'bg-gradient-to-r from-white to-red-50 dark:from-slate-800 dark:to-red-900/20 border-red-200 dark:border-red-900 shadow-[0_0_15px_rgba(239,68,68,0.1)]'
             : isPlayed
-              ? 'bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-700 opacity-90'
-              : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-md'
+              ? 'bg-white dark:bg-slate-900/50 border-slate-200 dark:border-slate-700 opacity-90 shadow-sm'
+              : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-md shadow-sm'
           }
           p-3 sm:p-4
         `}
@@ -261,7 +261,7 @@ function Matches({ matches, teams, venues, groups, playoffs, updateMatch, isRead
         {/* Neodigrane utakmice */}
         {Object.entries(upcomingByDate).sort(([a], [b]) => new Date(a) - new Date(b)).map(([date, dateMatches]) => (
           <div key={`upcoming-${date}`} className="flex flex-col gap-4">
-            <div className="sticky top-0 z-10 bg-slate-100/90 dark:bg-slate-900/90 backdrop-blur-sm py-2 px-4 rounded-lg border-l-4 border-fifa-blue dark:border-fifa-gold shadow-sm flex items-center gap-2">
+            <div className="sticky top-0 z-10 bg-white dark:bg-slate-800 backdrop-blur-sm py-2 px-4 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm flex items-center gap-2">
               <span className="text-xl">📅</span>
               <span className="font-bold text-slate-700 dark:text-slate-200 capitalize">{formatDate(date)}</span>
             </div>
@@ -280,7 +280,7 @@ function Matches({ matches, teams, venues, groups, playoffs, updateMatch, isRead
             <div className="flex flex-col gap-8 opacity-80 hover:opacity-100 transition-opacity duration-300">
               {Object.entries(playedByDate).sort(([a], [b]) => new Date(b) - new Date(a)).map(([date, dateMatches]) => (
                 <div key={`played-${date}`} className="flex flex-col gap-4">
-                  <div className="py-2 px-4 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 inline-flex items-center gap-2 self-start">
+                  <div className="py-2 px-4 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 inline-flex items-center gap-2 self-start shadow-sm">
                     <span className="text-slate-400">📅</span>
                     <span className="font-semibold text-slate-500 dark:text-slate-400 text-sm capitalize">{formatDate(date)}</span>
                   </div>

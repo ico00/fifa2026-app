@@ -34,6 +34,7 @@ function App() {
         }
         return false
     })
+    const [showScrollTop, setShowScrollTop] = useState(false)
 
     // Admin state management
     const [isAdmin, setIsAdmin] = useState(false)
@@ -207,6 +208,24 @@ function App() {
         })
     }, [isAdmin, adminToken])
 
+    // Scroll to top funkcionalnost
+    useEffect(() => {
+        const handleScroll = () => {
+            // Prikaži gumb ako je korisnik skrolao više od 300px
+            setShowScrollTop(window.scrollY > 300)
+        }
+
+        window.addEventListener('scroll', handleScroll)
+        return () => window.removeEventListener('scroll', handleScroll)
+    }, [])
+
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        })
+    }
+
     const updateMatch = async (matchId, data) => {
         try {
             const response = await fetch(`${API_URL}/matches/${matchId}`, {
@@ -354,8 +373,8 @@ function App() {
 
             {/* Timer za hrvatske utakmice - ne prikazuj na Home tabu */}
             {nextCroatiaMatch && activeTab !== 'home' && (
-                <div className="w-full -mx-3 sm:-mx-4 md:-mx-8 lg:-mx-12">
-                    <div className="px-3 sm:px-4 md:px-8 lg:px-12 w-full">
+                <div className="relative w-screen left-1/2 right-1/2 -translate-x-1/2">
+                    <div className="px-3 sm:px-4 md:px-8 lg:px-12 max-w-[1920px] mx-auto">
                         <CountdownTimer
                             targetDate={nextCroatiaMatch.date}
                             targetTime={nextCroatiaMatch.time}
@@ -449,6 +468,25 @@ function App() {
                 onClose={() => setShowAdminLogin(false)}
                 onLogin={handleAdminLogin}
             />
+
+            {/* Scroll to Top Button */}
+            {showScrollTop && (
+                <button
+                    onClick={scrollToTop}
+                    className="fixed bottom-6 right-6 z-50 bg-fifa-blue hover:bg-blue-700 dark:bg-fifa-gold dark:hover:bg-yellow-600 text-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in-up hover:scale-110"
+                    aria-label="Povratak na vrh"
+                >
+                    <svg 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        className="h-6 w-6" 
+                        fill="none" 
+                        viewBox="0 0 24 24" 
+                        stroke="currentColor"
+                    >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                    </svg>
+                </button>
+            )}
         </div>
     )
 }

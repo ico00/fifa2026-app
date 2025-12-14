@@ -1,8 +1,17 @@
 function Header({ darkMode, setDarkMode, isAdmin, onAdminClick, onLogout, serverAvailable = true }) {
   return (
-    <header className="relative overflow-hidden bg-gradient-to-b from-black/50 to-transparent py-4 sm:py-6 text-center">
+    <header className="relative overflow-hidden py-4 sm:py-6 text-center">
+      {/* Pozadinska slika */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: 'url(/images/header-bg.jpg)' }}
+      >
+        {/* Overlay za čitljivost */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-transparent"></div>
+      </div>
+      
       {/* Decorative bottom border */}
-      <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-fifa-gold/20 via-fifa-gold to-fifa-gold/20"></div>
+      <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-fifa-gold/20 via-fifa-gold to-fifa-gold/20 z-10"></div>
 
       {/* Server Status Warning - samo u development okruženju */}
       {!serverAvailable && !window.location.hostname.includes('onrender.com') && (
@@ -22,7 +31,7 @@ function Header({ darkMode, setDarkMode, isAdmin, onAdminClick, onLogout, server
 
         {/* Main Title */}
         <div className="flex items-center gap-4 relative w-full px-10 sm:px-16 md:px-20">
-          <h1 className="font-sans text-2xl sm:text-3xl md:text-5xl lg:text-6xl 2xl:text-7xl font-black tracking-widest text-fifa-blue dark:text-fifa-gold drop-shadow-md px-2 mx-auto text-center">
+          <h1 className="font-sans text-2xl sm:text-3xl md:text-5xl lg:text-6xl 2xl:text-7xl font-black tracking-widest text-white drop-shadow-2xl px-2 mx-auto text-center">
             FIFA WORLD CUP 2026
           </h1>
 
@@ -67,7 +76,7 @@ function Header({ darkMode, setDarkMode, isAdmin, onAdminClick, onLogout, server
         </div>
 
         {/* Subtitle */}
-        <p className="text-slate-400 font-medium tracking-[0.2em] text-xs sm:text-sm md:text-base uppercase px-2">
+        <p className="text-white font-medium tracking-[0.2em] text-xs sm:text-sm md:text-base uppercase px-2 drop-shadow-lg">
           11. lipnja - 19. srpnja 2026.
         </p>
       </div>

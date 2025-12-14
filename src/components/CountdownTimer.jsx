@@ -72,9 +72,9 @@ function CountdownTimer({ targetDate, targetTime, homeTeam, awayTeam, homeTeamPl
   }
 
   return (
-    <div className="relative w-full bg-gradient-to-r from-fifa-red/10 via-fifa-red/5 to-fifa-blue/10 dark:from-fifa-red/20 dark:via-fifa-red/10 dark:to-fifa-blue/20 border-2 border-fifa-red/30 dark:border-fifa-red/50 rounded-xl p-4 sm:p-5 mb-4 shadow-lg overflow-hidden">
+    <div className="relative w-full bg-white dark:bg-slate-800 border-2 border-fifa-red/30 dark:border-fifa-red/50 rounded-xl p-4 sm:p-5 mb-4 shadow-lg overflow-hidden">
       {/* Hrvatski šahovni uzorak u pozadini */}
-      <div className="absolute inset-0 opacity-[0.08] dark:opacity-[0.12] pointer-events-none">
+      <div className="absolute inset-0 opacity-[0.09] dark:opacity-[0.08] pointer-events-none">
         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <pattern id="croatian-checkerboard" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse">
@@ -142,7 +142,7 @@ function CountdownTimer({ targetDate, targetTime, homeTeam, awayTeam, homeTeamPl
           </div>
           {venueData && (
             <div className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 mt-1">
-              <span className="text-fifa-red">📍</span> {venueData.city}
+              <span className="text-fifa-red">📍</span> {venueData.city}{venueData.stadium ? `, ${venueData.stadium}` : ''}
             </div>
           )}
         </div>
