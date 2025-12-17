@@ -1,13 +1,9 @@
 import Flag from './Flag'
+import { getTeamById, getPlayoffData } from '../utils/helpers'
 
 function Standings({ standings, teams, bestThirdPlaced = [], groups = {}, playoffs = {} }) {
-  const getTeamById = (teamId) => {
-    return teams.find(t => t.id === teamId)
-  }
-
-  const getPlayoffName = (playoffSlot) => {
-    if (!playoffSlot || !playoffs[playoffSlot]) return null
-    return playoffs[playoffSlot]
+  const getPlayoffInfo = (playoffSlot) => {
+    return getPlayoffData(playoffs, playoffSlot)
   }
 
   if (!standings || Object.keys(standings).length === 0) {
@@ -61,7 +57,7 @@ function Standings({ standings, teams, bestThirdPlaced = [], groups = {}, playof
           const hasCroatia = group.teams.some(t => t && t.highlight)
           const groupInfo = groups[groupKey]
           const playoffSlot = groupInfo?.playoffSlot
-          const playoff = getPlayoffName(playoffSlot)
+          const playoff = getPlayoffInfo(playoffSlot)
           const playoffWinner = playoff?.winner
 
           // Pronađi poziciju play-off pobjednika u grupi
@@ -87,7 +83,7 @@ function Standings({ standings, teams, bestThirdPlaced = [], groups = {}, playof
             <div
               key={groupKey}
               className={`
-                rounded-xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-2xl
+                rounded-xl overflow-hidden shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl
                 ${hasCroatia
                   ? 'border-2 border-fifa-red shadow-[0_0_15px_rgba(186,12,47,0.2)]'
                   : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700'
@@ -160,7 +156,7 @@ function Standings({ standings, teams, bestThirdPlaced = [], groups = {}, playof
 
                       // Normalan tim
                       const teamData = item.data
-                      const team = getTeamById(teamData.id)
+                      const team = getTeamById(teams, teamData.id)
                       const actualIndex = item.originalIndex
                       const displayPosition = item.displayPosition
                       const isQualified = displayPosition <= 2

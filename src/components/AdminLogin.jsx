@@ -1,5 +1,8 @@
 import { useState } from 'react';
 
+// Koristi relativni /api u produkciji; u developmentu se može postaviti VITE_API_URL
+const API_URL = import.meta.env.VITE_API_URL || '/api';
+
 function AdminLogin({ isOpen, onClose, onLogin }) {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -11,8 +14,7 @@ function AdminLogin({ isOpen, onClose, onLogin }) {
         setLoading(true);
 
         try {
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
-            const response = await fetch(`${apiUrl}/auth/login`, {
+            const response = await fetch(`${API_URL}/auth/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ password })
@@ -40,17 +42,15 @@ function AdminLogin({ isOpen, onClose, onLogin }) {
             }
         } catch (err) {
             // Detaljnija greška ovisno o tipu problema
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
-            
             if (err.name === 'TypeError' && (err.message.includes('fetch') || err.message.includes('Failed'))) {
-                setError(`Nije moguće povezati se sa serverom (${apiUrl}). Provjerite da li je backend server pokrenut. Pokrenite server sa: npm start`);
+                setError(`Nije moguće povezati se sa serverom (${API_URL}). Provjerite da li je backend server pokrenut. Pokrenite server sa: npm start`);
             } else if (err.name === 'SyntaxError') {
                 setError('Server je vratio neispravan odgovor. Provjerite da li je backend server ispravno konfiguriran.');
             } else {
                 setError(`Greška pri povezivanju sa serverom: ${err.message}`);
             }
             console.error('Login error:', err);
-            console.error('API URL:', apiUrl);
+            console.error('API URL:', API_URL);
         } finally {
             setLoading(false);
         }

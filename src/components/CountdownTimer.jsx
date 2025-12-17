@@ -1,5 +1,11 @@
 import { useState, useEffect } from 'react'
 import Flag from './Flag'
+import { 
+  getTeamById, 
+  getVenueById, 
+  getPlayoffWinner, 
+  formatDateWithTime 
+} from '../utils/helpers'
 
 function CountdownTimer({ targetDate, targetTime, homeTeam, awayTeam, homeTeamPlayoff, awayTeamPlayoff, venue, teams, venues, playoffs }) {
   const [timeLeft, setTimeLeft] = useState(null)
@@ -39,37 +45,17 @@ function CountdownTimer({ targetDate, targetTime, homeTeam, awayTeam, homeTeamPl
 
   if (!timeLeft) return null
 
-  const getTeamById = (id) => teams?.find(t => t.id === id)
-  const getVenueById = (id) => venues?.find(v => v.id === id)
-  
-  // Funkcija za dobivanje play-off pobjednika
-  const getPlayoffWinner = (playoffId) => {
-    if (!playoffs || !playoffs[playoffId]) return null
-    return playoffs[playoffId].winner || null
-  }
-
   // Provjeri play-off pobjednike
-  const homePlayoffWinner = homeTeamPlayoff ? getPlayoffWinner(homeTeamPlayoff) : null
-  const awayPlayoffWinner = awayTeamPlayoff ? getPlayoffWinner(awayTeamPlayoff) : null
+  const homePlayoffWinner = homeTeamPlayoff ? getPlayoffWinner(playoffs, homeTeamPlayoff) : null
+  const awayPlayoffWinner = awayTeamPlayoff ? getPlayoffWinner(playoffs, awayTeamPlayoff) : null
 
   // Koristi play-off pobjednika ako postoji, inače koristi direktan tim
   const homeTeamId = homeTeam || homePlayoffWinner
   const awayTeamId = awayTeam || awayPlayoffWinner
 
-  const home = homeTeamId ? getTeamById(homeTeamId) : null
-  const away = awayTeamId ? getTeamById(awayTeamId) : null
-  const venueData = venue ? getVenueById(venue) : null
-
-  const formatDate = (dateStr, timeStr) => {
-    const date = new Date(dateStr)
-    const formattedDate = date.toLocaleDateString('hr-HR', { 
-      weekday: 'long', 
-      day: 'numeric', 
-      month: 'long'
-    })
-    // Koristi originalno vrijeme iz matches.json umjesto konvertiranog
-    return `${formattedDate} u ${timeStr}`
-  }
+  const home = homeTeamId ? getTeamById(teams, homeTeamId) : null
+  const away = awayTeamId ? getTeamById(teams, awayTeamId) : null
+  const venueData = venue ? getVenueById(venues, venue) : null
 
   return (
     <div className="relative w-full bg-white dark:bg-slate-800 border-2 border-fifa-red/30 dark:border-fifa-red/50 rounded-xl p-4 sm:p-5 mb-4 shadow-lg overflow-hidden">
@@ -138,7 +124,7 @@ function CountdownTimer({ targetDate, targetTime, homeTeam, awayTeam, homeTeamPl
         {/* Date & Venue */}
         <div className="text-center sm:text-right">
           <div className="text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-300">
-            {formatDate(targetDate, targetTime)}
+            {formatDateWithTime(targetDate, targetTime)}
           </div>
           {venueData && (
             <div className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 mt-1">

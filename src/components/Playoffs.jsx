@@ -1,12 +1,9 @@
 import { useState } from 'react'
 import Flag from './Flag'
+import { getTeamById } from '../utils/helpers'
 
 function Playoffs({ playoffs, teams, setPlayoffWinner, isReadOnly }) {
   const [selectedWinners, setSelectedWinners] = useState({})
-
-  const getTeamById = (teamId) => {
-    return teams.find(t => t.id === teamId)
-  }
 
   const handleTeamClick = (playoffId, teamId) => {
     // Ako je već određen pobjednik, omogući promjenu
@@ -73,7 +70,7 @@ function Playoffs({ playoffs, teams, setPlayoffWinner, isReadOnly }) {
           return (
             <div
               key={playoffId}
-              className="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-lg border border-slate-200 dark:border-slate-700 flex flex-col h-full"
+              className="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-lg border border-slate-200 dark:border-slate-700 flex flex-col h-full transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
             >
               <div className="bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-900 p-4 flex flex-col gap-1 border-b border-slate-200 dark:border-slate-700">
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">{playoff.type}</span>
@@ -82,7 +79,7 @@ function Playoffs({ playoffs, teams, setPlayoffWinner, isReadOnly }) {
 
               <div className="p-4 flex flex-col gap-2 flex-grow">
                 {playoff.teams.map(teamId => {
-                  const team = getTeamById(teamId)
+                  const team = getTeamById(teams, teamId)
                   if (!team) return null
 
                   const isWinner = currentWinner === teamId

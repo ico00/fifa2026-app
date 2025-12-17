@@ -1,4 +1,13 @@
+import { memo, useCallback } from 'react'
+
+/**
+ * Header komponenta s optimizacijama performansi
+ */
 function Header({ darkMode, setDarkMode, isAdmin, onAdminClick, onLogout, serverAvailable = true }) {
+  const toggleDarkMode = useCallback(() => {
+    setDarkMode(!darkMode)
+  }, [darkMode, setDarkMode])
+
   return (
     <header className="relative overflow-hidden py-4 sm:py-6 text-center">
       {/* Pozadinska slika */}
@@ -37,7 +46,7 @@ function Header({ darkMode, setDarkMode, isAdmin, onAdminClick, onLogout, server
 
           {/* Theme Toggle Button */}
           <button
-            onClick={() => setDarkMode(!darkMode)}
+            onClick={toggleDarkMode}
             className="absolute right-1 sm:right-4 top-1 sm:top-4 p-1.5 sm:p-2 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-all duration-300 border border-white/10 hover:border-fifa-gold/50 group touch-manipulation z-10"
             title={darkMode ? "Prebaci na svijetlu temu" : "Prebaci na tamnu temu"}
           >
@@ -84,5 +93,4 @@ function Header({ darkMode, setDarkMode, isAdmin, onAdminClick, onLogout, server
   )
 }
 
-export default Header
-
+export default memo(Header)

@@ -1,0 +1,43 @@
+{
+  "name": "FIFA World Cup 2026 - Hrvatska",
+  "short_name": "FIFA 2026",
+  "description": "Pratite Svjetsko prvenstvo 2026 i put Vatrenih do slave!",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#1e40af",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "hr",
+  "categories": ["sports", "entertainment"],
+  "icons": [
+    {
+      "src": "/icons/icon-512x512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Utakmice",
+      "short_name": "Utakmice",
+      "description": "Pogledaj raspored utakmica",
+      "url": "/?tab=matches"
+    },
+    {
+      "name": "Tablice",
+      "short_name": "Tablice",
+      "description": "Pogledaj tablice grupa",
+      "url": "/?tab=standings"
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
+}

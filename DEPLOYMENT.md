@@ -2,6 +2,9 @@
 
 Ovaj vodič objašnjava kako deployati aplikaciju na javni web.
 
+> ⚠️ **Napomena:** Render.com ima problem s cold start-om (nakon 15 min neaktivnosti, prvo učitavanje je sporo). 
+> Za bolje alternative, pogledaj **`DEPLOYMENT-ALTERNATIVES.md`** ili **`QUICK-START.md`**.
+
 ## 📋 Preduvjeti
 
 - Node.js 18+ i npm

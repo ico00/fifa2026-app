@@ -1,3 +1,5 @@
+import { memo } from 'react'
+
 // Mapiranje kodova zemalja za zastave
 const FLAG_MAP = {
   'AL': '🇦🇱', // Albanija
@@ -97,18 +99,23 @@ const UlsterBannerSVG = ({ size }) => {
   )
 }
 
-function Flag({ code, size = 'md' }) {
-  const sizeClass = {
-    sm: 'text-lg',
-    md: 'text-2xl',
-    lg: 'text-4xl'
-  }
+const SIZE_CLASSES = {
+  sm: 'text-lg',
+  md: 'text-2xl',
+  lg: 'text-4xl'
+}
+
+/**
+ * Memoizirana Flag komponenta - sprječava nepotrebne renderiranja
+ */
+const Flag = memo(function Flag({ code, size = 'md' }) {
+  const sizeClass = SIZE_CLASSES[size]
 
   // Poseban slučaj za Sjevernu Irsku - koristi SVG
   if (code === 'GB-NIR') {
     return (
       <span
-        className={`flag ${sizeClass[size]}`}
+        className={`flag ${sizeClass}`}
         role="img"
         aria-label="Sjeverna Irska"
         style={{ display: 'inline-block', verticalAlign: 'middle' }}
@@ -122,14 +129,14 @@ function Flag({ code, size = 'md' }) {
 
   return (
     <span
-      className={`inline-block align-middle filter drop-shadow-sm hover:scale-110 transition-transform ${sizeClass[size]}`}
+      className={`inline-block align-middle filter drop-shadow-sm hover:scale-110 transition-transform ${sizeClass}`}
       role="img"
       aria-label={code}
     >
       {flag}
     </span>
   )
-}
+})
 
 export default Flag
 export { FLAG_MAP }

@@ -1,31 +1,78 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo, useCallback, lazy, Suspense } from 'react'
 import Header from './components/Header'
 import Navigation from './components/Navigation'
-import Home from './components/Home'
-import Groups from './components/Groups'
-import Playoffs from './components/Playoffs'
-import Matches from './components/Matches'
-import Standings from './components/Standings'
-import Knockout from './components/Knockout'
-import Simulation from './components/Simulation'
 import AdminLogin from './components/AdminLogin'
 import CountdownTimer from './components/CountdownTimer'
+import { TabErrorBoundary } from './components/ErrorBoundary'
+import { OfflineIndicator, InstallPrompt, UpdatePrompt } from './components/pwa'
+import { useData, useAuth, useMatchActions } from './context'
+import { usePWA } from './hooks/usePWA'
+import { getPlayoffWinner, sortMatchesByDate } from './utils/helpers'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api'
+// Lazy load tab komponente za bolje performanse
+const Home = lazy(() => import('./components/Home'))
+const Groups = lazy(() => import('./components/Groups'))
+const Playoffs = lazy(() => import('./components/Playoffs'))
+const Matches = lazy(() => import('./components/Matches'))
+const Standings = lazy(() => import('./components/Standings'))
+const Knockout = lazy(() => import('./components/Knockout'))
+const Simulation = lazy(() => import('./components/Simulation'))
 
-// Debug logging za production
-if (import.meta.env.VITE_API_URL) {
-    console.log('🌐 Production API URL:', API_URL)
-} else {
-    console.log('🔧 Development API URL:', API_URL)
-}
+// Loading fallback komponenta
+const TabLoader = () => (
+    <div className="flex items-center justify-center py-20">
+        <div className="text-center">
+            <div className="text-4xl animate-bounce mb-4">⚽</div>
+            <p className="text-slate-500 dark:text-slate-400 font-medium">Učitavanje...</p>
+        </div>
+    </div>
+)
 
 function App() {
-    // Detektuj da li je production (Render.com)
-    const isProduction = window.location.hostname.includes('onrender.com')
-    // U production-u, aplikacija je read-only SAMO ako korisnik nije admin
-    // (ne više automatski read-only za sve u production-u)
+    // Context hooks
+    const { 
+        teams, 
+        groups, 
+        playoffs, 
+        matches, 
+        standings, 
+        bestThirdPlaced, 
+        venues, 
+        loading,
+        error,
+        serverAvailable,
+        refreshData
+    } = useData()
+    
+    const { 
+        isAdmin, 
+        isReadOnly, 
+        showAdminLogin, 
+        login, 
+        logout, 
+        openLoginModal, 
+        closeLoginModal 
+    } = useAuth()
+    
+    const { 
+        updateMatch, 
+        updateKnockoutMatch, 
+        setPlayoffWinner 
+    } = useMatchActions()
 
+    // PWA hook
+    const {
+        isOnline,
+        isInstallable,
+        isIOS,
+        showIOSInstall,
+        updateAvailable,
+        installPrompt,
+        dismissInstall,
+        updateApp
+    } = usePWA()
+
+    // Local UI state
     const [activeTab, setActiveTab] = useState('home')
     const [darkMode, setDarkMode] = useState(() => {
         if (typeof window !== 'undefined') {
@@ -36,22 +83,7 @@ function App() {
     })
     const [showScrollTop, setShowScrollTop] = useState(false)
 
-    // Admin state management
-    const [isAdmin, setIsAdmin] = useState(false)
-    const [adminToken, setAdminToken] = useState(null)
-    const [showAdminLogin, setShowAdminLogin] = useState(false)
-    const [serverAvailable, setServerAvailable] = useState(true)
-    
-    // Data state - svi state hookovi moraju biti na vrhu
-    const [teams, setTeams] = useState([])
-    const [groups, setGroups] = useState({})
-    const [playoffs, setPlayoffs] = useState({})
-    const [matches, setMatches] = useState({ groupStage: [], knockoutStage: {} })
-    const [standings, setStandings] = useState({})
-    const [bestThirdPlaced, setBestThirdPlaced] = useState([])
-    const [venues, setVenues] = useState([])
-    const [loading, setLoading] = useState(true)
-
+    // Dark mode effect
     useEffect(() => {
         if (darkMode) {
             document.documentElement.classList.add('dark')
@@ -62,156 +94,9 @@ function App() {
         }
     }, [darkMode])
 
-    // Funkcija za provjeru dostupnosti servera
-    const checkServerAvailability = async () => {
-        try {
-            const controller = new AbortController()
-            const timeoutId = setTimeout(() => controller.abort(), 5000) // Timeout od 5 sekundi (više za production)
-            
-            const response = await fetch(`${API_URL}/teams`, {
-                method: 'GET',
-                signal: controller.signal
-            })
-            clearTimeout(timeoutId)
-            setServerAvailable(response.ok)
-            
-            // Ako je production i server je dostupan, ne prikazuj upozorenje
-            if (isProduction && response.ok) {
-                console.log('✅ Production server je dostupan:', API_URL)
-            }
-        } catch (error) {
-            // U production-u, možda je server sporiji, ne prikazuj upozorenje odmah
-            if (isProduction) {
-                // U production-u, pretpostavi da je server dostupan (možda je samo spor)
-                setServerAvailable(true)
-                console.warn('⚠️ Production server možda je spor, ali pretpostavljamo da je dostupan')
-            } else {
-                setServerAvailable(false)
-                console.warn('Server nije dostupan:', error.message)
-            }
-        }
-    }
-
-    // Funkcija za provjeru validnosti admin tokena
-    const verifyAdminToken = async (token) => {
-        try {
-            const response = await fetch(`${API_URL}/auth/verify`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
-            const data = await response.json()
-            if (data.valid) {
-                setIsAdmin(true)
-                setAdminToken(token)
-            } else {
-                // Token nije validan, ukloni ga
-                localStorage.removeItem('adminToken')
-                setIsAdmin(false)
-                setAdminToken(null)
-            }
-        } catch (error) {
-            console.error('Greška pri provjeri tokena:', error)
-            localStorage.removeItem('adminToken')
-            setIsAdmin(false)
-            setAdminToken(null)
-        }
-    }
-
-    // Provjeri dostupnost servera pri učitavanju
-    useEffect(() => {
-        checkServerAvailability()
-    }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
-    // Provjeri admin token pri učitavanju
-    useEffect(() => {
-        const token = localStorage.getItem('adminToken')
-        if (token) {
-            verifyAdminToken(token)
-        }
-    }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
-    // Funkcija za login
-    const handleAdminLogin = (token) => {
-        console.log('🔐 handleAdminLogin pozvan, token:', token ? 'postoji' : 'nema')
-        setAdminToken(token)
-        setIsAdmin(true)
-        console.log('✅ Admin prijavljen, isAdmin postavljen na: true')
-        // Ažuriraj podatke nakon prijave da se komponente osvježe
-        fetchData()
-    }
-
-    // Funkcija za logout
-    const handleAdminLogout = () => {
-        localStorage.removeItem('adminToken')
-        setAdminToken(null)
-        setIsAdmin(false)
-    }
-
-    // Helper funkcija za dobivanje Authorization headera
-    const getAuthHeaders = () => {
-        const headers = { 'Content-Type': 'application/json' }
-        if (adminToken) {
-            headers['Authorization'] = `Bearer ${adminToken}`
-        }
-        return headers
-    }
-
-    const fetchData = async () => {
-        try {
-            const [teamsRes, groupsRes, playoffsRes, matchesRes, standingsRes, venuesRes] = await Promise.all([
-                fetch(`${API_URL}/teams`),
-                fetch(`${API_URL}/groups`),
-                fetch(`${API_URL}/playoffs`),
-                fetch(`${API_URL}/matches`),
-                fetch(`${API_URL}/standings`),
-                fetch(`${API_URL}/venues`)
-            ])
-
-            // Ažuriraj status dostupnosti servera
-            setServerAvailable(true)
-
-            const teamsData = await teamsRes.json()
-            const groupsData = await groupsRes.json()
-            const playoffsData = await playoffsRes.json()
-            const matchesData = await matchesRes.json()
-            const standingsData = await standingsRes.json()
-            const venuesData = await venuesRes.json()
-
-            setTeams(teamsData?.teams || [])
-            setGroups(groupsData?.groups || {})
-            setPlayoffs(playoffsData?.playoffs || {})
-            setMatches(matchesData || { groupStage: [], knockoutStage: {} })
-            setStandings(standingsData?.standings || {})
-            setBestThirdPlaced(standingsData?.bestThirdPlaced || [])
-            setVenues(venuesData?.venues || [])
-            setLoading(false)
-        } catch (error) {
-            console.error('Greška pri dohvaćanju podataka:', error)
-            setServerAvailable(false)
-            setLoading(false)
-        }
-    }
-
-    useEffect(() => {
-        fetchData()
-    }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
-    // Debug logging - provjeri da li se state pravilno ažurira
-    useEffect(() => {
-        console.log('🔐 Admin status promijenjen:', { 
-            isAdmin, 
-            effectiveReadOnly: !isAdmin, 
-            adminToken: adminToken ? 'postoji' : 'nema',
-            canEdit: isAdmin,
-            timestamp: new Date().toISOString()
-        })
-    }, [isAdmin, adminToken])
-
     // Scroll to top funkcionalnost
     useEffect(() => {
         const handleScroll = () => {
-            // Prikaži gumb ako je korisnik skrolao više od 300px
             setShowScrollTop(window.scrollY > 300)
         }
 
@@ -219,95 +104,16 @@ function App() {
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
 
-    const scrollToTop = () => {
+    const scrollToTop = useCallback(() => {
         window.scrollTo({
             top: 0,
             behavior: 'smooth'
         })
-    }
+    }, [])
 
-    const updateMatch = async (matchId, data) => {
-        try {
-            const response = await fetch(`${API_URL}/matches/${matchId}`, {
-                method: 'PUT',
-                headers: getAuthHeaders(),
-                body: JSON.stringify(data)
-            })
-            if (response.ok) {
-                fetchData() // Ponovno dohvati sve podatke
-            } else if (response.status === 401) {
-                // Token nije validan, odjavi korisnika
-                handleAdminLogout()
-                alert('Vaša sesija je istekla. Molimo prijavite se ponovno.')
-            }
-        } catch (error) {
-            console.error('Greška pri ažuriranju utakmice:', error)
-        }
-    }
-
-    const setPlayoffWinner = async (playoffId, winner) => {
-        try {
-            const response = await fetch(`${API_URL}/playoffs/${playoffId}/winner`, {
-                method: 'PUT',
-                headers: getAuthHeaders(),
-                body: JSON.stringify({ winner: winner || null })
-            })
-            if (response.ok) {
-                fetchData()
-            } else if (response.status === 401) {
-                // Token nije validan, odjavi korisnika
-                handleAdminLogout()
-                alert('Vaša sesija je istekla. Molimo prijavite se ponovno.')
-            }
-        } catch (error) {
-            console.error('Greška pri postavljanju pobjednika:', error)
-        }
-    }
-
-    const updateKnockoutMatch = async (round, matchId, data) => {
-        try {
-            const response = await fetch(`${API_URL}/knockout/${round}/${matchId}`, {
-                method: 'PUT',
-                headers: getAuthHeaders(),
-                body: JSON.stringify(data)
-            })
-            if (response.ok) {
-                fetchData()
-            } else if (response.status === 401) {
-                // Token nije validan, odjavi korisnika
-                handleAdminLogout()
-                alert('Vaša sesija je istekla. Molimo prijavite se ponovno.')
-            }
-        } catch (error) {
-            console.error('Greška pri ažuriranju knockout utakmice:', error)
-        }
-    }
-
-    if (loading) {
-        return (
-            <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white px-4">
-                <div className="text-center animate-bounce mb-6">
-                    <div className="text-4xl sm:text-5xl md:text-6xl mb-4 drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]">⚽</div>
-                </div>
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-widest text-fifa-gold mb-3 drop-shadow-md font-sans text-center">FIFA World Cup 2026</h2>
-                <p className="text-slate-400 text-sm sm:text-base md:text-lg tracking-wide uppercase">UČITAVANJE...</p>
-            </div>
-        )
-    }
-
-    // Aplikacija je read-only samo ako korisnik NIJE admin
-    // (u production-u, admin može mijenjati podatke nakon prijave)
-    const effectiveReadOnly = !isAdmin
-
-    // Pronađi prvu sljedeću hrvatsku utakmicu
-    const getNextCroatiaMatch = () => {
+    // Pronađi prvu sljedeću hrvatsku utakmicu (memoizirano)
+    const nextCroatiaMatch = useMemo(() => {
         if (!matches || !teams.length || !playoffs) return null
-
-        // Funkcija za dobivanje play-off pobjednika
-        const getPlayoffWinner = (playoffId) => {
-            if (!playoffs || !playoffs[playoffId]) return null
-            return playoffs[playoffId].winner || null
-        }
 
         const allMatches = [
             ...(matches.groupStage || []),
@@ -328,8 +134,8 @@ function App() {
                 }
 
                 // Provjeri play-off pobjednike
-                const homePlayoffWinner = match.homeTeamPlayoff ? getPlayoffWinner(match.homeTeamPlayoff) : null
-                const awayPlayoffWinner = match.awayTeamPlayoff ? getPlayoffWinner(match.awayTeamPlayoff) : null
+                const homePlayoffWinner = match.homeTeamPlayoff ? getPlayoffWinner(playoffs, match.homeTeamPlayoff) : null
+                const awayPlayoffWinner = match.awayTeamPlayoff ? getPlayoffWinner(playoffs, match.awayTeamPlayoff) : null
 
                 // Provjeri da li Hrvatska sudjeluje (direktno ili kroz play-off)
                 const homeTeamId = match.homeTeam || homePlayoffWinner
@@ -347,32 +153,85 @@ function App() {
 
                 return matchDate > now
             })
-            .sort((a, b) => {
-                // Sortiraj po datumu i vremenu
-                const dateA = new Date(`${a.date}T${a.time}`)
-                const dateB = new Date(`${b.date}T${b.time}`)
-                return dateA - dateB
-            })
 
-        return upcomingCroatiaMatches.length > 0 ? upcomingCroatiaMatches[0] : null
+        // Sortiraj po datumu i vremenu
+        return sortMatchesByDate(upcomingCroatiaMatches, 'asc')[0] || null
+    }, [matches, teams, playoffs])
+
+    // Loading screen
+    if (loading) {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white px-4">
+                <div className="text-center animate-bounce mb-6">
+                    <div className="text-4xl sm:text-5xl md:text-6xl mb-4 drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]">⚽</div>
+                </div>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-widest text-fifa-gold mb-3 drop-shadow-md font-sans text-center">FIFA World Cup 2026</h2>
+                <p className="text-slate-400 text-sm sm:text-base md:text-lg tracking-wide uppercase">UČITAVANJE...</p>
+            </div>
+        )
     }
 
-    const nextCroatiaMatch = getNextCroatiaMatch()
+    // Error screen - prikaži ako je došlo do greške pri učitavanju podataka
+    if (error && !teams.length) {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-slate-900 via-red-900/20 to-slate-900 text-white px-4">
+                <div className="text-center mb-6">
+                    <div className="text-6xl sm:text-7xl md:text-8xl mb-4">😕</div>
+                </div>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-widest text-red-400 mb-3 drop-shadow-md font-sans text-center">
+                    Greška pri učitavanju
+                </h2>
+                <p className="text-slate-400 text-sm sm:text-base md:text-lg text-center max-w-md mb-6">
+                    Nije moguće učitati podatke. Provjerite je li backend server pokrenut.
+                </p>
+                <div className="flex gap-4 flex-wrap justify-center">
+                    <button
+                        onClick={refreshData}
+                        className="px-8 py-3 bg-fifa-gold hover:bg-yellow-500 text-slate-900 font-bold rounded-xl shadow-lg transition-all flex items-center gap-2"
+                    >
+                        <span>🔄</span> Pokušaj ponovno
+                    </button>
+                    <button
+                        onClick={() => window.location.reload()}
+                        className="px-8 py-3 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/20 transition-all flex items-center gap-2"
+                    >
+                        <span>↻</span> Osvježi stranicu
+                    </button>
+                </div>
+                {import.meta.env.DEV && (
+                    <p className="mt-6 text-xs text-slate-500 font-mono">
+                        Greška: {error}
+                    </p>
+                )}
+            </div>
+        )
+    }
 
     return (
         <div className="min-h-screen flex flex-col w-full max-w-[1920px] mx-auto px-3 sm:px-4 md:px-8 lg:px-12 py-2 sm:py-4">
+            {/* PWA Components */}
+            <OfflineIndicator isOnline={isOnline} />
+            <UpdatePrompt updateAvailable={updateAvailable} onUpdate={updateApp} />
+            <InstallPrompt
+                isInstallable={isInstallable}
+                isIOS={isIOS}
+                showIOSInstall={showIOSInstall}
+                onInstall={installPrompt}
+                onDismiss={dismissInstall}
+            />
+
             <Header 
                 darkMode={darkMode} 
                 setDarkMode={setDarkMode}
                 isAdmin={isAdmin}
-                onAdminClick={() => setShowAdminLogin(true)}
-                onLogout={handleAdminLogout}
+                onAdminClick={openLoginModal}
+                onLogout={logout}
                 serverAvailable={serverAvailable}
             />
             <Navigation activeTab={activeTab} setActiveTab={setActiveTab} />
 
-            {/* Timer za hrvatske utakmice - ne prikazuj na Home tabu */}
-            {nextCroatiaMatch && activeTab !== 'home' && (
+            {/* Timer za hrvatske utakmice - prikazuj samo na tabu Utakmice */}
+            {nextCroatiaMatch && activeTab === 'matches' && (
                 <div className="relative w-screen left-1/2 right-1/2 -translate-x-1/2">
                     <div className="px-3 sm:px-4 md:px-8 lg:px-12 max-w-[1920px] mx-auto">
                         <CountdownTimer
@@ -392,68 +251,84 @@ function App() {
             )}
 
             <main className="flex-1 w-full py-4 sm:py-6 md:py-8 text-slate-900 dark:text-slate-100">
-                {activeTab === 'home' && (
-                    <Home />
-                )}
+                <Suspense fallback={<TabLoader />}>
+                    {activeTab === 'home' && (
+                        <TabErrorBoundary tabName="Početna">
+                            <Home />
+                        </TabErrorBoundary>
+                    )}
 
-                {activeTab === 'groups' && (
-                    <Groups
-                        groups={groups}
-                        teams={teams}
-                        playoffs={playoffs}
-                    />
-                )}
+                    {activeTab === 'groups' && (
+                        <TabErrorBoundary tabName="Grupe">
+                            <Groups
+                                groups={groups}
+                                teams={teams}
+                                playoffs={playoffs}
+                            />
+                        </TabErrorBoundary>
+                    )}
 
-                {activeTab === 'playoffs' && (
-                    <Playoffs
-                        playoffs={playoffs}
-                        teams={teams}
-                        setPlayoffWinner={setPlayoffWinner}
-                        isReadOnly={effectiveReadOnly}
-                    />
-                )}
+                    {activeTab === 'playoffs' && (
+                        <TabErrorBoundary tabName="Play-Off">
+                            <Playoffs
+                                playoffs={playoffs}
+                                teams={teams}
+                                setPlayoffWinner={setPlayoffWinner}
+                                isReadOnly={isReadOnly}
+                            />
+                        </TabErrorBoundary>
+                    )}
 
-                {activeTab === 'matches' && (
-                    <Matches
-                        matches={matches.groupStage}
-                        teams={teams}
-                        venues={venues}
-                        groups={groups}
-                        playoffs={playoffs}
-                        updateMatch={updateMatch}
-                        isReadOnly={effectiveReadOnly}
-                    />
-                )}
+                    {activeTab === 'matches' && (
+                        <TabErrorBoundary tabName="Utakmice">
+                            <Matches
+                                matches={matches.groupStage}
+                                teams={teams}
+                                venues={venues}
+                                groups={groups}
+                                playoffs={playoffs}
+                                updateMatch={updateMatch}
+                                isReadOnly={isReadOnly}
+                            />
+                        </TabErrorBoundary>
+                    )}
 
-                {activeTab === 'standings' && (
-                    <Standings
-                        standings={standings}
-                        teams={teams}
-                        bestThirdPlaced={bestThirdPlaced}
-                        groups={groups}
-                        playoffs={playoffs}
-                    />
-                )}
+                    {activeTab === 'standings' && (
+                        <TabErrorBoundary tabName="Tablice">
+                            <Standings
+                                standings={standings}
+                                teams={teams}
+                                bestThirdPlaced={bestThirdPlaced}
+                                groups={groups}
+                                playoffs={playoffs}
+                            />
+                        </TabErrorBoundary>
+                    )}
 
-                {activeTab === 'knockout' && (
-                    <Knockout
-                        matches={matches.knockoutStage}
-                        groupMatches={matches.groupStage}
-                        teams={teams}
-                        venues={venues}
-                        updateKnockoutMatch={updateKnockoutMatch}
-                        isReadOnly={effectiveReadOnly}
-                    />
-                )}
+                    {activeTab === 'knockout' && (
+                        <TabErrorBoundary tabName="Knockout">
+                            <Knockout
+                                matches={matches.knockoutStage}
+                                groupMatches={matches.groupStage}
+                                teams={teams}
+                                venues={venues}
+                                updateKnockoutMatch={updateKnockoutMatch}
+                                isReadOnly={isReadOnly}
+                            />
+                        </TabErrorBoundary>
+                    )}
 
-                {activeTab === 'simulation' && (
-                    <Simulation
-                        groups={groups}
-                        matches={matches}
-                        teams={teams}
-                        playoffs={playoffs}
-                    />
-                )}
+                    {activeTab === 'simulation' && (
+                        <TabErrorBoundary tabName="Simulacija">
+                            <Simulation
+                                groups={groups}
+                                matches={matches}
+                                teams={teams}
+                                playoffs={playoffs}
+                            />
+                        </TabErrorBoundary>
+                    )}
+                </Suspense>
             </main>
 
             <footer className="text-center py-4 sm:py-6 md:py-8 text-slate-500 dark:text-slate-400 border-t border-slate-200 dark:border-slate-800 mt-auto px-2">
@@ -465,8 +340,8 @@ function App() {
             {/* Admin Login Modal */}
             <AdminLogin
                 isOpen={showAdminLogin}
-                onClose={() => setShowAdminLogin(false)}
-                onLogin={handleAdminLogin}
+                onClose={closeLoginModal}
+                onLogin={login}
             />
 
             {/* Scroll to Top Button */}

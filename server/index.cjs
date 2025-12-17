@@ -10,6 +10,19 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
+// Serviraj static frontend build (samo u production-u ako dist folder postoji)
+const distPath = path.join(__dirname, '..', 'dist');
+if (fs.existsSync(distPath)) {
+  app.use(express.static(distPath));
+
+  // Fallback na index.html za SPA routing (samo za non-API zahtjeve).
+  // Napomena: Express 5 koristi novu verziju path-to-regexp koja više ne podržava putanju "*",
+  // zato koristimo regularni izraz kako bismo izbjegli konflikt i i dalje hvatali sve non-API rute.
+  app.get(/^(?!\/api).*/, (req, res) => {
+    res.sendFile(path.join(distPath, 'index.html'));
+  });
+}
+
 const dataDir = path.join(__dirname, '..', 'data');
 
 // Helper funkcija za čitanje JSON datoteke

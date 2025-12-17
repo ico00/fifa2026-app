@@ -1,16 +1,59 @@
 <!doctype html>
-<html lang="en">
+<html lang="hr">
   <head>
     <meta charset="UTF-8" />
+    
+    <!-- PWA Meta Tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+    <meta name="theme-color" content="#1e40af" />
+    <meta name="background-color" content="#0f172a" />
+    <meta name="description" content="Pratite FIFA Svjetsko prvenstvo 2026 i put Vatrenih do slave! Raspored utakmica, rezultati, tablice i simulacije." />
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- Favicons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+    
+    <!-- iOS PWA Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="FIFA 2026" />
+    
+    <!-- Windows PWA Meta Tags -->
+    <meta name="msapplication-TileColor" content="#1e40af" />
+    <meta name="msapplication-TileImage" content="/icons/icon-144x144.png" />
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="FIFA World Cup 2026 - Hrvatska" />
+    <meta property="og:description" content="Pratite Svjetsko prvenstvo 2026 i put Vatrenih do slave!" />
+    <meta property="og:image" content="/images/og-image.jpg" />
+    <meta property="og:locale" content="hr_HR" />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="FIFA World Cup 2026 - Hrvatska" />
+    <meta name="twitter:description" content="Pratite Svjetsko prvenstvo 2026 i put Vatrenih do slave!" />
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <title>fifa2026-app</title>
+    
+    <title>FIFA World Cup 2026 🇭🇷</title>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    
+    <!-- No-JS Fallback -->
+    <noscript>
+      <div style="padding: 20px; text-align: center; font-family: sans-serif;">
+        <h1>⚽ FIFA World Cup 2026</h1>
+        <p>Molimo omogućite JavaScript za korištenje ove aplikacije.</p>
+      </div>
+    </noscript>
   </body>
 </html>
