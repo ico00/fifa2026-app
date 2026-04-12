@@ -61,8 +61,9 @@
       "name": "Bosna i Hercegovina",
       "code": "BA",
       "confederation": "UEFA",
-      "qualified": false,
-      "playoffGroup": "A"
+      "qualified": true,
+      "playoffGroup": "A",
+      "group": "B"
     },
     {
       "id": "bra",
@@ -77,8 +78,9 @@
       "name": "Češka",
       "code": "CZ",
       "confederation": "UEFA",
-      "qualified": false,
-      "playoffGroup": "D"
+      "qualified": true,
+      "playoffGroup": "D",
+      "group": "A"
     },
     {
       "id": "cur",
@@ -158,8 +160,9 @@
       "name": "Irak",
       "code": "IQ",
       "confederation": "AFC",
-      "qualified": false,
-      "playoffGroup": "1"
+      "qualified": true,
+      "playoffGroup": "1",
+      "group": "I"
     },
     {
       "id": "irn",
@@ -254,8 +257,9 @@
       "name": "Kongo",
       "code": "CG",
       "confederation": "CAF",
-      "qualified": false,
-      "playoffGroup": "2"
+      "qualified": true,
+      "playoffGroup": "2",
+      "group": "K"
     },
     {
       "id": "kos",
@@ -446,8 +450,9 @@
       "name": "Švedska",
       "code": "SE",
       "confederation": "UEFA",
-      "qualified": false,
-      "playoffGroup": "B"
+      "qualified": true,
+      "playoffGroup": "B",
+      "group": "F"
     },
     {
       "id": "sui",
@@ -470,8 +475,9 @@
       "name": "Turska",
       "code": "TR",
       "confederation": "UEFA",
-      "qualified": false,
-      "playoffGroup": "C"
+      "qualified": true,
+      "playoffGroup": "C",
+      "group": "D"
     },
     {
       "id": "ukr",

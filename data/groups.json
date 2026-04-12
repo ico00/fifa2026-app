@@ -6,7 +6,7 @@
         "mex",
         "rsa",
         "kor",
-        null
+        "cze"
       ],
       "playoffSlot": "D"
     },
@@ -14,7 +14,7 @@
       "name": "Grupa B",
       "teams": [
         "can",
-        null,
+        "bih",
         "qat",
         "sui"
       ],
@@ -35,7 +35,7 @@
         "usa",
         "par",
         "aus",
-        null
+        "tur"
       ],
       "playoffSlot": "C"
     },
@@ -53,7 +53,7 @@
       "teams": [
         "ned",
         "jpn",
-        null,
+        "swe",
         "tun"
       ],
       "playoffSlot": "B"
@@ -81,7 +81,7 @@
       "teams": [
         "fra",
         "sen",
-        null,
+        "irq",
         "nor"
       ],
       "playoffSlot": "1"
@@ -99,7 +99,7 @@
       "name": "Grupa K",
       "teams": [
         "por",
-        null,
+        "cgo",
         "uzb",
         "col"
       ],

@@ -44,6 +44,20 @@
           "goalsAgainst": 0,
           "goalDifference": 0,
           "points": 0
+        },
+        {
+          "id": "cze",
+          "name": "Češka",
+          "code": "CZ",
+          "order": 3,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
         }
       ]
     },
@@ -65,10 +79,24 @@
           "points": 0
         },
         {
+          "id": "bih",
+          "name": "Bosna i Hercegovina",
+          "code": "BA",
+          "order": 1,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        },
+        {
           "id": "qat",
           "name": "Katar",
           "code": "QA",
-          "order": 1,
+          "order": 2,
           "played": 0,
           "won": 0,
           "drawn": 0,
@@ -82,7 +110,7 @@
           "id": "sui",
           "name": "Švicarska",
           "code": "CH",
-          "order": 2,
+          "order": 3,
           "played": 0,
           "won": 0,
           "drawn": 0,
@@ -199,6 +227,20 @@
           "goalsAgainst": 0,
           "goalDifference": 0,
           "points": 0
+        },
+        {
+          "id": "tur",
+          "name": "Turska",
+          "code": "TR",
+          "order": 3,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
         }
       ]
     },
@@ -295,10 +337,24 @@
           "points": 0
         },
         {
+          "id": "swe",
+          "name": "Švedska",
+          "code": "SE",
+          "order": 2,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        },
+        {
           "id": "tun",
           "name": "Tunis",
           "code": "TN",
-          "order": 2,
+          "order": 3,
           "played": 0,
           "won": 0,
           "drawn": 0,
@@ -464,10 +520,24 @@
           "points": 0
         },
         {
+          "id": "irq",
+          "name": "Irak",
+          "code": "IQ",
+          "order": 2,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        },
+        {
           "id": "nor",
           "name": "Norveška",
           "code": "NO",
-          "order": 2,
+          "order": 3,
           "played": 0,
           "won": 0,
           "drawn": 0,
@@ -558,10 +628,24 @@
           "points": 0
         },
         {
+          "id": "cgo",
+          "name": "Kongo",
+          "code": "CG",
+          "order": 1,
+          "played": 0,
+          "won": 0,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 0,
+          "goalsAgainst": 0,
+          "goalDifference": 0,
+          "points": 0
+        },
+        {
           "id": "uzb",
           "name": "Uzbekistan",
           "code": "UZ",
-          "order": 1,
+          "order": 2,
           "played": 0,
           "won": 0,
           "drawn": 0,
@@ -575,7 +659,7 @@
           "id": "col",
           "name": "Kolumbija",
           "code": "CO",
-          "order": 2,
+          "order": 3,
           "played": 0,
           "won": 0,
           "drawn": 0,

@@ -9,7 +9,7 @@
         "sur"
       ],
       "matches": [],
-      "winner": null
+      "winner": "irq"
     },
     "2": {
       "name": "Play-Off 2",
@@ -20,7 +20,7 @@
         "ncl"
       ],
       "matches": [],
-      "winner": null
+      "winner": "cgo"
     },
     "A": {
       "name": "Play-Off A",
@@ -32,7 +32,7 @@
         "wal"
       ],
       "matches": [],
-      "winner": null
+      "winner": "bih"
     },
     "B": {
       "name": "Play-Off B",
@@ -44,7 +44,7 @@
         "ukr"
       ],
       "matches": [],
-      "winner": null
+      "winner": "swe"
     },
     "C": {
       "name": "Play-Off C",
@@ -56,7 +56,7 @@
         "tur"
       ],
       "matches": [],
-      "winner": null
+      "winner": "tur"
     },
     "D": {
       "name": "Play-Off D",
@@ -68,7 +68,7 @@
         "mkd"
       ],
       "matches": [],
-      "winner": null
+      "winner": "cze"
     }
   }
 }
