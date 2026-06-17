@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from 'react'
 import { 
   registerServiceWorker, 
+  unregisterServiceWorker,
+  clearPWACache,
   isPWAInstalled, 
   isIOS, 
   isIOSSafari,
@@ -33,13 +35,20 @@ export function usePWA() {
     return localStorage.getItem('pwa-install-dismissed') === 'true'
   })
 
-  // Registriraj Service Worker
+  // Registriraj Service Worker (samo u produkciji)
   useEffect(() => {
-    registerServiceWorker().then((registration) => {
-      if (registration) {
-        setSwRegistration(registration)
-      }
-    })
+    if (import.meta.env.PROD) {
+      registerServiceWorker().then((registration) => {
+        if (registration) {
+          setSwRegistration(registration)
+        }
+      })
+    } else {
+      // U developmentu deregistriraj SW i očisti cache da se izbjegne
+      // posluživanje zastarjelih modula/podataka
+      unregisterServiceWorker()
+      clearPWACache()
+    }
   }, [])
 
   // Online/Offline listener

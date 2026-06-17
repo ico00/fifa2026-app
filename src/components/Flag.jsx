@@ -33,7 +33,7 @@ const FLAG_MAP = {
   'CA': '🇨🇦', // Kanada
   'QA': '🇶🇦', // Katar
   'CO': '🇨🇴', // Kolumbija
-  'CG': '🇨🇬', // Kongo
+  'CD': '🇨🇩', // DR Kongo
   'XK': '🇽🇰', // Kosovo
   'MK': '🇲🇰', // Makedonija
   'MA': '🇲🇦', // Maroko
