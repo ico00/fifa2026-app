@@ -1,10 +1,18 @@
+import { useMemo } from 'react'
 import Flag from './Flag'
-import { getTeamById, getPlayoffData } from '../utils/helpers'
+import { getTeamById, getPlayoffData, computeBestThirdPlaced } from '../utils/helpers'
 
 function Standings({ standings, teams, bestThirdPlaced = [], groups = {}, playoffs = {} }) {
   const getPlayoffInfo = (playoffSlot) => {
     return getPlayoffData(playoffs, playoffSlot)
   }
+
+  // Službena lista (server) postoji tek kad sve grupe završe; do tada
+  // prikaži live projekciju najboljih trećeplasiranih iz trenutnih tablica.
+  const effectiveBestThird = useMemo(
+    () => (bestThirdPlaced.length ? bestThirdPlaced : computeBestThirdPlaced(standings)),
+    [bestThirdPlaced, standings]
+  )
 
   if (!standings || Object.keys(standings).length === 0) {
     return (
@@ -48,6 +56,12 @@ function Standings({ standings, teams, bestThirdPlaced = [], groups = {}, playof
           <Flag code="HR" size="sm" />
           <span className="text-slate-600 dark:text-slate-400 text-sm font-medium">
             Hrvatska
+          </span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="w-3 h-3 rounded-full bg-slate-400 opacity-50 grayscale"></span>
+          <span className="text-slate-600 dark:text-slate-400 text-sm font-medium">
+            Ispao iz natjecanja
           </span>
         </div>
       </div>
@@ -119,7 +133,7 @@ function Standings({ standings, teams, bestThirdPlaced = [], groups = {}, playof
                     </tr>
                   </thead>
                   <tbody>
-                    {displayItems.map((item, displayIndex) => {
+                    {displayItems.map((item) => {
                       if (item.type === 'playoff') {
                         // Play-off placeholder na pozicijama 1 ili 2 prolazi u knockout (zeleno)
                         const isPlayoffQualified = item.position <= 2
@@ -157,39 +171,59 @@ function Standings({ standings, teams, bestThirdPlaced = [], groups = {}, playof
                       // Normalan tim
                       const teamData = item.data
                       const team = getTeamById(teams, teamData.id)
-                      const actualIndex = item.originalIndex
                       const displayPosition = item.displayPosition
                       const isQualified = displayPosition <= 2
                       const isThirdPlaced = displayPosition === 3
-                      const isBestThirdPlaced = isThirdPlaced && bestThirdPlaced.includes(teamData.id)
+                      const isBestThirdPlaced = isThirdPlaced && effectiveBestThird.includes(teamData.id)
                       const isCroatia = teamData.highlight
+                      const isEliminated = teamData.eliminated === true
+                      const qual = teamData.qualification
+                      const isSecured = qual && qual.status === 'secured'
 
                       return (
                         <tr
                           key={teamData.id}
+                          title={isEliminated ? 'Matematički ispao iz natjecanja' : undefined}
                           className={`
                             border-b border-white/10 dark:border-white/5 transition-colors hover:bg-slate-50 dark:hover:bg-slate-700/50
-                            ${isQualified ? 'bg-green-50/50 dark:bg-green-900/10' : ''} 
+                            ${isQualified ? 'bg-green-50/50 dark:bg-green-900/10' : ''}
                             ${isCroatia ? 'bg-gradient-to-r from-fifa-red/5 via-transparent to-transparent' : ''}
+                            ${isEliminated ? 'opacity-50 grayscale' : ''}
                           `}
                         >
                           <td className="p-1.5 sm:p-2 md:p-3 pl-3 sm:pl-4 md:pl-4">
                             <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3 min-w-0">
-                              <span className={`
-                                w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 flex items-center justify-center rounded-full text-[10px] sm:text-xs md:text-sm font-bold shrink-0 flex-shrink-0
-                                ${isBestThirdPlaced
-                                  ? 'bg-blue-500 text-white shadow-sm'
-                                  : isQualified
-                                    ? 'bg-green-500 text-white shadow-sm'
-                                    : 'bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400'
-                                }
-                              `}>
-                                {displayPosition}
+                              <span className="relative shrink-0 flex-shrink-0">
+                                <span className={`
+                                  w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 flex items-center justify-center rounded-full text-[10px] sm:text-xs md:text-sm font-bold
+                                  ${isBestThirdPlaced
+                                    ? 'bg-blue-500 text-white shadow-sm'
+                                    : isQualified
+                                      ? 'bg-green-500 text-white shadow-sm'
+                                      : 'bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400'
+                                  }
+                                `}>
+                                  {displayPosition}
+                                </span>
+                                {isThirdPlaced && teamData.thirdRank && (
+                                  <span
+                                    className={`absolute -top-1.5 -right-1.5 min-w-[14px] h-[14px] px-0.5 flex items-center justify-center rounded-full text-[8px] font-black leading-none border border-white dark:border-slate-800 ${
+                                      teamData.thirdRank <= 8 ? 'bg-blue-600 text-white' : 'bg-slate-400 text-white'
+                                    }`}
+                                    title={`${teamData.thirdRank}. najbolji trećeplasirani od ${teamData.thirdTotal} (prolazi 8)`}
+                                  >
+                                    {teamData.thirdRank}
+                                  </span>
+                                )}
                               </span>
                               {team && <Flag code={team.code} size="sm" className="shrink-0" />}
-                              <span className={`font-semibold text-[10px] sm:text-xs md:text-sm lg:text-base break-words min-w-0 ${isCroatia ? 'text-fifa-red dark:text-fifa-gold font-bold' : 'text-slate-700 dark:text-slate-200'}`}>
+                              <span
+                                className={`font-semibold text-[10px] sm:text-xs md:text-sm lg:text-base break-words min-w-0 cursor-help ${isCroatia ? 'text-fifa-red dark:text-fifa-gold font-bold' : 'text-slate-700 dark:text-slate-200'}`}
+                                title={[qual?.summary, typeof teamData.advanceChance === 'number' && qual?.status !== 'eliminated' ? `Šanse za prolaz: ~${teamData.advanceChance}%` : null].filter(Boolean).join(' • ') || undefined}
+                              >
                                 {teamData.name}
                                 {isCroatia && ' 🔥'}
+                                {isSecured && <span className="ml-1 text-green-600 dark:text-green-400" title="Osiguran prolaz">✓</span>}
                               </span>
                             </div>
                           </td>

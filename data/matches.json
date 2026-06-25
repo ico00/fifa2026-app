@@ -274,9 +274,11 @@
       "group": "L",
       "homeTeam": "gha",
       "awayTeam": "pan",
-      "homeScore": null,
-      "awayScore": null,
-      "played": false
+      "homeScore": 1,
+      "awayScore": 0,
+      "played": true,
+      "homePenalty": null,
+      "awayPenalty": null
     },
     {
       "id": 22,
@@ -287,10 +289,12 @@
       "group": "L",
       "homeTeam": "eng",
       "awayTeam": "cro",
-      "homeScore": null,
-      "awayScore": null,
-      "played": false,
-      "highlight": true
+      "homeScore": 4,
+      "awayScore": 2,
+      "played": true,
+      "highlight": true,
+      "homePenalty": null,
+      "awayPenalty": null
     },
     {
       "id": 23,
@@ -302,9 +306,11 @@
       "homeTeam": "por",
       "awayTeam": null,
       "awayTeamPlayoff": "2",
-      "homeScore": null,
-      "awayScore": null,
-      "played": false
+      "homeScore": 1,
+      "awayScore": 1,
+      "played": true,
+      "homePenalty": null,
+      "awayPenalty": null
     },
     {
       "id": 24,
@@ -315,9 +321,11 @@
       "group": "K",
       "homeTeam": "uzb",
       "awayTeam": "col",
-      "homeScore": null,
-      "awayScore": null,
-      "played": false
+      "homeScore": 1,
+      "awayScore": 3,
+      "played": true,
+      "homePenalty": null,
+      "awayPenalty": null
     },
     {
       "id": 25,
@@ -329,9 +337,11 @@
       "homeTeam": null,
       "homeTeamPlayoff": "D",
       "awayTeam": "rsa",
-      "homeScore": null,
-      "awayScore": null,
-      "played": false
+      "homeScore": 1,
+      "awayScore": 1,
+      "played": true,
+      "homePenalty": null,
+      "awayPenalty": null
     },
     {
       "id": 26,
@@ -343,9 +353,11 @@
       "homeTeam": "sui",
       "awayTeam": null,
       "awayTeamPlayoff": "A",
-      "homeScore": null,
-      "awayScore": null,
-      "played": false
+      "homeScore": 4,
+      "awayScore": 1,
+      "played": true,
+      "homePenalty": null,
+      "awayPenalty": null
     },
     {
       "id": 27,
@@ -356,9 +368,11 @@
       "group": "B",
       "homeTeam": "can",
       "awayTeam": "qat",
-      "homeScore": null,
-      "awayScore": null,
-      "played": false
+      "homeScore": 6,
+      "awayScore": 0,
+      "played": true,
+      "homePenalty": null,
+      "awayPenalty": null
     },
     {
       "id": 28,
@@ -369,9 +383,11 @@
       "group": "A",
       "homeTeam": "mex",
       "awayTeam": "kor",
-      "homeScore": null,
-      "awayScore": null,
-      "played": false
+      "homeScore": 1,
+      "awayScore": 0,
+      "played": true,
+      "homePenalty": null,
+      "awayPenalty": null
     },
     {
       "id": 29,
@@ -382,9 +398,11 @@
       "group": "C",
       "homeTeam": "bra",
       "awayTeam": "hai",
-      "homeScore": null,
-      "awayScore": null,
-      "played": false
+      "homeScore": 3,
+      "awayScore": 0,
+      "played": true,
+      "homePenalty": null,
+      "awayPenalty": null
     },
     {
       "id": 30,
@@ -395,9 +413,11 @@
       "group": "C",
       "homeTeam": "sco",
       "awayTeam": "mar",
-      "homeScore": null,
-      "awayScore": null,
-      "played": false
+      "homeScore": 0,
+      "awayScore": 1,
+      "played": true,
+      "homePenalty": null,
+      "awayPenalty": null
     },
     {
       "id": 31,
@@ -409,9 +429,11 @@
       "homeTeam": null,
       "homeTeamPlayoff": "C",
       "awayTeam": "par",
-      "homeScore": null,
-      "awayScore": null,
-      "played": false
+      "homeScore": 0,
+      "awayScore": 1,
+      "played": true,
+      "homePenalty": null,
+      "awayPenalty": null
     },
     {
       "id": 32,
@@ -422,9 +444,11 @@
       "group": "D",
       "homeTeam": "usa",
       "awayTeam": "aus",
-      "homeScore": null,
-      "awayScore": null,
-      "played": false
+      "homeScore": 2,
+      "awayScore": 0,
+      "played": true,
+      "homePenalty": null,
+      "awayPenalty": null
     },
     {
       "id": 33,
@@ -435,9 +459,11 @@
       "group": "E",
       "homeTeam": "ger",
       "awayTeam": "civ",
-      "homeScore": null,
-      "awayScore": null,
-      "played": false
+      "homeScore": 2,
+      "awayScore": 1,
+      "played": true,
+      "homePenalty": null,
+      "awayPenalty": null
     },
     {
       "id": 34,
@@ -448,9 +474,11 @@
       "group": "E",
       "homeTeam": "ecu",
       "awayTeam": "cur",
-      "homeScore": null,
-      "awayScore": null,
-      "played": false
+      "homeScore": 0,
+      "awayScore": 0,
+      "played": true,
+      "homePenalty": null,
+      "awayPenalty": null
     },
     {
       "id": 35,
@@ -462,9 +490,11 @@
       "homeTeam": "ned",
       "awayTeam": null,
       "awayTeamPlayoff": "B",
-      "homeScore": null,
-      "awayScore": null,
-      "played": false
+      "homeScore": 5,
+      "awayScore": 1,
+      "played": true,
+      "homePenalty": null,
+      "awayPenalty": null
     },
     {
       "id": 36,
@@ -475,9 +505,11 @@
       "group": "F",
       "homeTeam": "tun",
       "awayTeam": "jpn",
-      "homeScore": null,
-      "awayScore": null,
-      "played": false
+      "homeScore": 0,
+      "awayScore": 4,
+      "played": true,
+      "homePenalty": null,
+      "awayPenalty": null
     },
     {
       "id": 37,
@@ -488,9 +520,11 @@
       "group": "H",
       "homeTeam": "uru",
       "awayTeam": "cpv",
-      "homeScore": null,
-      "awayScore": null,
-      "played": false
+      "homeScore": 2,
+      "awayScore": 2,
+      "played": true,
+      "homePenalty": null,
+      "awayPenalty": null
     },
     {
       "id": 38,
@@ -501,9 +535,11 @@
       "group": "H",
       "homeTeam": "esp",
       "awayTeam": "ksa",
-      "homeScore": null,
-      "awayScore": null,
-      "played": false
+      "homeScore": 4,
+      "awayScore": 0,
+      "played": true,
+      "homePenalty": null,
+      "awayPenalty": null
     },
     {
       "id": 39,
@@ -514,9 +550,11 @@
       "group": "G",
       "homeTeam": "bel",
       "awayTeam": "irn",
-      "homeScore": null,
-      "awayScore": null,
-      "played": false
+      "homeScore": 0,
+      "awayScore": 0,
+      "played": true,
+      "homePenalty": null,
+      "awayPenalty": null
     },
     {
       "id": 40,
@@ -527,9 +565,11 @@
       "group": "G",
       "homeTeam": "nzl",
       "awayTeam": "egy",
-      "homeScore": null,
-      "awayScore": null,
-      "played": false
+      "homeScore": 1,
+      "awayScore": 3,
+      "played": true,
+      "homePenalty": null,
+      "awayPenalty": null
     },
     {
       "id": 41,
@@ -540,9 +580,11 @@
       "group": "I",
       "homeTeam": "nor",
       "awayTeam": "sen",
-      "homeScore": null,
-      "awayScore": null,
-      "played": false
+      "homeScore": 3,
+      "awayScore": 2,
+      "played": true,
+      "homePenalty": null,
+      "awayPenalty": null
     },
     {
       "id": 42,
@@ -554,9 +596,11 @@
       "homeTeam": "fra",
       "awayTeam": null,
       "awayTeamPlayoff": "1",
-      "homeScore": null,
-      "awayScore": null,
-      "played": false
+      "homeScore": 3,
+      "awayScore": 0,
+      "played": true,
+      "homePenalty": null,
+      "awayPenalty": null
     },
     {
       "id": 43,
@@ -567,9 +611,10 @@
       "group": "J",
       "homeTeam": "arg",
       "awayTeam": "aut",
-      "homeScore": null,
-      "awayScore": null,
-      "played": false
+      "homeScore": 2,
+      "awayScore": 0,
+      "played": true,
+      "manual": true
     },
     {
       "id": 44,
@@ -580,9 +625,10 @@
       "group": "J",
       "homeTeam": "jor",
       "awayTeam": "alg",
-      "homeScore": null,
-      "awayScore": null,
-      "played": false
+      "homeScore": 1,
+      "awayScore": 2,
+      "played": true,
+      "manual": true
     },
     {
       "id": 45,
@@ -593,9 +639,11 @@
       "group": "L",
       "homeTeam": "eng",
       "awayTeam": "gha",
-      "homeScore": null,
-      "awayScore": null,
-      "played": false
+      "homeScore": 0,
+      "awayScore": 0,
+      "played": true,
+      "homePenalty": null,
+      "awayPenalty": null
     },
     {
       "id": 46,
@@ -606,10 +654,12 @@
       "group": "L",
       "homeTeam": "pan",
       "awayTeam": "cro",
-      "homeScore": null,
-      "awayScore": null,
-      "played": false,
-      "highlight": true
+      "homeScore": 0,
+      "awayScore": 1,
+      "played": true,
+      "highlight": true,
+      "homePenalty": null,
+      "awayPenalty": null
     },
     {
       "id": 47,
@@ -620,9 +670,10 @@
       "group": "K",
       "homeTeam": "por",
       "awayTeam": "uzb",
-      "homeScore": null,
-      "awayScore": null,
-      "played": false
+      "homeScore": 5,
+      "awayScore": 0,
+      "played": true,
+      "manual": true
     },
     {
       "id": 48,
@@ -634,9 +685,10 @@
       "homeTeam": "col",
       "awayTeam": null,
       "awayTeamPlayoff": "2",
-      "homeScore": null,
-      "awayScore": null,
-      "played": false
+      "homeScore": 1,
+      "awayScore": 0,
+      "played": true,
+      "manual": true
     },
     {
       "id": 49,
@@ -647,9 +699,11 @@
       "group": "C",
       "homeTeam": "sco",
       "awayTeam": "bra",
-      "homeScore": null,
-      "awayScore": null,
-      "played": false
+      "homeScore": 0,
+      "awayScore": 3,
+      "played": true,
+      "homePenalty": null,
+      "awayPenalty": null
     },
     {
       "id": 50,
@@ -660,9 +714,11 @@
       "group": "C",
       "homeTeam": "mar",
       "awayTeam": "hai",
-      "homeScore": null,
-      "awayScore": null,
-      "played": false
+      "homeScore": 4,
+      "awayScore": 2,
+      "played": true,
+      "homePenalty": null,
+      "awayPenalty": null
     },
     {
       "id": 51,
@@ -673,9 +729,11 @@
       "group": "B",
       "homeTeam": "sui",
       "awayTeam": "can",
-      "homeScore": null,
-      "awayScore": null,
-      "played": false
+      "homeScore": 2,
+      "awayScore": 1,
+      "played": true,
+      "homePenalty": null,
+      "awayPenalty": null
     },
     {
       "id": 52,
@@ -687,9 +745,11 @@
       "homeTeam": null,
       "homeTeamPlayoff": "A",
       "awayTeam": "qat",
-      "homeScore": null,
-      "awayScore": null,
-      "played": false
+      "homeScore": 3,
+      "awayScore": 1,
+      "played": true,
+      "homePenalty": null,
+      "awayPenalty": null
     },
     {
       "id": 53,
@@ -701,9 +761,10 @@
       "homeTeam": null,
       "homeTeamPlayoff": "D",
       "awayTeam": "mex",
-      "homeScore": null,
-      "awayScore": null,
-      "played": false
+      "homeScore": 0,
+      "awayScore": 3,
+      "played": true,
+      "manual": true
     },
     {
       "id": 54,
@@ -714,9 +775,10 @@
       "group": "A",
       "homeTeam": "rsa",
       "awayTeam": "kor",
-      "homeScore": null,
-      "awayScore": null,
-      "played": false
+      "homeScore": 1,
+      "awayScore": 0,
+      "played": true,
+      "manual": true
     },
     {
       "id": 55,
@@ -966,8 +1028,8 @@
         "date": "2026-06-28",
         "time": "21:00",
         "venue": "la",
-        "homeTeam": null,
-        "awayTeam": null,
+        "homeTeam": "rsa",
+        "awayTeam": "can",
         "homeScore": null,
         "awayScore": null,
         "played": false,
@@ -995,7 +1057,7 @@
         "time": "03:00",
         "venue": "monterrey",
         "homeTeam": null,
-        "awayTeam": null,
+        "awayTeam": "mar",
         "homeScore": null,
         "awayScore": null,
         "played": false,
@@ -1007,7 +1069,7 @@
         "date": "2026-06-29",
         "time": "19:00",
         "venue": "houston",
-        "homeTeam": null,
+        "homeTeam": "bra",
         "awayTeam": null,
         "homeScore": null,
         "awayScore": null,
@@ -1048,7 +1110,7 @@
         "date": "2026-07-01",
         "time": "03:00",
         "venue": "mexicocity",
-        "homeTeam": null,
+        "homeTeam": "mex",
         "awayTeam": null,
         "homeScore": null,
         "awayScore": null,
@@ -1126,7 +1188,7 @@
         "date": "2026-07-03",
         "time": "05:00",
         "venue": "vancouver",
-        "homeTeam": null,
+        "homeTeam": "sui",
         "awayTeam": null,
         "homeScore": null,
         "awayScore": null,

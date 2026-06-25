@@ -6,6 +6,7 @@ const TABS = [
   { id: 'groups', label: 'Grupe', icon: '📋' },
   { id: 'matches', label: 'Utakmice', icon: '⚽' },
   { id: 'standings', label: 'Tablice', icon: '📊' },
+  { id: 'scenarios', label: 'Scenariji', icon: '🔮' },
   { id: 'knockout', label: 'Knockout', icon: '🏆' },
   { id: 'simulation', label: 'Simulacija', icon: '🎰' }
 ]

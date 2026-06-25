@@ -3,6 +3,7 @@ const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 const { login, verifyToken, authMiddleware } = require('./auth.cjs');
+const openfootball = require('./openfootball.cjs');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -239,6 +240,10 @@ app.put('/api/knockout/:round/:id', authMiddleware, (req, res) => {
     match.played = false;
   }
 
+  // Ručni override: kad admin postavi rezultat, auto-sync ga više ne dira;
+  // kad ga obriše (prazan), vrati pod auto-sync
+  match.manual = !(match.homeScore == null && match.awayScore == null);
+
   if (writeJsonFile('matches.json', data)) {
     // Ažuriraj daljnje runde
     updateKnockoutWinners(data);
@@ -346,6 +351,9 @@ app.put('/api/matches/:id', authMiddleware, (req, res) => {
     data.groupStage[matchIndex].played = false;
   }
 
+  // Ručni override: postavljen rezultat -> auto-sync ne dira; obrisan -> vrati pod auto-sync
+  currentMatch.manual = !(currentMatch.homeScore == null && currentMatch.awayScore == null);
+
   if (writeJsonFile('matches.json', data)) {
     // Ponovno izračunaj tablice
     recalculateStandings();
@@ -397,20 +405,19 @@ app.post('/api/matches', authMiddleware, (req, res) => {
 });
 
 // Ažuriraj play-off pobjednika
-app.put('/api/playoffs/:id/winner', authMiddleware, (req, res) => {
-  const playoffId = req.params.id;
-  const { winner } = req.body;
-
+// Postavi/ukloni pobjednika play-offa: ažurira playoffs/groups/teams i preračuna
+// tablice. Koriste je i admin ruta i auto-sync. Vraća { ok, status?, error? }.
+function applyPlayoffWinner(playoffId, winner) {
   const playoffsData = readJsonFile('playoffs.json');
   const groupsData = readJsonFile('groups.json');
   const teamsData = readJsonFile('teams.json');
 
   if (!playoffsData || !groupsData || !teamsData) {
-    return res.status(500).json({ error: 'Greška pri čitanju podataka' });
+    return { ok: false, status: 500, error: 'Greška pri čitanju podataka' };
   }
 
   if (!playoffsData.playoffs[playoffId]) {
-    return res.status(404).json({ error: 'Play-off nije pronađen' });
+    return { ok: false, status: 404, error: 'Play-off nije pronađen' };
   }
 
   const previousWinner = playoffsData.playoffs[playoffId].winner;
@@ -502,10 +509,321 @@ app.put('/api/playoffs/:id/winner', authMiddleware, (req, res) => {
   // Ponovno izračunaj tablice
   recalculateStandings();
 
+  return { ok: true };
+}
+
+// Ruta: admin ručno postavi/ukloni pobjednika play-offa (override)
+app.put('/api/playoffs/:id/winner', authMiddleware, (req, res) => {
+  const playoffId = req.params.id;
+  const { winner } = req.body;
+  const result = applyPlayoffWinner(playoffId, winner);
+  if (!result.ok) return res.status(result.status).json({ error: result.error });
   res.json({ success: true, winner: winner || null, playoffId });
 });
 
-// Funkcija za izračun tablica
+// Izračunaj scenarije prolaza po timu: enumerira sve ishode preostalih utakmica
+// grupe (P/N/Poraz) uz FIFA 2026 poredak (međusobni susret prvi) i određuje:
+//  - eliminated: ne može u top 3 ni u jednom scenariju
+//  - qualification: { status: 'secured'|'possible'|'eliminated', summary, outcomes }
+// Granice ranga: bestRank (optimistično za tim na izjednačenom H2H), worstRank
+// (pesimistično). "Sigurno" koristi worstRank, "moguće" koristi bestRank.
+function computeScenarios(standings, matchesData, groupsData, playoffsData) {
+  const getPlayoffWinner = (id) =>
+    (playoffsData && playoffsData.playoffs && playoffsData.playoffs[id] && playoffsData.playoffs[id].winner) || null;
+
+  for (const [groupKey, group] of Object.entries(standings)) {
+    const teamIds = group.teams.map((t) => t.id);
+    const nameOf = (id) => { const t = group.teams.find((x) => x.id === id); return t ? t.name : id; };
+    group.teams.forEach((t) => { t.eliminated = false; t.qualification = { status: 'possible', summary: '' }; });
+    if (teamIds.length < 4) continue;
+
+    const gMatches = matchesData.groupStage.filter((m) => m.group === groupKey);
+    const concrete = new Set();
+    gMatches.forEach((m) => { if (m.homeTeam) concrete.add(m.homeTeam); if (m.awayTeam) concrete.add(m.awayTeam); });
+    const missing = teamIds.filter((id) => !concrete.has(id));
+    const slotTeam = missing.length === 1 ? missing[0] : null;
+    const resolve = (id, po) => id || getPlayoffWinner(po) || slotTeam || null;
+
+    const matches = gMatches
+      .map((m) => ({
+        home: resolve(m.homeTeam, m.homeTeamPlayoff),
+        away: resolve(m.awayTeam, m.awayTeamPlayoff),
+        played: m.played && m.homeScore != null && m.awayScore != null,
+        result: m.homeScore > m.awayScore ? 'H' : m.awayScore > m.homeScore ? 'A' : 'D'
+      }))
+      .filter((m) => m.home && m.away && m.home !== m.away &&
+        teamIds.includes(m.home) && teamIds.includes(m.away));
+
+    const playedMatches = matches.filter((m) => m.played);
+    const remaining = matches.filter((m) => !m.played);
+
+    // Gotova grupa -> egzaktan poredak (tablica je već sortirana po 2026 pravilima).
+    // Bez ovoga, kod izjednačenih bodova pesimistična procjena GR krivo bi spriječila "osiguran".
+    if (remaining.length === 0) {
+      group.teams.forEach((t, idx) => {
+        t.eliminated = idx === 3;
+        t.qualification = {
+          status: idx < 2 ? 'secured' : idx === 2 ? 'possible' : 'eliminated',
+          summary: idx < 2
+            ? 'Osiguran prolaz (među prva 2).'
+            : idx === 2
+              ? 'Završio kao 3. — prolaz ovisi o ostalim trećeplasiranima.'
+              : 'Ispao iz natjecanja.',
+          outcomes: null
+        };
+      });
+      continue;
+    }
+
+    const award = (pts, m, res) => {
+      if (res === 'H') pts[m.home] += 3;
+      else if (res === 'A') pts[m.away] += 3;
+      else { pts[m.home] += 1; pts[m.away] += 1; }
+    };
+    const basePts = {};
+    teamIds.forEach((id) => { basePts[id] = 0; });
+    playedMatches.forEach((m) => award(basePts, m, m.result));
+
+    // Preostala utakmica tima (za scenarije po ishodu) - tipično jedna
+    const ownRemaining = {};
+    teamIds.forEach((id) => { ownRemaining[id] = remaining.filter((m) => m.home === id || m.away === id); });
+
+    // Akumulatori po timu
+    const acc = {};
+    teamIds.forEach((id) => {
+      acc[id] = {
+        everTop2: false, alwaysTop2: true, everTop3: false, alwaysTop3: true,
+        byOutcome: { W: null, D: null, L: null } // { maxWorst, minBest } po vlastitom ishodu
+      };
+    });
+
+    const n = remaining.length;
+    const combos = Math.pow(3, n);
+    for (let c = 0; c < combos; c++) {
+      const pts = { ...basePts };
+      const results = playedMatches.map((m) => ({ home: m.home, away: m.away, result: m.result }));
+      const remRes = [];
+      let cc = c;
+      for (let k = 0; k < n; k++) {
+        const o = cc % 3; cc = Math.floor(cc / 3);
+        const res = o === 0 ? 'H' : o === 1 ? 'A' : 'D';
+        const m = remaining[k];
+        results.push({ home: m.home, away: m.away, result: res });
+        remRes[k] = res;
+        award(pts, m, res);
+      }
+
+      for (const T of teamIds) {
+        const tied = teamIds.filter((x) => pts[x] === pts[T]);
+        const h2h = {};
+        tied.forEach((x) => { h2h[x] = 0; });
+        if (tied.length > 1) {
+          results.forEach((r) => { if (tied.includes(r.home) && tied.includes(r.away)) award(h2h, r, r.result); });
+        }
+        let guaranteedAbove = 0, possibleAbove = 0;
+        for (const X of teamIds) {
+          if (X === T) continue;
+          if (pts[X] > pts[T]) { guaranteedAbove++; possibleAbove++; }
+          else if (pts[X] === pts[T]) {
+            if (h2h[X] > h2h[T]) { guaranteedAbove++; possibleAbove++; }
+            else if (h2h[X] === h2h[T]) { possibleAbove++; } // izjednačen H2H -> moguće iznad po golovima
+          }
+        }
+        const bestRank = guaranteedAbove + 1;
+        const worstRank = possibleAbove + 1;
+
+        const a = acc[T];
+        if (bestRank <= 2) a.everTop2 = true;
+        if (worstRank > 2) a.alwaysTop2 = false;
+        if (bestRank <= 3) a.everTop3 = true;
+        if (worstRank > 3) a.alwaysTop3 = false;
+
+        // Scenarij po vlastitom ishodu (samo ako tim ima točno 1 preostalu)
+        if (ownRemaining[T].length === 1) {
+          const idx = remaining.indexOf(ownRemaining[T][0]);
+          const r = remRes[idx];
+          const m = remaining[idx];
+          const outcome = r === 'D' ? 'D' : ((r === 'H') === (m.home === T) ? 'W' : 'L');
+          const slot = a.byOutcome[outcome] || { maxWorst: 0, minBest: 99 };
+          slot.maxWorst = Math.max(slot.maxWorst, worstRank);
+          slot.minBest = Math.min(slot.minBest, bestRank);
+          a.byOutcome[outcome] = slot;
+        }
+      }
+    }
+
+    // Pretvori akumulatore u status + tekst
+    for (const t of group.teams) {
+      const a = acc[t.id];
+      const eliminated = !a.everTop3;
+      t.eliminated = eliminated;
+
+      let status = 'possible';
+      if (eliminated) status = 'eliminated';
+      else if (a.alwaysTop2) status = 'secured';
+
+      const q = { status, summary: '', outcomes: null };
+
+      if (status === 'eliminated') {
+        q.summary = 'Ispao iz natjecanja.';
+      } else if (status === 'secured') {
+        q.summary = 'Osiguran prolaz (među prva 2).';
+      } else if (ownRemaining[t.id].length === 1) {
+        const opp = (() => { const m = ownRemaining[t.id][0]; return nameOf(m.home === t.id ? m.away : m.home); })();
+        const classify = (o) => {
+          if (!o) return null;
+          if (o.maxWorst <= 2) return 'secures2';
+          if (o.minBest <= 2) return 'maybe2';
+          if (o.maxWorst <= 3) return 'secures3';
+          if (o.minBest <= 3) return 'maybe3';
+          return 'no';
+        };
+        const W = classify(a.byOutcome.W), D = classify(a.byOutcome.D), L = classify(a.byOutcome.L);
+        const phrase = {
+          secures2: 'osigurava prolaz', maybe2: 'moguć prolaz (ovisi o ostalima)',
+          secures3: 'osigurava barem borbu za trećeplasirane', maybe3: 'moguće 3. mjesto (ovisi o ostalima)',
+          no: 'nije dovoljno'
+        };
+        q.outcomes = {
+          opponent: opp,
+          win: W ? phrase[W] : null,
+          draw: D ? phrase[D] : null,
+          loss: L ? phrase[L] : null
+        };
+        // Sažetak: najmanji dovoljan rezultat
+        if (L === 'secures2') q.summary = `Već praktički osiguran — i poraz drži prolaz.`;
+        else if (D === 'secures2') q.summary = `Remi protiv ${opp} je dovoljan za prolaz.`;
+        else if (W === 'secures2') q.summary = `Pobjeda protiv ${opp} osigurava prolaz.`;
+        else if (D === 'secures3') q.summary = `Remi protiv ${opp} drži u borbi za trećeplasirane.`;
+        else if (W === 'secures3') q.summary = `Pobjedom protiv ${opp} ulazi u borbu za trećeplasirane.`;
+        else if (W === 'maybe2') q.summary = `Treba pobjeda protiv ${opp} + povoljni ostali rezultati.`;
+        else if (W === 'maybe3') q.summary = `Treba pobjeda protiv ${opp} i pomoć sa strane.`;
+        else q.summary = 'Vrlo male šanse za prolaz.';
+      } else if (ownRemaining[t.id].length === 0) {
+        q.summary = 'Sve odigrano — prolaz ovisi o ostalim utakmicama i skupinama.';
+      } else {
+        q.summary = 'Prolaz je još otvoren (više utakmica preostalo).';
+      }
+
+      t.qualification = q;
+    }
+  }
+}
+
+// Monte Carlo procjena šanse za prolaz (%) po timu. Egzaktna enumeracija svih
+// preostalih utakmica nije izvediva (previše kombinacija), pa simuliramo N
+// slučajnih ishoda (golovi ~ blaga Poissonova razdioba, bez težinjenja po jakosti)
+// i brojimo u koliko sim. tim prođe (top 2 ili među 8 najboljih trećih).
+function computeAdvanceChances(standings, matchesData, groupsData, playoffsData, sims = 10000) {
+  const getPW = (id) =>
+    (playoffsData && playoffsData.playoffs && playoffsData.playoffs[id] && playoffsData.playoffs[id].winner) || null;
+
+  // Pripremi po grupi: timovi, odigrane (sa stvarnim golovima), preostale (h/a)
+  const groupsPrep = [];
+  for (const [g, group] of Object.entries(standings)) {
+    const teamIds = group.teams.map((t) => t.id);
+    if (teamIds.length < 4) { groupsPrep.push(null); continue; }
+    const gm = matchesData.groupStage.filter((m) => m.group === g);
+    const concrete = new Set();
+    gm.forEach((m) => { if (m.homeTeam) concrete.add(m.homeTeam); if (m.awayTeam) concrete.add(m.awayTeam); });
+    const missing = teamIds.filter((id) => !concrete.has(id));
+    const slot = missing.length === 1 ? missing[0] : null;
+    const res = (id, po) => id || getPW(po) || slot || null;
+    const played = [], remaining = [];
+    gm.forEach((m) => {
+      const h = res(m.homeTeam, m.homeTeamPlayoff), a = res(m.awayTeam, m.awayTeamPlayoff);
+      if (!h || !a || !teamIds.includes(h) || !teamIds.includes(a)) return;
+      if (m.played && m.homeScore != null && m.awayScore != null) played.push({ h, a, hg: m.homeScore, ag: m.awayScore });
+      else remaining.push({ h, a });
+    });
+    groupsPrep.push({ key: g, teamIds, played, remaining });
+  }
+
+  // Slučajni golovi: ~Poisson(1.3)
+  const goalW = [0.27, 0.35, 0.23, 0.10, 0.04, 0.01];
+  const randGoals = () => { let r = Math.random(), s = 0; for (let i = 0; i < goalW.length; i++) { s += goalW[i]; if (r < s) return i; } return 0; };
+
+  // Poredaj timove grupe (2026: bodovi -> H2H[pts,gd,gf] -> ukupno gd, gf)
+  const orderGroup = (teamIds, stat, results) => {
+    const arr = teamIds.map((id) => ({ id, ...stat[id], gd: stat[id].gf - stat[id].ga }));
+    arr.sort((a, b) => b.pts - a.pts);
+    const out = [];
+    let i = 0;
+    while (i < arr.length) {
+      let j = i + 1;
+      while (j < arr.length && arr[j].pts === arr[i].pts) j++;
+      const cluster = arr.slice(i, j);
+      if (cluster.length > 1) {
+        const ids = new Set(cluster.map((t) => t.id));
+        const h = {}; cluster.forEach((t) => { h[t.id] = { pts: 0, gf: 0, ga: 0 }; });
+        results.forEach((r) => {
+          if (ids.has(r.h) && ids.has(r.a)) {
+            h[r.h].gf += r.hg; h[r.h].ga += r.ag; h[r.a].gf += r.ag; h[r.a].ga += r.hg;
+            if (r.hg > r.ag) h[r.h].pts += 3; else if (r.ag > r.hg) h[r.a].pts += 3; else { h[r.h].pts++; h[r.a].pts++; }
+          }
+        });
+        cluster.sort((a, b) =>
+          h[b.id].pts - h[a.id].pts ||
+          (h[b.id].gf - h[b.id].ga) - (h[a.id].gf - h[a.id].ga) ||
+          h[b.id].gf - h[a.id].gf ||
+          b.gd - a.gd || b.gf - a.gf
+        );
+      }
+      out.push(...cluster);
+      i = j;
+    }
+    return out;
+  };
+
+  const advCount = {};
+  for (const g of groupsPrep) if (g) g.teamIds.forEach((id) => { advCount[id] = 0; });
+
+  for (let s = 0; s < sims; s++) {
+    const thirds = [];
+    for (const gp of groupsPrep) {
+      if (!gp) continue;
+      const stat = {}; gp.teamIds.forEach((id) => { stat[id] = { pts: 0, gf: 0, ga: 0 }; });
+      const results = [];
+      const apply = (h, a, hg, ag) => {
+        stat[h].gf += hg; stat[h].ga += ag; stat[a].gf += ag; stat[a].ga += hg;
+        if (hg > ag) stat[h].pts += 3; else if (ag > hg) stat[a].pts += 3; else { stat[h].pts++; stat[a].pts++; }
+        results.push({ h, a, hg, ag });
+      };
+      gp.played.forEach((m) => apply(m.h, m.a, m.hg, m.ag));
+      gp.remaining.forEach((m) => apply(m.h, m.a, randGoals(), randGoals()));
+      const ord = orderGroup(gp.teamIds, stat, results);
+      advCount[ord[0].id]++; advCount[ord[1].id]++; // top 2 prolaze
+      const t = ord[2];
+      thirds.push({ id: t.id, pts: t.pts, gd: t.gf - t.ga, gf: t.gf });
+    }
+    thirds.sort((a, b) => b.pts - a.pts || b.gd - a.gd || b.gf - a.gf);
+    for (let k = 0; k < Math.min(8, thirds.length); k++) advCount[thirds[k].id]++;
+  }
+
+  for (const group of Object.values(standings)) {
+    group.teams.forEach((t) => {
+      t.advanceChance = advCount[t.id] != null ? Math.round((advCount[t.id] / sims) * 100) : null;
+    });
+  }
+}
+
+// Rangiraj sve trećeplasirane (1 = najbolji ... 12 = najlošiji) po istim
+// kriterijima kao najbolji trećeplasirani (bodovi -> gol-razlika -> golovi).
+function computeThirdPlaceRanks(standings) {
+  const thirds = [];
+  for (const group of Object.values(standings)) {
+    group.teams.forEach((t, i) => {
+      delete t.thirdRank;
+      delete t.thirdTotal;
+      if (i === 2) thirds.push(t);
+    });
+  }
+  thirds.sort((a, b) =>
+    b.points - a.points || b.goalDifference - a.goalDifference || b.goalsFor - a.goalsFor
+  );
+  thirds.forEach((t, i) => { t.thirdRank = i + 1; t.thirdTotal = thirds.length; });
+}
+
 function recalculateStandings() {
   const matchesData = readJsonFile('matches.json');
   const groupsData = readJsonFile('groups.json');
@@ -693,18 +1011,23 @@ function recalculateStandings() {
         mini.goalDifference = mini.goalsFor - mini.goalsAgainst;
       });
 
-      // Sortiraj mini-tablicu
+      // Sortiraj mini-tablicu po FIFA 2026 redoslijedu:
+      // 1-3 međusobni susret (bodovi, gol-razlika, golovi),
+      // 4-5 ukupna gol-razlika pa ukupni golovi (fallback ako je H2H izjednačen)
       const sortedMini = Object.values(miniStandings).sort((a, b) => {
         if (b.points !== a.points) return b.points - a.points;
         if (b.goalDifference !== a.goalDifference) return b.goalDifference - a.goalDifference;
         if (b.goalsFor !== a.goalsFor) return b.goalsFor - a.goalsFor;
+        const ao = a.originalTeam, bo = b.originalTeam;
+        if (bo.goalDifference !== ao.goalDifference) return bo.goalDifference - ao.goalDifference;
+        if (bo.goalsFor !== ao.goalsFor) return bo.goalsFor - ao.goalsFor;
         return 0;
       });
 
       return sortedMini.map(mini => mini.originalTeam);
     };
 
-    // Prvo sortiraj po osnovnim kriterijima
+    // Bazni poredak po bodovima (unutar istih bodova H2H odlučuje niže)
     group.teams.sort((a, b) => {
       if (b.points !== a.points) return b.points - a.points;
       if (b.goalDifference !== a.goalDifference) return b.goalDifference - a.goalDifference;
@@ -720,13 +1043,11 @@ function recalculateStandings() {
       const currentTeam = group.teams[i];
       const tiedGroup = [currentTeam];
 
-      // Pronađi sve timove koji su izjednačeni s trenutnim
+      // Izjednačeni su svi s istim brojem BODOVA (H2H presuđuje među njima)
       let j = i + 1;
       while (j < group.teams.length) {
         const nextTeam = group.teams[j];
-        if (nextTeam.points === currentTeam.points &&
-          nextTeam.goalDifference === currentTeam.goalDifference &&
-          nextTeam.goalsFor === currentTeam.goalsFor) {
+        if (nextTeam.points === currentTeam.points) {
           tiedGroup.push(nextTeam);
           j++;
         } else {
@@ -734,7 +1055,7 @@ function recalculateStandings() {
         }
       }
 
-      // Ako su timovi izjednačeni, primijeni head-to-head
+      // Ako su timovi izjednačeni na bodovima, primijeni head-to-head (2026)
       if (tiedGroup.length > 1) {
         const headToHeadSorted = calculateHeadToHead(tiedGroup);
         sortedTeams.push(...headToHeadSorted);
@@ -747,6 +1068,15 @@ function recalculateStandings() {
 
     group.teams = sortedTeams;
   }
+
+  // Izračunaj scenarije prolaza i eliminacije (uz FIFA 2026 tiebreakere)
+  computeScenarios(standings, matchesData, groupsData, playoffsData);
+
+  // Rangiraj trećeplasirane (badge u tablici)
+  computeThirdPlaceRanks(standings);
+
+  // Monte Carlo procjena šanse za prolaz (%)
+  computeAdvanceChances(standings, matchesData, groupsData, playoffsData);
 
   writeJsonFile('standings.json', { standings });
 
@@ -1261,10 +1591,113 @@ function updateKnockoutWinners(matchesData) {
   }
 }
 
+// ============ LIVE SYNC (openfootball) ============
+const LIVE_SYNC = process.env.LIVE_SYNC !== 'false';
+const SYNC_INTERVAL = Math.max(60000, parseInt(process.env.LIVE_SYNC_INTERVAL_MS || '180000', 10));
+let lastSync = null;
+
+// Auto-razrješavanje play-off slotova iz openfootballa: tim koji se u izvoru
+// pojavljuje u grupi, a nije među app-ovim konkretnim timovima te grupe, jest
+// pobjednik pripadajućeg play-offa (ako je validan kandidat).
+function autoResolvePlayoffs(source) {
+  const playoffsData = readJsonFile('playoffs.json');
+  const groupsData = readJsonFile('groups.json');
+  if (!playoffsData || !groupsData || !Array.isArray(source.matches)) return [];
+
+  const resolved = [];
+  for (const [g, info] of Object.entries(groupsData.groups)) {
+    const slot = info.playoffSlot;
+    if (!slot || !playoffsData.playoffs[slot]) continue;
+    if (playoffsData.playoffs[slot].winner) continue; // već razriješen
+
+    const ofIds = new Set();
+    source.matches
+      .filter((m) => m.group && m.group.replace(/^group\s+/i, '').trim() === g)
+      .forEach((m) => {
+        const a = openfootball.idForName(m.team1);
+        const b = openfootball.idForName(m.team2);
+        if (a) ofIds.add(a);
+        if (b) ofIds.add(b);
+      });
+
+    const concrete = new Set((info.teams || []).filter(Boolean));
+    const candidateTeams = playoffsData.playoffs[slot].teams || [];
+    const candidates = [...ofIds].filter((t) => !concrete.has(t) && candidateTeams.includes(t));
+
+    if (candidates.length === 1) {
+      const r = applyPlayoffWinner(slot, candidates[0]);
+      if (r.ok) resolved.push(`${slot}=${candidates[0]}`);
+    }
+  }
+  return resolved;
+}
+
+// Dohvati rezultate iz openfootballa, primijeni ih i preračunaj tablice
+async function syncLiveResults() {
+  try {
+    const source = await openfootball.fetchSource();
+
+    // Prvo razriješi play-off slotove (popuni grupe stvarnim timovima)
+    const resolvedPlayoffs = autoResolvePlayoffs(source);
+    if (resolvedPlayoffs.length) {
+      console.log('🏟️ Auto play-off razriješen:', resolvedPlayoffs.join(', '));
+    }
+
+    const data = readJsonFile('matches.json');
+    const groupsData = readJsonFile('groups.json'); // ponovno učitaj nakon eventualnog razrješavanja
+    if (!data) return null;
+
+    const stats = openfootball.applyResults(data, source, groupsData && groupsData.groups);
+    if (stats.changed) {
+      writeJsonFile('matches.json', data);
+      recalculateStandings(); // ujedno ažurira i knockout parove
+    }
+
+    lastSync = { at: new Date().toISOString(), playoffsResolved: resolvedPlayoffs, ...stats };
+    console.log(
+      `🔄 Live sync: ${stats.changed ? stats.updated + ' ažurirano' : 'nema promjena'}` +
+      ` (ručno preskočeno: ${stats.skipped}, pending: ${stats.pending.length})`
+    );
+    if (stats.unmatched.length) {
+      console.warn('⚠️ Live sync nemapirano:', stats.unmatched.slice(0, 8));
+    }
+    return lastSync;
+  } catch (err) {
+    console.error('❌ Live sync greška:', err.message);
+    return null;
+  }
+}
+
+// Ručno pokretanje sinkronizacije (admin)
+app.post('/api/sync', authMiddleware, async (req, res) => {
+  const result = await syncLiveResults();
+  if (result) res.json({ ok: true, ...result });
+  else res.status(502).json({ ok: false, error: 'Sinkronizacija nije uspjela' });
+});
+
+// Status zadnje sinkronizacije
+app.get('/api/sync/status', (req, res) => {
+  res.json({
+    enabled: LIVE_SYNC,
+    intervalMs: SYNC_INTERVAL,
+    source: openfootball.SOURCE_URL,
+    last: lastSync
+  });
+});
+
 // Inicijalno izračunaj tablice
 recalculateStandings();
 
 app.listen(PORT, () => {
   console.log(`🏆 FIFA 2026 Server pokrenut na http://localhost:${PORT}`);
+
+  // Pokreni periodičnu sinkronizaciju rezultata
+  if (LIVE_SYNC) {
+    console.log(`🔄 Live sync uključen (svakih ${Math.round(SYNC_INTERVAL / 1000)}s, izvor: openfootball)`);
+    syncLiveResults();
+    setInterval(syncLiveResults, SYNC_INTERVAL);
+  } else {
+    console.log('🔄 Live sync isključen (LIVE_SYNC=false)');
+  }
 });
 

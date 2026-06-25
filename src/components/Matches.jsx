@@ -160,7 +160,7 @@ const MatchCard = memo(function MatchCard({
 /**
  * Matches komponenta s optimizacijama performansi
  */
-function Matches({ matches, teams, venues, groups, playoffs, updateMatch, isReadOnly }) {
+function Matches({ matches, teams, venues, playoffs, updateMatch, isReadOnly }) {
   const [searchQuery, setSearchQuery] = useState('')
 
   // Memoizirani handleri

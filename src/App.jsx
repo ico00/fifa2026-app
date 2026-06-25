@@ -15,6 +15,7 @@ const Groups = lazy(() => import('./components/Groups'))
 const Playoffs = lazy(() => import('./components/Playoffs'))
 const Matches = lazy(() => import('./components/Matches'))
 const Standings = lazy(() => import('./components/Standings'))
+const Scenarios = lazy(() => import('./components/Scenarios'))
 const Knockout = lazy(() => import('./components/Knockout'))
 const Simulation = lazy(() => import('./components/Simulation'))
 
@@ -305,6 +306,15 @@ function App() {
                         </TabErrorBoundary>
                     )}
 
+                    {activeTab === 'scenarios' && (
+                        <TabErrorBoundary tabName="Scenariji">
+                            <Scenarios
+                                standings={standings}
+                                teams={teams}
+                            />
+                        </TabErrorBoundary>
+                    )}
+
                     {activeTab === 'knockout' && (
                         <TabErrorBoundary tabName="Knockout">
                             <Knockout
@@ -312,6 +322,7 @@ function App() {
                                 groupMatches={matches.groupStage}
                                 teams={teams}
                                 venues={venues}
+                                standings={standings}
                                 updateKnockoutMatch={updateKnockoutMatch}
                                 isReadOnly={isReadOnly}
                             />

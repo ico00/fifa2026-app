@@ -129,7 +129,7 @@ async function networkFirstStrategy(request) {
     }
     
     return networkResponse
-  } catch (error) {
+  } catch {
     console.log('📴 Service Worker: Network failed, trying cache for:', request.url)
     
     // Ako mreža ne radi, pokušaj iz cache-a
@@ -174,7 +174,7 @@ async function cacheFirstStrategy(request) {
     }
     
     return networkResponse
-  } catch (error) {
+  } catch {
     console.log('📴 Service Worker: Resource not available:', request.url)
     
     // Za slike, vrati placeholder
@@ -204,7 +204,7 @@ async function navigationStrategy(request) {
     }
     
     return networkResponse
-  } catch (error) {
+  } catch {
     console.log('📴 Service Worker: Navigation failed, serving cached page')
     
     // Vrati cached verziju
@@ -228,7 +228,7 @@ async function fetchAndCache(request) {
       const cache = await caches.open(CACHE_NAME)
       cache.put(request, response)
     }
-  } catch (error) {
+  } catch {
     // Tiho ignoriraj - background refresh
   }
 }

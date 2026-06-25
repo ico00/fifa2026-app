@@ -1,17 +1,37 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useCallback, useMemo } from 'react'
 import { getTeamById, getVenueById } from '../utils/helpers'
-import { 
-  KnockoutRound, 
-  FinalMatch, 
-  ThirdPlaceMatch, 
-  TeamPath, 
-  FormatInfo 
+import { resolveKnockoutBracket } from '../utils/bracket'
+import {
+  KnockoutRound,
+  FinalMatch,
+  ThirdPlaceMatch,
+  TeamPath,
+  FormatInfo,
+  BracketTree
 } from './knockout-components'
 
-function Knockout({ matches, groupMatches, teams, venues, updateKnockoutMatch, isReadOnly }) {
-  const [winner, setWinner] = useState(null)
-  const [winnerPath, setWinnerPath] = useState([])
-  const [croatiaPath, setCroatiaPath] = useState([])
+function Knockout({ matches, groupMatches, teams, venues, standings, updateKnockoutMatch, isReadOnly }) {
+  // Razriješi parove iz TRENUTNOG stanja grupa (live projekcija prije nego
+  // grupa završi). Ne prepisuje potvrđene timove ni rezultate.
+  const resolvedMatches = useMemo(
+    () => resolveKnockoutBracket(matches, groupMatches, standings),
+    [matches, groupMatches, standings]
+  )
+
+  // Ima li ijedan projicirani (još nepotvrđeni) tim - za prikaz legende
+  const hasProjection = useMemo(() => {
+    if (!resolvedMatches) return false
+    const all = [
+      ...(resolvedMatches.roundOf32 || []),
+      ...(resolvedMatches.roundOf16 || []),
+      ...(resolvedMatches.quarterFinals || []),
+      ...(resolvedMatches.semiFinals || []),
+      ...(resolvedMatches.thirdPlace ? [resolvedMatches.thirdPlace] : []),
+      ...(resolvedMatches.final ? [resolvedMatches.final] : [])
+    ]
+    return all.some(m => m._homeProjected || m._awayProjected)
+  }, [resolvedMatches])
+  const [viewMode, setViewMode] = useState('list') // 'list' | 'bracket'
 
   // Handleri za promjenu rezultata
   const handleScoreChange = useCallback((round, matchId, field, value) => {
@@ -64,9 +84,9 @@ function Knockout({ matches, groupMatches, teams, venues, updateKnockoutMatch, i
 
     // Pronađi sve knockout utakmice
     knockoutRounds.forEach(round => {
-      const roundMatches = Array.isArray(matches[round.key])
-        ? matches[round.key]
-        : matches[round.key] ? [matches[round.key]] : []
+      const roundMatches = Array.isArray(resolvedMatches[round.key])
+        ? resolvedMatches[round.key]
+        : resolvedMatches[round.key] ? [resolvedMatches[round.key]] : []
 
       roundMatches.forEach(match => {
         if ((match.homeTeam === teamId || match.awayTeam === teamId) &&
@@ -99,41 +119,30 @@ function Knockout({ matches, groupMatches, teams, venues, updateKnockoutMatch, i
     // Sortiraj po datumu
     path.sort((a, b) => new Date(a.date) - new Date(b.date))
     return path
-  }, [groupMatches, matches, teams, venues])
+  }, [groupMatches, resolvedMatches, teams, venues])
 
-  // Provjeri je li final odigran i odredi pobjednika
-  useEffect(() => {
-    if (matches?.final &&
-      matches.final.played &&
-      matches.final.homeScore !== null &&
-      matches.final.awayScore !== null) {
-      const final = matches.final
+  // Pobjednik i njegov put kroz natjecanje (kad je finale odigrano)
+  const { winner, winnerPath } = useMemo(() => {
+    const final = resolvedMatches?.final
+    if (final?.played && final.homeScore !== null && final.awayScore !== null) {
       const winnerId = final.homeScore > final.awayScore
         ? final.homeTeam
         : final.awayScore > final.homeScore
           ? final.awayTeam
           : null
-
-      if (winnerId) {
-        const winnerTeam = getTeamById(teams, winnerId)
-        if (winnerTeam) {
-          setWinner(winnerTeam)
-          setWinnerPath(getTeamPath(winnerId))
-        }
+      const winnerTeam = winnerId ? getTeamById(teams, winnerId) : null
+      if (winnerTeam) {
+        return { winner: winnerTeam, winnerPath: getTeamPath(winnerId) }
       }
-    } else {
-      setWinner(null)
-      setWinnerPath([])
     }
-  }, [matches?.final?.homeScore, matches?.final?.awayScore, matches?.final?.played, teams, getTeamPath])
+    return { winner: null, winnerPath: [] }
+  }, [resolvedMatches, teams, getTeamPath])
 
-  // Uvijek prikaži put Hrvatske
-  useEffect(() => {
-    const croatiaTeam = teams.find(t => t.id === 'cro')
-    if (croatiaTeam) {
-      setCroatiaPath(getTeamPath('cro'))
-    }
-  }, [matches, groupMatches, teams, getTeamPath])
+  // Put Hrvatske kroz natjecanje (uvijek prikazan)
+  const croatiaPath = useMemo(
+    () => (teams.some(t => t.id === 'cro') ? getTeamPath('cro') : []),
+    [teams, getTeamPath]
+  )
 
   // Definicija rundi
   const rounds = [
@@ -157,43 +166,89 @@ function Knockout({ matches, groupMatches, teams, venues, updateKnockoutMatch, i
         </div>
       )}
 
-      {/* Format Info */}
-      <FormatInfo />
+      {/* Prebacivanje prikaza: Lista / Stablo */}
+      <div className="flex justify-center">
+        <div className="inline-flex bg-slate-100 dark:bg-slate-700 p-1 rounded-xl">
+          <button
+            onClick={() => setViewMode('list')}
+            className={`px-5 py-2 rounded-lg font-bold text-sm transition-all ${
+              viewMode === 'list'
+                ? 'bg-white dark:bg-slate-600 text-fifa-blue dark:text-white shadow-sm'
+                : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
+            }`}
+          >
+            🗂️ Lista
+          </button>
+          <button
+            onClick={() => setViewMode('bracket')}
+            className={`px-5 py-2 rounded-lg font-bold text-sm transition-all ${
+              viewMode === 'bracket'
+                ? 'bg-white dark:bg-slate-600 text-fifa-blue dark:text-white shadow-sm'
+                : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
+            }`}
+          >
+            🌳 Stablo
+          </button>
+        </div>
+      </div>
 
-      {/* Runde */}
-      <div className="flex flex-col gap-10">
-        {rounds.map(round => (
-          <KnockoutRound
-            key={round.key}
-            roundKey={round.key}
-            name={round.name}
-            matches={matches?.[round.key] || []}
-            allMatches={matches}
+      {/* Format Info - samo u prikazu liste */}
+      {viewMode === 'list' && <FormatInfo />}
+
+      {/* Legenda za projekciju iz trenutnog stanja grupa */}
+      {hasProjection && (
+        <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-300 dark:border-amber-700/50 rounded-lg p-3 flex items-start gap-2">
+          <span className="text-base leading-none mt-0.5">📊</span>
+          <p className="text-amber-800 dark:text-amber-300 text-sm font-medium">
+            Timovi označeni isprekidanim okvirom su <span className="font-bold">projekcija</span> na
+            temelju trenutnog poretka u grupama i mogu se promijeniti dok grupe ne završe.
+          </p>
+        </div>
+      )}
+
+      {viewMode === 'bracket' ? (
+        /* Turnirsko stablo */
+        <BracketTree
+          matches={resolvedMatches}
+          teams={teams}
+          venues={venues}
+        />
+      ) : (
+        /* Runde (lista) */
+        <div className="flex flex-col gap-10">
+          {rounds.map(round => (
+            <KnockoutRound
+              key={round.key}
+              roundKey={round.key}
+              name={round.name}
+              matches={resolvedMatches?.[round.key] || []}
+              allMatches={resolvedMatches}
+              teams={teams}
+              venues={venues}
+              isReadOnly={isReadOnly}
+              onScoreChange={handleScoreChange}
+            />
+          ))}
+
+          {/* Third Place Match */}
+          <ThirdPlaceMatch
+            match={resolvedMatches?.thirdPlace}
             teams={teams}
             venues={venues}
             isReadOnly={isReadOnly}
             onScoreChange={handleScoreChange}
           />
-        ))}
 
-        {/* Third Place Match */}
-        <ThirdPlaceMatch
-          match={matches?.thirdPlace}
-          teams={teams}
-          venues={venues}
-          isReadOnly={isReadOnly}
-          onScoreChange={handleScoreChange}
-        />
-
-        {/* Final */}
-        <FinalMatch
-          match={matches?.final}
-          teams={teams}
-          venues={venues}
-          isReadOnly={isReadOnly}
-          onScoreChange={handleScoreChange}
-        />
-      </div>
+          {/* Final */}
+          <FinalMatch
+            match={resolvedMatches?.final}
+            teams={teams}
+            venues={venues}
+            isReadOnly={isReadOnly}
+            onScoreChange={handleScoreChange}
+          />
+        </div>
+      )}
 
       {/* Prikaz pobjednika i puta do pobjede */}
       {winner && winnerPath.length > 0 && (

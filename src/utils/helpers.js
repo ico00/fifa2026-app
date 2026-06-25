@@ -264,6 +264,32 @@ export const formatKnockoutDescription = (description) => {
     .replace(/Winner/gi, 'W')
 }
 
+/**
+ * Projekcija najboljih 8 trećeplasiranih iz TRENUTNOG stanja tablica.
+ * Server popunjava službenu listu tek kad su sve grupe odigrane; ovo daje
+ * "live" pregled tko bi trenutno prošao kao najbolji trećeplasirani.
+ * @param {Object} standings - { A: { teams: [...] }, ... }
+ * @returns {string[]} ID-ovi do 8 najboljih trećeplasiranih
+ */
+export const computeBestThirdPlaced = (standings) => {
+  if (!standings) return []
+  const byRank = (a, b) => {
+    if (b.points !== a.points) return b.points - a.points
+    if (b.goalDifference !== a.goalDifference) return b.goalDifference - a.goalDifference
+    if (b.goalsFor !== a.goalsFor) return b.goalsFor - a.goalsFor
+    return 0
+  }
+  return Object.values(standings)
+    .map(group => [...(group.teams || [])].sort(byRank)[2]) // trećeplasirani
+    .filter(team => team && team.id && (team.played || 0) > 0)
+    .sort(byRank)
+    .slice(0, 8)
+    .map(team => team.id)
+}
+
+// Napomena: matematička eliminacija (tko je sigurno ispao) računa se na serveru
+// uz FIFA 2026 head-to-head pravila i dolazi kao `team.eliminated` u tablici.
+
 // ============ GROUP HELPERS ============
 
 /**

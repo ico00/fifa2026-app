@@ -130,7 +130,7 @@ export function TabErrorBoundary({ children, tabName }) {
   return (
     <ErrorBoundary 
       title={`Greška u sekciji "${tabName}"`}
-      FallbackComponent={({ error, resetError }) => (
+      FallbackComponent={({ resetError }) => (
         <div className="flex flex-col items-center justify-center py-16 px-4">
           <div className="text-6xl mb-4">⚠️</div>
           <h3 className="text-2xl font-bold text-slate-700 dark:text-slate-200 mb-2">

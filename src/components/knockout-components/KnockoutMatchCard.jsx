@@ -4,16 +4,21 @@ import { formatDateShort, formatKnockoutDescription } from '../../utils/helpers'
 /**
  * Kartica za knockout utakmicu
  */
-function KnockoutMatchCard({ 
-  match, 
-  homeTeam, 
-  awayTeam, 
-  venue, 
+function KnockoutMatchCard({
+  match,
+  homeTeam,
+  awayTeam,
+  homeProjected,
+  awayProjected,
+  venue,
   roundKey,
   isReadOnly,
-  onScoreChange 
+  onScoreChange
 }) {
   const hasDescription = match.description && (!homeTeam || !awayTeam)
+
+  // Stil za projicirani (još nepotvrđeni) tim
+  const projClass = 'border border-dashed border-amber-400/80 dark:border-amber-500/70 rounded-md px-1.5 py-0.5'
 
   const handleChange = (field, value) => {
     // Allow only digits
@@ -34,10 +39,10 @@ function KnockoutMatchCard({
         {/* Home Team */}
         <div className="flex items-center gap-3 w-5/12 justify-end text-right">
           {homeTeam ? (
-            <>
-              <span className="font-bold text-sm md:text-base leading-tight">{homeTeam.name}</span>
+            <span className={`flex items-center gap-2 ${homeProjected ? projClass : ''}`} title={homeProjected ? 'Projekcija iz trenutnog poretka grupa' : undefined}>
+              <span className={`font-bold text-sm md:text-base leading-tight ${homeProjected ? 'italic text-amber-700 dark:text-amber-300' : ''}`}>{homeTeam.name}</span>
               <Flag code={homeTeam.code} />
-            </>
+            </span>
           ) : hasDescription ? (
             <span className="text-xs italic text-slate-400 break-words" title={formatKnockoutDescription(match.description)}>
               {formatKnockoutDescription(match.description).split(' vs ')[0] || 'TBD'}
@@ -115,10 +120,10 @@ function KnockoutMatchCard({
         {/* Away Team */}
         <div className="flex items-center gap-3 w-5/12 justify-start text-left">
           {awayTeam ? (
-            <>
+            <span className={`flex items-center gap-2 ${awayProjected ? projClass : ''}`} title={awayProjected ? 'Projekcija iz trenutnog poretka grupa' : undefined}>
               <Flag code={awayTeam.code} />
-              <span className="font-bold text-sm md:text-base leading-tight">{awayTeam.name}</span>
-            </>
+              <span className={`font-bold text-sm md:text-base leading-tight ${awayProjected ? 'italic text-amber-700 dark:text-amber-300' : ''}`}>{awayTeam.name}</span>
+            </span>
           ) : hasDescription ? (
             <span className="text-xs italic text-slate-400 break-words" title={formatKnockoutDescription(match.description)}>
               {formatKnockoutDescription(match.description).split(' vs ')[1] || 'TBD'}

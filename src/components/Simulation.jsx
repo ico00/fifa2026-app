@@ -3,7 +3,6 @@ import { getTeamById as getTeamByIdHelper } from '../utils/helpers'
 import {
   LoginForm,
   Leaderboard,
-  PlayoffPredictions,
   GroupPredictions,
   KnockoutSimulation
 } from './simulation-components'
@@ -20,7 +19,6 @@ function Simulation({ groups, matches, teams, playoffs }) {
   const [username, setUsername] = useState('')
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [userPredictions, setUserPredictions] = useState({})
-  const [playoffPredictions, setPlayoffPredictions] = useState({})
   const [allPredictions, setAllPredictions] = useState([])
   const [loading, setLoading] = useState(false)
   const [saveStatus, setSaveStatus] = useState(null)
@@ -51,13 +49,14 @@ function Simulation({ groups, matches, teams, playoffs }) {
   }, [])
 
   // Helper to resolve team (handling playoff placeholders)
+  // Stvarni pobjednik play-offa (ako je odlučen) ima prednost nad prognozom.
   const resolveTeam = useCallback((teamId, playoffKey) => {
     if (teamId) return getTeamById(teamId)
 
     if (playoffKey) {
-      const predictedWinnerId = playoffPredictions[playoffKey]
-      if (predictedWinnerId) {
-        return getTeamById(predictedWinnerId)
+      const winner = playoffs?.[playoffKey]?.winner
+      if (winner) {
+        return getTeamById(winner)
       }
       return {
         name: `Play-off ${playoffKey}`,
@@ -67,7 +66,19 @@ function Simulation({ groups, matches, teams, playoffs }) {
       }
     }
     return null
-  }, [getTeamById, playoffPredictions])
+  }, [getTeamById, playoffs])
+
+  // Stvarni rezultat (odigrano) ima prednost; inače korisnikova prognoza.
+  const effResult = useCallback((m) => {
+    if (m.played && m.homeScore != null && m.awayScore != null) {
+      return { homeScore: m.homeScore, awayScore: m.awayScore, locked: true }
+    }
+    const p = userPredictions[m.id]
+    if (p && p.homeScore !== undefined && p.awayScore !== undefined && p.homeScore !== '' && p.awayScore !== '') {
+      return { homeScore: p.homeScore, awayScore: p.awayScore, locked: false }
+    }
+    return null
+  }, [userPredictions])
 
   // Fetch leaderboard
   const fetchLeaderboard = useCallback(async () => {
@@ -95,10 +106,8 @@ function Simulation({ groups, matches, teams, playoffs }) {
       if (res.ok) {
         const data = await res.json()
         setUserPredictions(data.predictions || {})
-        setPlayoffPredictions(data.playoffPredictions || {})
       } else {
         setUserPredictions({})
-        setPlayoffPredictions({})
       }
       setIsLoggedIn(true)
     } catch (error) {
@@ -121,14 +130,6 @@ function Simulation({ groups, matches, teams, playoffs }) {
     }))
   }, [])
 
-  // Handle playoff prediction
-  const handlePlayoffPrediction = useCallback((pathId, teamId) => {
-    setPlayoffPredictions(prev => ({
-      ...prev,
-      [pathId]: teamId
-    }))
-  }, [])
-
   // Save predictions
   const savePredictions = useCallback(async () => {
     setLoading(true)
@@ -138,8 +139,7 @@ function Simulation({ groups, matches, teams, playoffs }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           username,
-          predictions: userPredictions,
-          playoffPredictions
+          predictions: userPredictions
         })
       })
 
@@ -149,78 +149,87 @@ function Simulation({ groups, matches, teams, playoffs }) {
       } else {
         setSaveStatus('error')
       }
-    } catch (error) {
+    } catch {
       setSaveStatus('error')
     } finally {
       setLoading(false)
     }
-  }, [username, userPredictions, playoffPredictions])
+  }, [username, userPredictions])
 
-  // Calculate simulated standings
+  // Calculate simulated standings (stvarni rezultati + prognoze; 2026 H2H-first)
   const calculateSimulatedStandings = useCallback(() => {
     const standings = {}
 
     Object.keys(groups).forEach(group => {
-      standings[group] = []
-
-      // Init teams
-      matches.groupStage
-        .filter(m => m.group === group)
-        .forEach(m => {
-          const homeT = resolveTeam(m.homeTeam, m.homeTeamPlayoff)
-          const awayT = resolveTeam(m.awayTeam, m.awayTeamPlayoff)
-
-          if (homeT && !standings[group].find(x => x.id === homeT.id)) {
-            standings[group].push({ ...homeT, played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, pts: 0 })
-          }
-          if (awayT && !standings[group].find(x => x.id === awayT.id)) {
-            standings[group].push({ ...awayT, played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, pts: 0 })
-          }
-        })
-
-      // Calculate
-      matches.groupStage
-        .filter(m => m.group === group)
-        .forEach(m => {
-          const pred = userPredictions[m.id]
-          if (pred && pred.homeScore !== undefined && pred.awayScore !== undefined && pred.homeScore !== '' && pred.awayScore !== '') {
-            const homeId = resolveTeam(m.homeTeam, m.homeTeamPlayoff)?.id
-            const awayId = resolveTeam(m.awayTeam, m.awayTeamPlayoff)?.id
-
-            if (!homeId || !awayId) return
-
-            const h = standings[group].find(t => t.id === homeId)
-            const a = standings[group].find(t => t.id === awayId)
-
-            if (h && a) {
-              h.played++; a.played++;
-              h.gf += pred.homeScore; a.gf += pred.awayScore;
-              h.ga += pred.awayScore; a.ga += pred.homeScore;
-
-              if (pred.homeScore > pred.awayScore) {
-                h.won++; h.pts += 3; a.lost++;
-              } else if (pred.homeScore < pred.awayScore) {
-                a.won++; a.pts += 3; h.lost++;
-              } else {
-                h.drawn++; a.drawn++; h.pts += 1; a.pts += 1;
-              }
-            }
-          }
-        })
-
-      // Sort
-      standings[group].sort((a, b) => {
-        if (b.pts !== a.pts) return b.pts - a.pts
-        const gdA = a.gf - a.ga
-        const gdB = b.gf - b.ga
-        if (gdB !== gdA) return gdB - gdA
-        return b.gf - a.gf
+      const teamsArr = []
+      const ensure = (t) => {
+        if (t && t.id && !teamsArr.find(x => x.id === t.id)) {
+          teamsArr.push({ ...t, played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, pts: 0 })
+        }
+      }
+      const gmatches = matches.groupStage.filter(m => m.group === group)
+      gmatches.forEach(m => {
+        ensure(resolveTeam(m.homeTeam, m.homeTeamPlayoff))
+        ensure(resolveTeam(m.awayTeam, m.awayTeamPlayoff))
       })
+
+      // Rezultati (stvarni ili prognozirani)
+      const results = []
+      gmatches.forEach(m => {
+        const r = effResult(m)
+        if (!r) return
+        const homeId = resolveTeam(m.homeTeam, m.homeTeamPlayoff)?.id
+        const awayId = resolveTeam(m.awayTeam, m.awayTeamPlayoff)?.id
+        if (!homeId || !awayId) return
+        const h = teamsArr.find(t => t.id === homeId)
+        const a = teamsArr.find(t => t.id === awayId)
+        if (!h || !a) return
+        h.played++; a.played++
+        h.gf += r.homeScore; a.gf += r.awayScore
+        h.ga += r.awayScore; a.ga += r.homeScore
+        if (r.homeScore > r.awayScore) { h.won++; h.pts += 3; a.lost++ }
+        else if (r.homeScore < r.awayScore) { a.won++; a.pts += 3; h.lost++ }
+        else { h.drawn++; a.drawn++; h.pts++; a.pts++ }
+        results.push({ h: homeId, a: awayId, hs: r.homeScore, as: r.awayScore })
+      })
+
+      // Poredak: bodovi, pa H2H (bodovi/GR/golovi u međusobnim), pa ukupna GR/golovi
+      teamsArr.sort((a, b) => b.pts - a.pts)
+      const sorted = []
+      let i = 0
+      while (i < teamsArr.length) {
+        let j = i + 1
+        while (j < teamsArr.length && teamsArr[j].pts === teamsArr[i].pts) j++
+        const cluster = teamsArr.slice(i, j)
+        if (cluster.length > 1) {
+          const ids = new Set(cluster.map(t => t.id))
+          const h2h = {}
+          cluster.forEach(t => { h2h[t.id] = { p: 0, gf: 0, ga: 0 } })
+          results.forEach(r => {
+            if (ids.has(r.h) && ids.has(r.a)) {
+              h2h[r.h].gf += r.hs; h2h[r.h].ga += r.as; h2h[r.a].gf += r.as; h2h[r.a].ga += r.hs
+              if (r.hs > r.as) h2h[r.h].p += 3
+              else if (r.as > r.hs) h2h[r.a].p += 3
+              else { h2h[r.h].p++; h2h[r.a].p++ }
+            }
+          })
+          cluster.sort((a, b) =>
+            h2h[b.id].p - h2h[a.id].p ||
+            (h2h[b.id].gf - h2h[b.id].ga) - (h2h[a.id].gf - h2h[a.id].ga) ||
+            h2h[b.id].gf - h2h[a.id].gf ||
+            (b.gf - b.ga) - (a.gf - a.ga) ||
+            b.gf - a.gf
+          )
+        }
+        sorted.push(...cluster)
+        i = j
+      }
+      standings[group] = sorted
     })
 
     setSimulatedStandings(standings)
     return standings
-  }, [groups, matches, userPredictions, resolveTeam])
+  }, [groups, matches, effResult, resolveTeam])
 
   // Get knockout tree
   const getKnockoutTree = useCallback(() => {
@@ -317,12 +326,11 @@ function Simulation({ groups, matches, teams, playoffs }) {
     return { r32, r16, qf, sf, final }
   }, [simulatedStandings, matches, userPredictions])
 
-  // Effects
+  // Effects — uvijek preračunaj (tablica kreće od stvarnih rezultata,
+  // pa i prije nego korisnik išta prognozira)
   useEffect(() => {
-    if (Object.keys(userPredictions).length > 0) {
-      calculateSimulatedStandings()
-    }
-  }, [userPredictions, playoffPredictions, calculateSimulatedStandings])
+    calculateSimulatedStandings()
+  }, [userPredictions, calculateSimulatedStandings])
 
   // Render login form if not logged in
   if (!isLoggedIn) {
@@ -391,14 +399,6 @@ function Simulation({ groups, matches, teams, playoffs }) {
               {loading ? 'Spremanje...' : saveStatus === 'success' ? '✅ Spremljeno!' : '💾 Spremi Sve'}
             </button>
           </div>
-
-          {/* Playoff Predictions */}
-          <PlayoffPredictions
-            playoffs={playoffs}
-            playoffPredictions={playoffPredictions}
-            onSelect={handlePlayoffPrediction}
-            getTeamById={getTeamById}
-          />
 
           {/* Group Predictions */}
           <GroupPredictions

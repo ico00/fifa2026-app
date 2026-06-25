@@ -27,10 +27,14 @@ export function DataProvider({ children }) {
   /**
    * Dohvati sve podatke s API-ja
    */
-  const fetchData = useCallback(async () => {
+  const fetchData = useCallback(async (silent = false) => {
     try {
-      setLoading(true)
-      setError(null)
+      // Tihi (pozadinski) refresh ne pali fullscreen loading ekran -> nema
+      // blinkanja ni skoka na vrh; podaci se ažuriraju u mjestu.
+      if (!silent) {
+        setLoading(true)
+        setError(null)
+      }
 
       const [teamsRes, groupsRes, playoffsRes, matchesRes, standingsRes, venuesRes] = await Promise.all([
         fetch(`${API_URL}/teams`),
@@ -64,10 +68,13 @@ export function DataProvider({ children }) {
       setVenues(venuesData?.venues || [])
     } catch (err) {
       console.error('Greška pri dohvaćanju podataka:', err)
-      setError(err.message)
-      setServerAvailable(false)
+      // Kod tihog refresha ne ruši UI greškom - samo preskoči ovaj ciklus
+      if (!silent) {
+        setError(err.message)
+        setServerAvailable(false)
+      }
     } finally {
-      setLoading(false)
+      if (!silent) setLoading(false)
     }
   }, [])
 
@@ -103,10 +110,19 @@ export function DataProvider({ children }) {
     }
   }, [])
 
-  // Inicijalno dohvaćanje podataka
+  // Inicijalno dohvaćanje podataka + periodično osvježavanje (live rezultati)
   useEffect(() => {
     checkServerAvailability()
     fetchData()
+
+    // Auto-refresh svakih 60s da se uhvate novi rezultati sa servera.
+    // Pauziraj kad je kartica u pozadini da ne trošimo zahtjeve bezveze.
+    const REFRESH_MS = 60000
+    const interval = setInterval(() => {
+      if (!document.hidden) fetchData(true) // tihi refresh
+    }, REFRESH_MS)
+
+    return () => clearInterval(interval)
   }, [checkServerAvailability, fetchData])
 
   // Context value

@@ -8,56 +8,86 @@
           "name": "Meksiko",
           "code": "MX",
           "order": 0,
-          "played": 1,
-          "won": 1,
+          "played": 3,
+          "won": 3,
           "drawn": 0,
           "lost": 0,
-          "goalsFor": 2,
+          "goalsFor": 6,
           "goalsAgainst": 0,
-          "goalDifference": 2,
-          "points": 3
-        },
-        {
-          "id": "kor",
-          "name": "Južna Koreja",
-          "code": "KR",
-          "order": 2,
-          "played": 1,
-          "won": 1,
-          "drawn": 0,
-          "lost": 0,
-          "goalsFor": 2,
-          "goalsAgainst": 1,
-          "goalDifference": 1,
-          "points": 3
-        },
-        {
-          "id": "cze",
-          "name": "Češka",
-          "code": "CZ",
-          "order": 3,
-          "played": 1,
-          "won": 0,
-          "drawn": 0,
-          "lost": 1,
-          "goalsFor": 1,
-          "goalsAgainst": 2,
-          "goalDifference": -1,
-          "points": 0
+          "goalDifference": 6,
+          "points": 9,
+          "eliminated": false,
+          "qualification": {
+            "status": "secured",
+            "summary": "Osiguran prolaz (među prva 2).",
+            "outcomes": null
+          },
+          "advanceChance": 100
         },
         {
           "id": "rsa",
           "name": "JAR",
           "code": "ZA",
           "order": 1,
-          "played": 1,
-          "won": 0,
-          "drawn": 0,
+          "played": 3,
+          "won": 1,
+          "drawn": 1,
           "lost": 1,
-          "goalsFor": 0,
-          "goalsAgainst": 2,
-          "goalDifference": -2,
-          "points": 0
+          "goalsFor": 2,
+          "goalsAgainst": 3,
+          "goalDifference": -1,
+          "points": 4,
+          "eliminated": false,
+          "qualification": {
+            "status": "secured",
+            "summary": "Osiguran prolaz (među prva 2).",
+            "outcomes": null
+          },
+          "advanceChance": 100
+        },
+        {
+          "id": "kor",
+          "name": "Južna Koreja",
+          "code": "KR",
+          "order": 2,
+          "played": 3,
+          "won": 1,
+          "drawn": 0,
+          "lost": 2,
+          "goalsFor": 2,
+          "goalsAgainst": 3,
+          "goalDifference": -1,
+          "points": 3,
+          "eliminated": false,
+          "qualification": {
+            "status": "possible",
+            "summary": "Završio kao 3. — prolaz ovisi o ostalim trećeplasiranima.",
+            "outcomes": null
+          },
+          "thirdRank": 4,
+          "thirdTotal": 12,
+          "advanceChance": 93
+        },
+        {
+          "id": "cze",
+          "name": "Češka",
+          "code": "CZ",
+          "order": 3,
+          "played": 3,
+          "won": 0,
+          "drawn": 1,
+          "lost": 2,
+          "goalsFor": 2,
+          "goalsAgainst": 6,
+          "goalDifference": -4,
+          "points": 1,
+          "eliminated": true,
+          "qualification": {
+            "status": "eliminated",
+            "summary": "Ispao iz natjecanja.",
+            "outcomes": null
+          },
+          "advanceChance": 0
         }
       ]
     },
@@ -65,60 +95,90 @@
       "name": "Grupa B",
       "teams": [
         {
+          "id": "sui",
+          "name": "Švicarska",
+          "code": "CH",
+          "order": 3,
+          "played": 3,
+          "won": 2,
+          "drawn": 1,
+          "lost": 0,
+          "goalsFor": 7,
+          "goalsAgainst": 3,
+          "goalDifference": 4,
+          "points": 7,
+          "eliminated": false,
+          "qualification": {
+            "status": "secured",
+            "summary": "Osiguran prolaz (među prva 2).",
+            "outcomes": null
+          },
+          "advanceChance": 100
+        },
+        {
           "id": "can",
           "name": "Kanada",
           "code": "CA",
           "order": 0,
-          "played": 1,
-          "won": 0,
+          "played": 3,
+          "won": 1,
           "drawn": 1,
-          "lost": 0,
-          "goalsFor": 1,
-          "goalsAgainst": 1,
-          "goalDifference": 0,
-          "points": 1
+          "lost": 1,
+          "goalsFor": 8,
+          "goalsAgainst": 3,
+          "goalDifference": 5,
+          "points": 4,
+          "eliminated": false,
+          "qualification": {
+            "status": "secured",
+            "summary": "Osiguran prolaz (među prva 2).",
+            "outcomes": null
+          },
+          "advanceChance": 100
         },
         {
           "id": "bih",
           "name": "Bosna i Hercegovina",
           "code": "BA",
           "order": 1,
-          "played": 1,
-          "won": 0,
+          "played": 3,
+          "won": 1,
           "drawn": 1,
-          "lost": 0,
-          "goalsFor": 1,
-          "goalsAgainst": 1,
-          "goalDifference": 0,
-          "points": 1
+          "lost": 1,
+          "goalsFor": 5,
+          "goalsAgainst": 6,
+          "goalDifference": -1,
+          "points": 4,
+          "eliminated": false,
+          "qualification": {
+            "status": "possible",
+            "summary": "Završio kao 3. — prolaz ovisi o ostalim trećeplasiranima.",
+            "outcomes": null
+          },
+          "thirdRank": 1,
+          "thirdTotal": 12,
+          "advanceChance": 100
         },
         {
           "id": "qat",
           "name": "Katar",
           "code": "QA",
           "order": 2,
-          "played": 1,
+          "played": 3,
           "won": 0,
           "drawn": 1,
-          "lost": 0,
-          "goalsFor": 1,
-          "goalsAgainst": 1,
-          "goalDifference": 0,
-          "points": 1
-        },
-        {
-          "id": "sui",
-          "name": "Švicarska",
-          "code": "CH",
-          "order": 3,
-          "played": 1,
-          "won": 0,
-          "drawn": 1,
-          "lost": 0,
-          "goalsFor": 1,
-          "goalsAgainst": 1,
-          "goalDifference": 0,
-          "points": 1
+          "lost": 2,
+          "goalsFor": 2,
+          "goalsAgainst": 10,
+          "goalDifference": -8,
+          "points": 1,
+          "eliminated": true,
+          "qualification": {
+            "status": "eliminated",
+            "summary": "Ispao iz natjecanja.",
+            "outcomes": null
+          },
+          "advanceChance": 0
         }
       ]
     },
@@ -126,60 +186,90 @@
       "name": "Grupa C",
       "teams": [
         {
-          "id": "sco",
-          "name": "Škotska",
-          "code": "GB-SCT",
-          "order": 3,
-          "played": 1,
-          "won": 1,
-          "drawn": 0,
-          "lost": 0,
-          "goalsFor": 1,
-          "goalsAgainst": 0,
-          "goalDifference": 1,
-          "points": 3
-        },
-        {
           "id": "bra",
           "name": "Brazil",
           "code": "BR",
           "order": 0,
-          "played": 1,
-          "won": 0,
+          "played": 3,
+          "won": 2,
           "drawn": 1,
           "lost": 0,
-          "goalsFor": 1,
+          "goalsFor": 7,
           "goalsAgainst": 1,
-          "goalDifference": 0,
-          "points": 1
+          "goalDifference": 6,
+          "points": 7,
+          "eliminated": false,
+          "qualification": {
+            "status": "secured",
+            "summary": "Osiguran prolaz (među prva 2).",
+            "outcomes": null
+          },
+          "advanceChance": 100
         },
         {
           "id": "mar",
           "name": "Maroko",
           "code": "MA",
           "order": 1,
-          "played": 1,
-          "won": 0,
+          "played": 3,
+          "won": 2,
           "drawn": 1,
           "lost": 0,
+          "goalsFor": 6,
+          "goalsAgainst": 3,
+          "goalDifference": 3,
+          "points": 7,
+          "eliminated": false,
+          "qualification": {
+            "status": "secured",
+            "summary": "Osiguran prolaz (među prva 2).",
+            "outcomes": null
+          },
+          "advanceChance": 100
+        },
+        {
+          "id": "sco",
+          "name": "Škotska",
+          "code": "GB-SCT",
+          "order": 3,
+          "played": 3,
+          "won": 1,
+          "drawn": 0,
+          "lost": 2,
           "goalsFor": 1,
-          "goalsAgainst": 1,
-          "goalDifference": 0,
-          "points": 1
+          "goalsAgainst": 4,
+          "goalDifference": -3,
+          "points": 3,
+          "eliminated": false,
+          "qualification": {
+            "status": "possible",
+            "summary": "Završio kao 3. — prolaz ovisi o ostalim trećeplasiranima.",
+            "outcomes": null
+          },
+          "thirdRank": 7,
+          "thirdTotal": 12,
+          "advanceChance": 27
         },
         {
           "id": "hai",
           "name": "Haiti",
           "code": "HT",
           "order": 2,
-          "played": 1,
+          "played": 3,
           "won": 0,
           "drawn": 0,
-          "lost": 1,
-          "goalsFor": 0,
-          "goalsAgainst": 1,
-          "goalDifference": -1,
-          "points": 0
+          "lost": 3,
+          "goalsFor": 2,
+          "goalsAgainst": 8,
+          "goalDifference": -6,
+          "points": 0,
+          "eliminated": true,
+          "qualification": {
+            "status": "eliminated",
+            "summary": "Ispao iz natjecanja.",
+            "outcomes": null
+          },
+          "advanceChance": 0
         }
       ]
     },
@@ -191,56 +281,96 @@
           "name": "SAD",
           "code": "US",
           "order": 0,
-          "played": 1,
-          "won": 1,
+          "played": 2,
+          "won": 2,
           "drawn": 0,
           "lost": 0,
-          "goalsFor": 4,
+          "goalsFor": 6,
           "goalsAgainst": 1,
-          "goalDifference": 3,
-          "points": 3
+          "goalDifference": 5,
+          "points": 6,
+          "eliminated": false,
+          "qualification": {
+            "status": "secured",
+            "summary": "Osiguran prolaz (među prva 2).",
+            "outcomes": null
+          },
+          "advanceChance": 100
         },
         {
           "id": "aus",
           "name": "Australija",
           "code": "AU",
           "order": 2,
-          "played": 1,
+          "played": 2,
           "won": 1,
           "drawn": 0,
-          "lost": 0,
-          "goalsFor": 2,
-          "goalsAgainst": 0,
-          "goalDifference": 2,
-          "points": 3
-        },
-        {
-          "id": "tur",
-          "name": "Turska",
-          "code": "TR",
-          "order": 3,
-          "played": 1,
-          "won": 0,
-          "drawn": 0,
           "lost": 1,
-          "goalsFor": 0,
+          "goalsFor": 2,
           "goalsAgainst": 2,
-          "goalDifference": -2,
-          "points": 0
+          "goalDifference": 0,
+          "points": 3,
+          "eliminated": false,
+          "qualification": {
+            "status": "possible",
+            "summary": "Pobjeda protiv Paragvaj osigurava prolaz.",
+            "outcomes": {
+              "opponent": "Paragvaj",
+              "win": "osigurava prolaz",
+              "draw": "moguć prolaz (ovisi o ostalima)",
+              "loss": "osigurava barem borbu za trećeplasirane"
+            }
+          },
+          "advanceChance": 92
         },
         {
           "id": "par",
           "name": "Paragvaj",
           "code": "PY",
           "order": 1,
-          "played": 1,
-          "won": 0,
+          "played": 2,
+          "won": 1,
           "drawn": 0,
           "lost": 1,
-          "goalsFor": 1,
+          "goalsFor": 2,
           "goalsAgainst": 4,
+          "goalDifference": -2,
+          "points": 3,
+          "eliminated": false,
+          "qualification": {
+            "status": "possible",
+            "summary": "Pobjeda protiv Australija osigurava prolaz.",
+            "outcomes": {
+              "opponent": "Australija",
+              "win": "osigurava prolaz",
+              "draw": "moguć prolaz (ovisi o ostalima)",
+              "loss": "osigurava barem borbu za trećeplasirane"
+            }
+          },
+          "thirdRank": 5,
+          "thirdTotal": 12,
+          "advanceChance": 78
+        },
+        {
+          "id": "tur",
+          "name": "Turska",
+          "code": "TR",
+          "order": 3,
+          "played": 2,
+          "won": 0,
+          "drawn": 0,
+          "lost": 2,
+          "goalsFor": 0,
+          "goalsAgainst": 3,
           "goalDifference": -3,
-          "points": 0
+          "points": 0,
+          "eliminated": true,
+          "qualification": {
+            "status": "eliminated",
+            "summary": "Ispao iz natjecanja.",
+            "outcomes": null
+          },
+          "advanceChance": 0
         }
       ]
     },
@@ -252,56 +382,101 @@
           "name": "Njemačka",
           "code": "DE",
           "order": 0,
-          "played": 1,
-          "won": 1,
+          "played": 2,
+          "won": 2,
           "drawn": 0,
           "lost": 0,
-          "goalsFor": 7,
-          "goalsAgainst": 1,
-          "goalDifference": 6,
-          "points": 3
+          "goalsFor": 9,
+          "goalsAgainst": 2,
+          "goalDifference": 7,
+          "points": 6,
+          "eliminated": false,
+          "qualification": {
+            "status": "secured",
+            "summary": "Osiguran prolaz (među prva 2).",
+            "outcomes": null
+          },
+          "advanceChance": 100
         },
         {
           "id": "civ",
           "name": "Obala bjelokosti",
           "code": "CI",
           "order": 2,
-          "played": 1,
+          "played": 2,
           "won": 1,
           "drawn": 0,
-          "lost": 0,
-          "goalsFor": 1,
-          "goalsAgainst": 0,
-          "goalDifference": 1,
-          "points": 3
+          "lost": 1,
+          "goalsFor": 2,
+          "goalsAgainst": 2,
+          "goalDifference": 0,
+          "points": 3,
+          "eliminated": false,
+          "qualification": {
+            "status": "possible",
+            "summary": "Remi protiv Curacao je dovoljan za prolaz.",
+            "outcomes": {
+              "opponent": "Curacao",
+              "win": "osigurava prolaz",
+              "draw": "osigurava prolaz",
+              "loss": "moguće 3. mjesto (ovisi o ostalima)"
+            }
+          },
+          "advanceChance": 82
         },
         {
           "id": "ecu",
           "name": "Ekvador",
           "code": "EC",
           "order": 3,
-          "played": 1,
+          "played": 2,
           "won": 0,
-          "drawn": 0,
+          "drawn": 1,
           "lost": 1,
           "goalsFor": 0,
           "goalsAgainst": 1,
           "goalDifference": -1,
-          "points": 0
+          "points": 1,
+          "eliminated": false,
+          "qualification": {
+            "status": "possible",
+            "summary": "Treba pobjeda protiv Njemačka + povoljni ostali rezultati.",
+            "outcomes": {
+              "opponent": "Njemačka",
+              "win": "moguć prolaz (ovisi o ostalima)",
+              "draw": "moguće 3. mjesto (ovisi o ostalima)",
+              "loss": "moguće 3. mjesto (ovisi o ostalima)"
+            }
+          },
+          "thirdRank": 11,
+          "thirdTotal": 12,
+          "advanceChance": 36
         },
         {
           "id": "cur",
           "name": "Curacao",
           "code": "CW",
           "order": 1,
-          "played": 1,
+          "played": 2,
           "won": 0,
-          "drawn": 0,
+          "drawn": 1,
           "lost": 1,
           "goalsFor": 1,
           "goalsAgainst": 7,
           "goalDifference": -6,
-          "points": 0
+          "points": 1,
+          "eliminated": false,
+          "qualification": {
+            "status": "possible",
+            "summary": "Treba pobjeda protiv Obala bjelokosti + povoljni ostali rezultati.",
+            "outcomes": {
+              "opponent": "Obala bjelokosti",
+              "win": "moguć prolaz (ovisi o ostalima)",
+              "draw": "moguće 3. mjesto (ovisi o ostalima)",
+              "loss": "moguće 3. mjesto (ovisi o ostalima)"
+            }
+          },
+          "advanceChance": 37
         }
       ]
     },
@@ -309,60 +484,105 @@
       "name": "Grupa F",
       "teams": [
         {
-          "id": "swe",
-          "name": "Švedska",
-          "code": "SE",
-          "order": 2,
-          "played": 1,
-          "won": 1,
-          "drawn": 0,
-          "lost": 0,
-          "goalsFor": 5,
-          "goalsAgainst": 1,
-          "goalDifference": 4,
-          "points": 3
-        },
-        {
           "id": "ned",
           "name": "Nizozemska",
           "code": "NL",
           "order": 0,
-          "played": 1,
-          "won": 0,
+          "played": 2,
+          "won": 1,
           "drawn": 1,
           "lost": 0,
-          "goalsFor": 2,
-          "goalsAgainst": 2,
-          "goalDifference": 0,
-          "points": 1
+          "goalsFor": 7,
+          "goalsAgainst": 3,
+          "goalDifference": 4,
+          "points": 4,
+          "eliminated": false,
+          "qualification": {
+            "status": "possible",
+            "summary": "Remi protiv Tunis je dovoljan za prolaz.",
+            "outcomes": {
+              "opponent": "Tunis",
+              "win": "osigurava prolaz",
+              "draw": "osigurava prolaz",
+              "loss": "moguć prolaz (ovisi o ostalima)"
+            }
+          },
+          "advanceChance": 100
         },
         {
           "id": "jpn",
           "name": "Japan",
           "code": "JP",
           "order": 1,
-          "played": 1,
-          "won": 0,
+          "played": 2,
+          "won": 1,
           "drawn": 1,
           "lost": 0,
-          "goalsFor": 2,
+          "goalsFor": 6,
           "goalsAgainst": 2,
+          "goalDifference": 4,
+          "points": 4,
+          "eliminated": false,
+          "qualification": {
+            "status": "possible",
+            "summary": "Remi protiv Švedska je dovoljan za prolaz.",
+            "outcomes": {
+              "opponent": "Švedska",
+              "win": "osigurava prolaz",
+              "draw": "osigurava prolaz",
+              "loss": "moguć prolaz (ovisi o ostalima)"
+            }
+          },
+          "advanceChance": 100
+        },
+        {
+          "id": "swe",
+          "name": "Švedska",
+          "code": "SE",
+          "order": 2,
+          "played": 2,
+          "won": 1,
+          "drawn": 0,
+          "lost": 1,
+          "goalsFor": 6,
+          "goalsAgainst": 6,
           "goalDifference": 0,
-          "points": 1
+          "points": 3,
+          "eliminated": false,
+          "qualification": {
+            "status": "possible",
+            "summary": "Pobjeda protiv Japan osigurava prolaz.",
+            "outcomes": {
+              "opponent": "Japan",
+              "win": "osigurava prolaz",
+              "draw": "osigurava barem borbu za trećeplasirane",
+              "loss": "osigurava barem borbu za trećeplasirane"
+            }
+          },
+          "thirdRank": 2,
+          "thirdTotal": 12,
+          "advanceChance": 97
         },
         {
           "id": "tun",
           "name": "Tunis",
           "code": "TN",
           "order": 3,
-          "played": 1,
+          "played": 2,
           "won": 0,
           "drawn": 0,
-          "lost": 1,
+          "lost": 2,
           "goalsFor": 1,
-          "goalsAgainst": 5,
-          "goalDifference": -4,
-          "points": 0
+          "goalsAgainst": 9,
+          "goalDifference": -8,
+          "points": 0,
+          "eliminated": true,
+          "qualification": {
+            "status": "eliminated",
+            "summary": "Ispao iz natjecanja.",
+            "outcomes": null
+          },
+          "advanceChance": 0
         }
       ]
     },
@@ -370,60 +590,110 @@
       "name": "Grupa G",
       "teams": [
         {
+          "id": "egy",
+          "name": "Egipat",
+          "code": "EG",
+          "order": 1,
+          "played": 2,
+          "won": 1,
+          "drawn": 1,
+          "lost": 0,
+          "goalsFor": 4,
+          "goalsAgainst": 2,
+          "goalDifference": 2,
+          "points": 4,
+          "eliminated": false,
+          "qualification": {
+            "status": "possible",
+            "summary": "Remi protiv Iran je dovoljan za prolaz.",
+            "outcomes": {
+              "opponent": "Iran",
+              "win": "osigurava prolaz",
+              "draw": "osigurava prolaz",
+              "loss": "moguć prolaz (ovisi o ostalima)"
+            }
+          },
+          "advanceChance": 100
+        },
+        {
           "id": "irn",
           "name": "Iran",
           "code": "IR",
           "order": 2,
-          "played": 1,
+          "played": 2,
           "won": 0,
-          "drawn": 1,
+          "drawn": 2,
           "lost": 0,
           "goalsFor": 2,
           "goalsAgainst": 2,
           "goalDifference": 0,
-          "points": 1
-        },
-        {
-          "id": "nzl",
-          "name": "Novi Zeland",
-          "code": "NZ",
-          "order": 3,
-          "played": 1,
-          "won": 0,
-          "drawn": 1,
-          "lost": 0,
-          "goalsFor": 2,
-          "goalsAgainst": 2,
-          "goalDifference": 0,
-          "points": 1
+          "points": 2,
+          "eliminated": false,
+          "qualification": {
+            "status": "possible",
+            "summary": "Pobjeda protiv Egipat osigurava prolaz.",
+            "outcomes": {
+              "opponent": "Egipat",
+              "win": "osigurava prolaz",
+              "draw": "moguć prolaz (ovisi o ostalima)",
+              "loss": "moguće 3. mjesto (ovisi o ostalima)"
+            }
+          },
+          "advanceChance": 63
         },
         {
           "id": "bel",
           "name": "Belgija",
           "code": "BE",
           "order": 0,
-          "played": 1,
+          "played": 2,
           "won": 0,
-          "drawn": 1,
+          "drawn": 2,
           "lost": 0,
           "goalsFor": 1,
           "goalsAgainst": 1,
           "goalDifference": 0,
-          "points": 1
+          "points": 2,
+          "eliminated": false,
+          "qualification": {
+            "status": "possible",
+            "summary": "Pobjeda protiv Novi Zeland osigurava prolaz.",
+            "outcomes": {
+              "opponent": "Novi Zeland",
+              "win": "osigurava prolaz",
+              "draw": "moguć prolaz (ovisi o ostalima)",
+              "loss": "moguće 3. mjesto (ovisi o ostalima)"
+            }
+          },
+          "thirdRank": 9,
+          "thirdTotal": 12,
+          "advanceChance": 63
         },
         {
-          "id": "egy",
-          "name": "Egipat",
-          "code": "EG",
-          "order": 1,
-          "played": 1,
+          "id": "nzl",
+          "name": "Novi Zeland",
+          "code": "NZ",
+          "order": 3,
+          "played": 2,
           "won": 0,
           "drawn": 1,
-          "lost": 0,
-          "goalsFor": 1,
-          "goalsAgainst": 1,
-          "goalDifference": 0,
-          "points": 1
+          "lost": 1,
+          "goalsFor": 3,
+          "goalsAgainst": 5,
+          "goalDifference": -2,
+          "points": 1,
+          "eliminated": false,
+          "qualification": {
+            "status": "possible",
+            "summary": "Treba pobjeda protiv Belgija + povoljni ostali rezultati.",
+            "outcomes": {
+              "opponent": "Belgija",
+              "win": "moguć prolaz (ovisi o ostalima)",
+              "draw": "moguće 3. mjesto (ovisi o ostalima)",
+              "loss": "nije dovoljno"
+            }
+          },
+          "advanceChance": 37
         }
       ]
     },
@@ -431,60 +701,110 @@
       "name": "Grupa H",
       "teams": [
         {
-          "id": "ksa",
-          "name": "Saudijska Arabija",
-          "code": "SA",
-          "order": 2,
-          "played": 1,
-          "won": 0,
+          "id": "esp",
+          "name": "Španjolska",
+          "code": "ES",
+          "order": 0,
+          "played": 2,
+          "won": 1,
           "drawn": 1,
           "lost": 0,
-          "goalsFor": 1,
-          "goalsAgainst": 1,
-          "goalDifference": 0,
-          "points": 1
+          "goalsFor": 4,
+          "goalsAgainst": 0,
+          "goalDifference": 4,
+          "points": 4,
+          "eliminated": false,
+          "qualification": {
+            "status": "possible",
+            "summary": "Remi protiv Urugvaj je dovoljan za prolaz.",
+            "outcomes": {
+              "opponent": "Urugvaj",
+              "win": "osigurava prolaz",
+              "draw": "osigurava prolaz",
+              "loss": "moguć prolaz (ovisi o ostalima)"
+            }
+          },
+          "advanceChance": 100
         },
         {
           "id": "uru",
           "name": "Urugvaj",
           "code": "UY",
           "order": 3,
-          "played": 1,
+          "played": 2,
           "won": 0,
-          "drawn": 1,
+          "drawn": 2,
           "lost": 0,
-          "goalsFor": 1,
-          "goalsAgainst": 1,
+          "goalsFor": 3,
+          "goalsAgainst": 3,
           "goalDifference": 0,
-          "points": 1
-        },
-        {
-          "id": "esp",
-          "name": "Španjolska",
-          "code": "ES",
-          "order": 0,
-          "played": 1,
-          "won": 0,
-          "drawn": 1,
-          "lost": 0,
-          "goalsFor": 0,
-          "goalsAgainst": 0,
-          "goalDifference": 0,
-          "points": 1
+          "points": 2,
+          "eliminated": false,
+          "qualification": {
+            "status": "possible",
+            "summary": "Pobjeda protiv Španjolska osigurava prolaz.",
+            "outcomes": {
+              "opponent": "Španjolska",
+              "win": "osigurava prolaz",
+              "draw": "moguć prolaz (ovisi o ostalima)",
+              "loss": "moguće 3. mjesto (ovisi o ostalima)"
+            }
+          },
+          "advanceChance": 63
         },
         {
           "id": "cpv",
           "name": "Zelenortski otoci",
           "code": "CV",
           "order": 1,
-          "played": 1,
+          "played": 2,
+          "won": 0,
+          "drawn": 2,
+          "lost": 0,
+          "goalsFor": 2,
+          "goalsAgainst": 2,
+          "goalDifference": 0,
+          "points": 2,
+          "eliminated": false,
+          "qualification": {
+            "status": "possible",
+            "summary": "Pobjeda protiv Saudijska Arabija osigurava prolaz.",
+            "outcomes": {
+              "opponent": "Saudijska Arabija",
+              "win": "osigurava prolaz",
+              "draw": "moguć prolaz (ovisi o ostalima)",
+              "loss": "moguće 3. mjesto (ovisi o ostalima)"
+            }
+          },
+          "thirdRank": 8,
+          "thirdTotal": 12,
+          "advanceChance": 62
+        },
+        {
+          "id": "ksa",
+          "name": "Saudijska Arabija",
+          "code": "SA",
+          "order": 2,
+          "played": 2,
           "won": 0,
           "drawn": 1,
-          "lost": 0,
-          "goalsFor": 0,
-          "goalsAgainst": 0,
-          "goalDifference": 0,
-          "points": 1
+          "lost": 1,
+          "goalsFor": 1,
+          "goalsAgainst": 5,
+          "goalDifference": -4,
+          "points": 1,
+          "eliminated": false,
+          "qualification": {
+            "status": "possible",
+            "summary": "Treba pobjeda protiv Zelenortski otoci + povoljni ostali rezultati.",
+            "outcomes": {
+              "opponent": "Zelenortski otoci",
+              "win": "moguć prolaz (ovisi o ostalima)",
+              "draw": "moguće 3. mjesto (ovisi o ostalima)",
+              "loss": "nije dovoljno"
+            }
+          },
+          "advanceChance": 37
         }
       ]
     },
@@ -492,60 +812,100 @@
       "name": "Grupa I",
       "teams": [
         {
-          "id": "nor",
-          "name": "Norveška",
-          "code": "NO",
-          "order": 3,
-          "played": 1,
-          "won": 1,
-          "drawn": 0,
-          "lost": 0,
-          "goalsFor": 4,
-          "goalsAgainst": 1,
-          "goalDifference": 3,
-          "points": 3
-        },
-        {
           "id": "fra",
           "name": "Francuska",
           "code": "FR",
           "order": 0,
-          "played": 1,
-          "won": 1,
+          "played": 2,
+          "won": 2,
           "drawn": 0,
           "lost": 0,
-          "goalsFor": 3,
+          "goalsFor": 6,
           "goalsAgainst": 1,
-          "goalDifference": 2,
-          "points": 3
+          "goalDifference": 5,
+          "points": 6,
+          "eliminated": false,
+          "qualification": {
+            "status": "secured",
+            "summary": "Osiguran prolaz (među prva 2).",
+            "outcomes": null
+          },
+          "advanceChance": 100
+        },
+        {
+          "id": "nor",
+          "name": "Norveška",
+          "code": "NO",
+          "order": 3,
+          "played": 2,
+          "won": 2,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 7,
+          "goalsAgainst": 3,
+          "goalDifference": 4,
+          "points": 6,
+          "eliminated": false,
+          "qualification": {
+            "status": "secured",
+            "summary": "Osiguran prolaz (među prva 2).",
+            "outcomes": null
+          },
+          "advanceChance": 100
         },
         {
           "id": "sen",
           "name": "Senegal",
           "code": "SN",
           "order": 1,
-          "played": 1,
+          "played": 2,
           "won": 0,
           "drawn": 0,
-          "lost": 1,
-          "goalsFor": 1,
-          "goalsAgainst": 3,
-          "goalDifference": -2,
-          "points": 0
+          "lost": 2,
+          "goalsFor": 3,
+          "goalsAgainst": 6,
+          "goalDifference": -3,
+          "points": 0,
+          "eliminated": false,
+          "qualification": {
+            "status": "possible",
+            "summary": "Pobjedom protiv Irak ulazi u borbu za trećeplasirane.",
+            "outcomes": {
+              "opponent": "Irak",
+              "win": "osigurava barem borbu za trećeplasirane",
+              "draw": "moguće 3. mjesto (ovisi o ostalima)",
+              "loss": "nije dovoljno"
+            }
+          },
+          "thirdRank": 12,
+          "thirdTotal": 12,
+          "advanceChance": 31
         },
         {
           "id": "irq",
           "name": "Irak",
           "code": "IQ",
           "order": 2,
-          "played": 1,
+          "played": 2,
           "won": 0,
           "drawn": 0,
-          "lost": 1,
+          "lost": 2,
           "goalsFor": 1,
-          "goalsAgainst": 4,
-          "goalDifference": -3,
-          "points": 0
+          "goalsAgainst": 7,
+          "goalDifference": -6,
+          "points": 0,
+          "eliminated": false,
+          "qualification": {
+            "status": "possible",
+            "summary": "Pobjedom protiv Senegal ulazi u borbu za trećeplasirane.",
+            "outcomes": {
+              "opponent": "Senegal",
+              "win": "osigurava barem borbu za trećeplasirane",
+              "draw": "moguće 3. mjesto (ovisi o ostalima)",
+              "loss": "nije dovoljno"
+            }
+          },
+          "advanceChance": 6
         }
       ]
     },
@@ -557,56 +917,96 @@
           "name": "Argentina",
           "code": "AR",
           "order": 0,
-          "played": 1,
-          "won": 1,
+          "played": 2,
+          "won": 2,
           "drawn": 0,
           "lost": 0,
-          "goalsFor": 3,
+          "goalsFor": 5,
           "goalsAgainst": 0,
-          "goalDifference": 3,
-          "points": 3
+          "goalDifference": 5,
+          "points": 6,
+          "eliminated": false,
+          "qualification": {
+            "status": "secured",
+            "summary": "Osiguran prolaz (među prva 2).",
+            "outcomes": null
+          },
+          "advanceChance": 100
         },
         {
           "id": "aut",
           "name": "Austrija",
           "code": "AT",
           "order": 2,
-          "played": 1,
+          "played": 2,
           "won": 1,
           "drawn": 0,
-          "lost": 0,
-          "goalsFor": 3,
-          "goalsAgainst": 1,
-          "goalDifference": 2,
-          "points": 3
-        },
-        {
-          "id": "jor",
-          "name": "Jordan",
-          "code": "JO",
-          "order": 3,
-          "played": 1,
-          "won": 0,
-          "drawn": 0,
           "lost": 1,
-          "goalsFor": 1,
+          "goalsFor": 3,
           "goalsAgainst": 3,
-          "goalDifference": -2,
-          "points": 0
+          "goalDifference": 0,
+          "points": 3,
+          "eliminated": false,
+          "qualification": {
+            "status": "possible",
+            "summary": "Pobjeda protiv Alžir osigurava prolaz.",
+            "outcomes": {
+              "opponent": "Alžir",
+              "win": "osigurava prolaz",
+              "draw": "moguć prolaz (ovisi o ostalima)",
+              "loss": "osigurava barem borbu za trećeplasirane"
+            }
+          },
+          "advanceChance": 94
         },
         {
           "id": "alg",
           "name": "Alžir",
           "code": "DZ",
           "order": 1,
-          "played": 1,
-          "won": 0,
+          "played": 2,
+          "won": 1,
           "drawn": 0,
           "lost": 1,
-          "goalsFor": 0,
-          "goalsAgainst": 3,
+          "goalsFor": 2,
+          "goalsAgainst": 4,
+          "goalDifference": -2,
+          "points": 3,
+          "eliminated": false,
+          "qualification": {
+            "status": "possible",
+            "summary": "Pobjeda protiv Austrija osigurava prolaz.",
+            "outcomes": {
+              "opponent": "Austrija",
+              "win": "osigurava prolaz",
+              "draw": "moguć prolaz (ovisi o ostalima)",
+              "loss": "osigurava barem borbu za trećeplasirane"
+            }
+          },
+          "thirdRank": 6,
+          "thirdTotal": 12,
+          "advanceChance": 76
+        },
+        {
+          "id": "jor",
+          "name": "Jordan",
+          "code": "JO",
+          "order": 3,
+          "played": 2,
+          "won": 0,
+          "drawn": 0,
+          "lost": 2,
+          "goalsFor": 2,
+          "goalsAgainst": 5,
           "goalDifference": -3,
-          "points": 0
+          "points": 0,
+          "eliminated": true,
+          "qualification": {
+            "status": "eliminated",
+            "summary": "Ispao iz natjecanja.",
+            "outcomes": null
+          },
+          "advanceChance": 0
         }
       ]
     },
@@ -614,60 +1014,105 @@
       "name": "Grupa K",
       "teams": [
         {
+          "id": "col",
+          "name": "Kolumbija",
+          "code": "CO",
+          "order": 3,
+          "played": 2,
+          "won": 2,
+          "drawn": 0,
+          "lost": 0,
+          "goalsFor": 4,
+          "goalsAgainst": 1,
+          "goalDifference": 3,
+          "points": 6,
+          "eliminated": false,
+          "qualification": {
+            "status": "secured",
+            "summary": "Osiguran prolaz (među prva 2).",
+            "outcomes": null
+          },
+          "advanceChance": 100
+        },
+        {
           "id": "por",
           "name": "Portugal",
           "code": "PT",
           "order": 0,
-          "played": 0,
-          "won": 0,
-          "drawn": 0,
+          "played": 2,
+          "won": 1,
+          "drawn": 1,
           "lost": 0,
-          "goalsFor": 0,
-          "goalsAgainst": 0,
-          "goalDifference": 0,
-          "points": 0
+          "goalsFor": 6,
+          "goalsAgainst": 1,
+          "goalDifference": 5,
+          "points": 4,
+          "eliminated": false,
+          "qualification": {
+            "status": "possible",
+            "summary": "Remi protiv Kolumbija je dovoljan za prolaz.",
+            "outcomes": {
+              "opponent": "Kolumbija",
+              "win": "osigurava prolaz",
+              "draw": "osigurava prolaz",
+              "loss": "moguć prolaz (ovisi o ostalima)"
+            }
+          },
+          "advanceChance": 100
         },
         {
           "id": "cgo",
           "name": "DR Kongo",
           "code": "CD",
           "order": 1,
-          "played": 0,
+          "played": 2,
           "won": 0,
-          "drawn": 0,
-          "lost": 0,
-          "goalsFor": 0,
-          "goalsAgainst": 0,
-          "goalDifference": 0,
-          "points": 0
+          "drawn": 1,
+          "lost": 1,
+          "goalsFor": 1,
+          "goalsAgainst": 2,
+          "goalDifference": -1,
+          "points": 1,
+          "eliminated": false,
+          "qualification": {
+            "status": "possible",
+            "summary": "Remi protiv Uzbekistan drži u borbi za trećeplasirane.",
+            "outcomes": {
+              "opponent": "Uzbekistan",
+              "win": "moguć prolaz (ovisi o ostalima)",
+              "draw": "osigurava barem borbu za trećeplasirane",
+              "loss": "nije dovoljno"
+            }
+          },
+          "thirdRank": 10,
+          "thirdTotal": 12,
+          "advanceChance": 38
         },
         {
           "id": "uzb",
           "name": "Uzbekistan",
           "code": "UZ",
           "order": 2,
-          "played": 0,
+          "played": 2,
           "won": 0,
           "drawn": 0,
-          "lost": 0,
-          "goalsFor": 0,
-          "goalsAgainst": 0,
-          "goalDifference": 0,
-          "points": 0
-        },
-        {
-          "id": "col",
-          "name": "Kolumbija",
-          "code": "CO",
-          "order": 3,
-          "played": 0,
-          "won": 0,
-          "drawn": 0,
-          "lost": 0,
-          "goalsFor": 0,
-          "goalsAgainst": 0,
-          "goalDifference": 0,
-          "points": 0
+          "lost": 2,
+          "goalsFor": 1,
+          "goalsAgainst": 8,
+          "goalDifference": -7,
+          "points": 0,
+          "eliminated": false,
+          "qualification": {
+            "status": "possible",
+            "summary": "Pobjedom protiv DR Kongo ulazi u borbu za trećeplasirane.",
+            "outcomes": {
+              "opponent": "DR Kongo",
+              "win": "osigurava barem borbu za trećeplasirane",
+              "draw": "nije dovoljno",
+              "loss": "nije dovoljno"
+            }
+          },
+          "advanceChance": 2
         }
       ]
     },
@@ -679,57 +1124,102 @@
           "name": "Engleska",
           "code": "GB-ENG",
           "order": 0,
-          "played": 0,
-          "won": 0,
-          "drawn": 0,
+          "played": 2,
+          "won": 1,
+          "drawn": 1,
           "lost": 0,
-          "goalsFor": 0,
-          "goalsAgainst": 0,
-          "goalDifference": 0,
-          "points": 0
-        },
-        {
-          "id": "cro",
-          "name": "Hrvatska",
-          "code": "HR",
-          "order": 1,
-          "played": 0,
-          "won": 0,
-          "drawn": 0,
-          "lost": 0,
-          "goalsFor": 0,
-          "goalsAgainst": 0,
-          "goalDifference": 0,
-          "points": 0,
-          "highlight": true
+          "goalsFor": 4,
+          "goalsAgainst": 2,
+          "goalDifference": 2,
+          "points": 4,
+          "eliminated": false,
+          "qualification": {
+            "status": "possible",
+            "summary": "Remi protiv Panama je dovoljan za prolaz.",
+            "outcomes": {
+              "opponent": "Panama",
+              "win": "osigurava prolaz",
+              "draw": "osigurava prolaz",
+              "loss": "moguć prolaz (ovisi o ostalima)"
+            }
+          },
+          "advanceChance": 100
         },
         {
           "id": "gha",
           "name": "Gana",
           "code": "GH",
           "order": 2,
-          "played": 0,
-          "won": 0,
-          "drawn": 0,
+          "played": 2,
+          "won": 1,
+          "drawn": 1,
           "lost": 0,
-          "goalsFor": 0,
+          "goalsFor": 1,
           "goalsAgainst": 0,
-          "goalDifference": 0,
-          "points": 0
+          "goalDifference": 1,
+          "points": 4,
+          "eliminated": false,
+          "qualification": {
+            "status": "possible",
+            "summary": "Remi protiv Hrvatska je dovoljan za prolaz.",
+            "outcomes": {
+              "opponent": "Hrvatska",
+              "win": "osigurava prolaz",
+              "draw": "osigurava prolaz",
+              "loss": "moguć prolaz (ovisi o ostalima)"
+            }
+          },
+          "advanceChance": 100
+        },
+        {
+          "id": "cro",
+          "name": "Hrvatska",
+          "code": "HR",
+          "order": 1,
+          "played": 2,
+          "won": 1,
+          "drawn": 0,
+          "lost": 1,
+          "goalsFor": 3,
+          "goalsAgainst": 4,
+          "goalDifference": -1,
+          "points": 3,
+          "highlight": true,
+          "eliminated": false,
+          "qualification": {
+            "status": "possible",
+            "summary": "Pobjeda protiv Gana osigurava prolaz.",
+            "outcomes": {
+              "opponent": "Gana",
+              "win": "osigurava prolaz",
+              "draw": "osigurava barem borbu za trećeplasirane",
+              "loss": "osigurava barem borbu za trećeplasirane"
+            }
+          },
+          "thirdRank": 3,
+          "thirdTotal": 12,
+          "advanceChance": 87
         },
         {
           "id": "pan",
           "name": "Panama",
           "code": "PA",
           "order": 3,
-          "played": 0,
+          "played": 2,
           "won": 0,
           "drawn": 0,
-          "lost": 0,
+          "lost": 2,
           "goalsFor": 0,
-          "goalsAgainst": 0,
-          "goalDifference": 0,
-          "points": 0
+          "goalsAgainst": 2,
+          "goalDifference": -2,
+          "points": 0,
+          "eliminated": true,
+          "qualification": {
+            "status": "eliminated",
+            "summary": "Ispao iz natjecanja.",
+            "outcomes": null
+          },
+          "advanceChance": 0
         }
       ]
     }

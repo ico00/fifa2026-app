@@ -3,7 +3,6 @@ import { useState, useEffect, useRef } from 'react'
 function Home() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [scrollY, setScrollY] = useState(0)
-  const [isLoaded, setIsLoaded] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const heroRef = useRef(null)
 
@@ -70,11 +69,6 @@ function Home() {
     }
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  // Postavi loaded state nakon mounta
-  useEffect(() => {
-    setIsLoaded(true)
   }, [])
 
   // Auto-rotacija slika na hero sekciji

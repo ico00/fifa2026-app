@@ -17,7 +17,7 @@ const path = require('path');
 let sharp;
 try {
   sharp = require('sharp');
-} catch (e) {
+} catch {
   console.log('⚠️  sharp nije instaliran. Instalirajte ga sa: npm install sharp --save-dev');
   console.log('');
   console.log('Alternativno, možete koristiti online alate:');

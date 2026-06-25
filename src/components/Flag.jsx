@@ -139,5 +139,4 @@ const Flag = memo(function Flag({ code, size = 'md' }) {
 })
 
 export default Flag
-export { FLAG_MAP }
 

@@ -3,12 +3,11 @@ import { memo, useState } from 'react'
 /**
  * Install Prompt - poziva korisnika da instalira app
  */
-function InstallPrompt({ 
-  isInstallable, 
-  isIOS, 
-  showIOSInstall, 
-  onInstall, 
-  onDismiss 
+function InstallPrompt({
+  isInstallable,
+  showIOSInstall,
+  onInstall,
+  onDismiss
 }) {
   const [isVisible, setIsVisible] = useState(true)
 

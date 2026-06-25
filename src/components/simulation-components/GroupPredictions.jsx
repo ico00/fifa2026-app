@@ -12,7 +12,7 @@ function GroupPredictions({
 }) {
   return (
     <>
-      {Object.entries(groups).map(([groupKey, group]) => (
+      {Object.entries(groups).map(([groupKey]) => (
         <div 
           key={groupKey} 
           className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
@@ -28,6 +28,10 @@ function GroupPredictions({
                 const homeFn = resolveTeam(match.homeTeam, match.homeTeamPlayoff)
                 const awayFn = resolveTeam(match.awayTeam, match.awayTeamPlayoff)
                 const pred = userPredictions[match.id] || {}
+
+                const isPlayed = match.played && match.homeScore != null && match.awayScore != null
+                const homeVal = isPlayed ? match.homeScore : (pred.homeScore ?? '')
+                const awayVal = isPlayed ? match.awayScore : (pred.awayScore ?? '')
 
                 const isHomePlaceholder = homeFn?.type === 'placeholder'
                 const isAwayPlaceholder = awayFn?.type === 'placeholder'
@@ -46,16 +50,21 @@ function GroupPredictions({
                         <Flag code={homeFn?.code} size="sm" />
                       </div>
 
-                      {/* Score Inputs */}
+                      {/* Score Inputs (odigrane utakmice su zaključane stvarnim rezultatom) */}
                       <div className="flex items-center gap-2">
                         <input
                           type="text"
                           inputMode="numeric"
                           pattern="[0-9]*"
                           maxLength={2}
-                          value={pred.homeScore ?? ''}
+                          disabled={isPlayed}
+                          value={homeVal}
                           onChange={(e) => onPredictionChange(match.id, 'homeScore', e.target.value)}
-                          className="w-10 h-10 text-center font-bold bg-white dark:bg-slate-700 rounded-lg border focus:ring-2 focus:ring-fifa-blue outline-none"
+                          className={`w-10 h-10 text-center font-bold rounded-lg border outline-none ${
+                            isPlayed
+                              ? 'bg-slate-200 dark:bg-slate-600 text-slate-700 dark:text-slate-200 cursor-not-allowed'
+                              : 'bg-white dark:bg-slate-700 focus:ring-2 focus:ring-fifa-blue'
+                          }`}
                         />
                         <span className="text-slate-400 font-bold">:</span>
                         <input
@@ -63,9 +72,14 @@ function GroupPredictions({
                           inputMode="numeric"
                           pattern="[0-9]*"
                           maxLength={2}
-                          value={pred.awayScore ?? ''}
+                          disabled={isPlayed}
+                          value={awayVal}
                           onChange={(e) => onPredictionChange(match.id, 'awayScore', e.target.value)}
-                          className="w-10 h-10 text-center font-bold bg-white dark:bg-slate-700 rounded-lg border focus:ring-2 focus:ring-fifa-blue outline-none"
+                          className={`w-10 h-10 text-center font-bold rounded-lg border outline-none ${
+                            isPlayed
+                              ? 'bg-slate-200 dark:bg-slate-600 text-slate-700 dark:text-slate-200 cursor-not-allowed'
+                              : 'bg-white dark:bg-slate-700 focus:ring-2 focus:ring-fifa-blue'
+                          }`}
                         />
                       </div>
 
@@ -78,7 +92,11 @@ function GroupPredictions({
                       </div>
                     </div>
                     
-                    {(isHomePlaceholder || isAwayPlaceholder) && (
+                    {isPlayed ? (
+                      <div className="text-[10px] text-center text-green-600 dark:text-green-400 font-bold uppercase tracking-wide">
+                        ✓ Odigrano (stvarni rezultat)
+                      </div>
+                    ) : (isHomePlaceholder || isAwayPlaceholder) && (
                       <div className="text-[10px] text-center text-red-400 font-bold uppercase">
                         ⚠️ Odaberite pobjednika playoffa gore!
                       </div>

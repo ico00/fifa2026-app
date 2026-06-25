@@ -5,7 +5,7 @@ import { getTeamById, getPlayoffData } from '../utils/helpers'
 /**
  * Memoizirana kartica grupe
  */
-const GroupCard = memo(function GroupCard({ groupKey, group, teams, playoffs }) {
+const GroupCard = memo(function GroupCard({ group, teams, playoffs }) {
   const getPlayoffInfo = (playoffSlot) => {
     return getPlayoffData(playoffs, playoffSlot)
   }

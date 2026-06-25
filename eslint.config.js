@@ -26,4 +26,33 @@ export default defineConfig([
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
     },
   },
+  // Context i entry datoteke izvoze hookove/providere uz komponente -
+  // fast-refresh pravilo tu ne donosi korist
+  {
+    files: ['src/context/**/*.jsx', 'src/main.jsx'],
+    rules: {
+      'react-refresh/only-export-components': 'off',
+    },
+  },
+  // Service Worker globali (self, clients, caches...)
+  {
+    files: ['public/sw.js'],
+    languageOptions: {
+      globals: globals.serviceworker,
+    },
+  },
+  // Node globali za backend, config i util skripte (sourceType ostaje module)
+  {
+    files: ['server/**/*.{js,cjs}', '*.{js,cjs}', 'scripts/**/*.{js,cjs}'],
+    languageOptions: {
+      globals: globals.node,
+    },
+  },
+  // CommonJS datoteke (require / module.exports)
+  {
+    files: ['**/*.cjs', 'update-matches.js'],
+    languageOptions: {
+      sourceType: 'commonjs',
+    },
+  },
 ])

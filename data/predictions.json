@@ -1,6 +1,6 @@
 [
   {
-    "username": "Ico",
+    "username": "ico",
     "predictions": {
       "1": {
         "homeScore": 2,
@@ -220,23 +220,23 @@
       },
       "55": {
         "homeScore": 0,
-        "awayScore": 0
+        "awayScore": 2
       },
       "56": {
-        "homeScore": 1,
+        "homeScore": 0,
         "awayScore": 3
       },
       "57": {
-        "homeScore": 1,
-        "awayScore": 3
+        "homeScore": 2,
+        "awayScore": 1
       },
       "58": {
         "homeScore": 1,
         "awayScore": 3
       },
       "59": {
-        "homeScore": 2,
-        "awayScore": 0
+        "homeScore": 1,
+        "awayScore": 2
       },
       "60": {
         "homeScore": 1,
@@ -251,8 +251,8 @@
         "awayScore": 1
       },
       "63": {
-        "homeScore": 1,
-        "awayScore": 2
+        "homeScore": 2,
+        "awayScore": 1
       },
       "64": {
         "homeScore": 0,
@@ -268,10 +268,10 @@
       },
       "67": {
         "homeScore": 0,
-        "awayScore": 4
+        "awayScore": 3
       },
       "68": {
-        "homeScore": 2,
+        "homeScore": 1,
         "awayScore": 1
       },
       "69": {
@@ -280,7 +280,7 @@
       },
       "70": {
         "homeScore": 0,
-        "awayScore": 2
+        "awayScore": 3
       },
       "71": {
         "homeScore": 1,
@@ -323,8 +323,8 @@
         "awayScore": 0
       },
       "81": {
-        "homeScore": 2,
-        "awayScore": 1
+        "homeScore": 1,
+        "awayScore": 2
       },
       "82": {
         "homeScore": 3,
@@ -351,11 +351,11 @@
         "awayScore": 0
       },
       "88": {
-        "homeScore": 2,
-        "awayScore": 1
+        "homeScore": 1,
+        "awayScore": 2
       },
       "89": {
-        "homeScore": 1,
+        "homeScore": 2,
         "awayScore": 3
       },
       "90": {
@@ -368,15 +368,15 @@
       },
       "92": {
         "homeScore": 1,
-        "awayScore": 3
+        "awayScore": 2
       },
       "93": {
         "homeScore": 1,
         "awayScore": 2
       },
       "94": {
-        "homeScore": 1,
-        "awayScore": 3
+        "homeScore": 2,
+        "awayScore": 1
       },
       "95": {
         "homeScore": 3,
@@ -395,8 +395,8 @@
         "awayScore": 2
       },
       "99": {
-        "homeScore": 1,
-        "awayScore": 2
+        "homeScore": 2,
+        "awayScore": 1
       },
       "100": {
         "homeScore": 1,
@@ -410,7 +410,7 @@
       },
       "102": {
         "homeScore": 1,
-        "awayScore": 0
+        "awayScore": 2
       },
       "104": {
         "homeScore": 1,
@@ -418,13 +418,13 @@
       }
     },
     "playoffPredictions": {
-      "1": "bol",
-      "2": "jam",
-      "D": "den",
-      "A": "ita",
+      "1": "irq",
+      "2": "cgo",
+      "D": "cze",
+      "A": "bih",
       "B": "swe",
       "C": "tur"
     },
-    "lastUpdated": "2025-12-09T19:56:33.225Z"
+    "lastUpdated": "2026-06-25T15:41:24.223Z"
   }
 ]

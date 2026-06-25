@@ -43,6 +43,8 @@ function KnockoutRound({
                 match={match}
                 homeTeam={homeTeam}
                 awayTeam={awayTeam}
+                homeProjected={match._homeProjected}
+                awayProjected={match._awayProjected}
                 venue={venue}
                 roundKey={matchRoundKey}
                 isReadOnly={isReadOnly}

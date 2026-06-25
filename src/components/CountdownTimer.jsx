@@ -1,47 +1,47 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Flag from './Flag'
-import { 
-  getTeamById, 
-  getVenueById, 
-  getPlayoffWinner, 
-  formatDateWithTime 
+import {
+  getTeamById,
+  getVenueById,
+  getPlayoffWinner,
+  formatDateWithTime
 } from '../utils/helpers'
 
 function CountdownTimer({ targetDate, targetTime, homeTeam, awayTeam, homeTeamPlayoff, awayTeamPlayoff, venue, teams, venues, playoffs }) {
-  const [timeLeft, setTimeLeft] = useState(null)
+  const calculateTimeLeft = useCallback(() => {
+    if (!targetDate || !targetTime) return null
 
-  useEffect(() => {
-    const calculateTimeLeft = () => {
-      if (!targetDate || !targetTime) return null
+    // Kombiniraj datum i vrijeme
+    const [hours, minutes] = targetTime.split(':').map(Number)
+    const target = new Date(targetDate)
+    target.setHours(hours, minutes, 0, 0)
 
-      // Kombiniraj datum i vrijeme
-      const [hours, minutes] = targetTime.split(':').map(Number)
-      const target = new Date(targetDate)
-      target.setHours(hours, minutes, 0, 0)
+    const now = new Date()
+    const difference = target - now
 
-      const now = new Date()
-      const difference = target - now
-
-      if (difference <= 0) {
-        return null // Utakmica je već počela ili završila
-      }
-
-      const days = Math.floor(difference / (1000 * 60 * 60 * 24))
-      const hoursLeft = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-      const minutesLeft = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60))
-      const secondsLeft = Math.floor((difference % (1000 * 60)) / 1000)
-
-      return { days, hours: hoursLeft, minutes: minutesLeft, seconds: secondsLeft }
+    if (difference <= 0) {
+      return null // Utakmica je već počela ili završila
     }
 
-    setTimeLeft(calculateTimeLeft())
+    const days = Math.floor(difference / (1000 * 60 * 60 * 24))
+    const hoursLeft = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+    const minutesLeft = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60))
+    const secondsLeft = Math.floor((difference % (1000 * 60)) / 1000)
 
+    return { days, hours: hoursLeft, minutes: minutesLeft, seconds: secondsLeft }
+  }, [targetDate, targetTime])
+
+  // Lazy inicijalizacija izbjegava setState unutar effecta
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft)
+
+  useEffect(() => {
+    // Početna vrijednost dolazi iz lazy inicijalizacije; ovdje samo otkucaji
     const interval = setInterval(() => {
       setTimeLeft(calculateTimeLeft())
     }, 1000)
 
     return () => clearInterval(interval)
-  }, [targetDate, targetTime])
+  }, [calculateTimeLeft])
 
   if (!timeLeft) return null
 
