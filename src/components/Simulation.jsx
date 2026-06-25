@@ -407,6 +407,7 @@ function Simulation({ groups, matches, teams, playoffs }) {
             userPredictions={userPredictions}
             onPredictionChange={handlePredictionChange}
             resolveTeam={resolveTeam}
+            calculatePoints={calculatePoints}
           />
 
           {/* Knockout Simulation */}

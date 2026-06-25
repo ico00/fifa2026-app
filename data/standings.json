@@ -66,7 +66,7 @@
           },
           "thirdRank": 4,
           "thirdTotal": 12,
-          "advanceChance": 93
+          "advanceChance": 92
         },
         {
           "id": "cze",
@@ -248,7 +248,7 @@
           },
           "thirdRank": 7,
           "thirdTotal": 12,
-          "advanceChance": 27
+          "advanceChance": 28
         },
         {
           "id": "hai",
@@ -422,7 +422,7 @@
               "loss": "moguće 3. mjesto (ovisi o ostalima)"
             }
           },
-          "advanceChance": 82
+          "advanceChance": 80
         },
         {
           "id": "ecu",
@@ -450,7 +450,7 @@
           },
           "thirdRank": 11,
           "thirdTotal": 12,
-          "advanceChance": 36
+          "advanceChance": 37
         },
         {
           "id": "cur",
@@ -561,7 +561,7 @@
           },
           "thirdRank": 2,
           "thirdTotal": 12,
-          "advanceChance": 97
+          "advanceChance": 96
         },
         {
           "id": "tun",
@@ -804,7 +804,7 @@
               "loss": "nije dovoljno"
             }
           },
-          "advanceChance": 37
+          "advanceChance": 38
         }
       ]
     },
@@ -879,7 +879,7 @@
           },
           "thirdRank": 12,
           "thirdTotal": 12,
-          "advanceChance": 31
+          "advanceChance": 32
         },
         {
           "id": "irq",
@@ -985,7 +985,7 @@
           },
           "thirdRank": 6,
           "thirdTotal": 12,
-          "advanceChance": 76
+          "advanceChance": 77
         },
         {
           "id": "jor",
@@ -1086,7 +1086,7 @@
           },
           "thirdRank": 10,
           "thirdTotal": 12,
-          "advanceChance": 38
+          "advanceChance": 37
         },
         {
           "id": "uzb",
